@@ -108,8 +108,8 @@
             this.gridColumn25 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn26 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panelControl25 = new DevExpress.XtraEditors.PanelControl();
-            this.gcMainItemRecord = new DevExpress.XtraGrid.GridControl();
-            this.cvMainItemRecord = new DevExpress.XtraGrid.Views.Card.CardView();
+            this.gcTjReport = new DevExpress.XtraGrid.GridControl();
+            this.gvTjReport = new DevExpress.XtraGrid.Views.Card.CardView();
             this.gridColumn21 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panelControl23 = new DevExpress.XtraEditors.PanelControl();
             this.panelControl24 = new DevExpress.XtraEditors.PanelControl();
@@ -436,8 +436,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gvMainItemData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl25)).BeginInit();
             this.panelControl25.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gcMainItemRecord)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cvMainItemRecord)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gcTjReport)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gvTjReport)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl23)).BeginInit();
             this.panelControl23.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl24)).BeginInit();
@@ -599,7 +599,7 @@
             this.xtraScrollableControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.xtraScrollableControl1.Location = new System.Drawing.Point(0, 0);
             this.xtraScrollableControl1.Name = "xtraScrollableControl1";
-            this.xtraScrollableControl1.Size = new System.Drawing.Size(1309, 882);
+            this.xtraScrollableControl1.Size = new System.Drawing.Size(1309, 631);
             this.xtraScrollableControl1.TabIndex = 2;
             // 
             // navigationFrame
@@ -1567,42 +1567,42 @@
             // 
             // panelControl25
             // 
-            this.panelControl25.Controls.Add(this.gcMainItemRecord);
+            this.panelControl25.Controls.Add(this.gcTjReport);
             this.panelControl25.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl25.Location = new System.Drawing.Point(0, 212);
             this.panelControl25.Name = "panelControl25";
             this.panelControl25.Size = new System.Drawing.Size(679, 212);
             this.panelControl25.TabIndex = 1;
             // 
-            // gcMainItemRecord
+            // gcTjReport
             // 
-            this.gcMainItemRecord.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gcMainItemRecord.Location = new System.Drawing.Point(2, 2);
-            this.gcMainItemRecord.MainView = this.cvMainItemRecord;
-            this.gcMainItemRecord.Name = "gcMainItemRecord";
-            this.gcMainItemRecord.Size = new System.Drawing.Size(675, 208);
-            this.gcMainItemRecord.TabIndex = 4;
-            this.gcMainItemRecord.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.cvMainItemRecord});
+            this.gcTjReport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gcTjReport.Location = new System.Drawing.Point(2, 2);
+            this.gcTjReport.MainView = this.gvTjReport;
+            this.gcTjReport.Name = "gcTjReport";
+            this.gcTjReport.Size = new System.Drawing.Size(675, 208);
+            this.gcTjReport.TabIndex = 4;
+            this.gcTjReport.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gvTjReport});
+            this.gcTjReport.Click += new System.EventHandler(this.gcTjReport_Click);
             // 
-            // cvMainItemRecord
+            // gvTjReport
             // 
-            this.cvMainItemRecord.CardInterval = 20;
-            this.cvMainItemRecord.CardWidth = 120;
-            this.cvMainItemRecord.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gvTjReport.CardInterval = 20;
+            this.gvTjReport.CardWidth = 120;
+            this.gvTjReport.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn21});
-            this.cvMainItemRecord.FocusedCardTopFieldIndex = 0;
-            this.cvMainItemRecord.GridControl = this.gcMainItemRecord;
-            this.cvMainItemRecord.Name = "cvMainItemRecord";
-            this.cvMainItemRecord.OptionsBehavior.FieldAutoHeight = true;
-            this.cvMainItemRecord.OptionsView.AnimationType = DevExpress.XtraGrid.Views.Base.GridAnimationType.AnimateAllContent;
-            this.cvMainItemRecord.OptionsView.ShowCardCaption = false;
-            this.cvMainItemRecord.OptionsView.ShowFieldCaptions = false;
-            this.cvMainItemRecord.OptionsView.ShowFieldHints = false;
-            this.cvMainItemRecord.OptionsView.ShowLines = false;
-            this.cvMainItemRecord.OptionsView.ShowQuickCustomizeButton = false;
-            this.cvMainItemRecord.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Auto;
-            this.cvMainItemRecord.Click += new System.EventHandler(this.cvMainItemRecord_Click);
+            this.gvTjReport.FocusedCardTopFieldIndex = 0;
+            this.gvTjReport.GridControl = this.gcTjReport;
+            this.gvTjReport.Name = "gvTjReport";
+            this.gvTjReport.OptionsBehavior.FieldAutoHeight = true;
+            this.gvTjReport.OptionsView.AnimationType = DevExpress.XtraGrid.Views.Base.GridAnimationType.AnimateAllContent;
+            this.gvTjReport.OptionsView.ShowCardCaption = false;
+            this.gvTjReport.OptionsView.ShowFieldCaptions = false;
+            this.gvTjReport.OptionsView.ShowFieldHints = false;
+            this.gvTjReport.OptionsView.ShowLines = false;
+            this.gvTjReport.OptionsView.ShowQuickCustomizeButton = false;
+            this.gvTjReport.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Auto;
             // 
             // gridColumn21
             // 
@@ -1738,6 +1738,7 @@
             this.gridColumn29.AppearanceHeader.Options.UseTextOptions = true;
             this.gridColumn29.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn29.Caption = "问卷";
+            this.gridColumn29.FieldName = "strQnDate";
             this.gridColumn29.Name = "gridColumn29";
             this.gridColumn29.OptionsColumn.AllowEdit = false;
             this.gridColumn29.OptionsColumn.AllowFocus = false;
@@ -1790,7 +1791,7 @@
             // simpleButton24
             // 
             this.simpleButton24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.simpleButton24.Location = new System.Drawing.Point(509, 5);
+            this.simpleButton24.Location = new System.Drawing.Point(509, 6);
             this.simpleButton24.Name = "simpleButton24";
             this.simpleButton24.Size = new System.Drawing.Size(75, 23);
             this.simpleButton24.TabIndex = 2;
@@ -4863,7 +4864,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1309, 882);
+            this.ClientSize = new System.Drawing.Size(1309, 631);
             this.Controls.Add(this.xtraScrollableControl1);
             this.Name = "frmPopup2040201";
             this.Text = "个人管理中心";
@@ -4939,8 +4940,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gvMainItemData)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl25)).EndInit();
             this.panelControl25.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gcMainItemRecord)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cvMainItemRecord)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gcTjReport)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gvTjReport)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl23)).EndInit();
             this.panelControl23.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.panelControl24)).EndInit();
@@ -5252,8 +5253,8 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn24;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn25;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn26;
-        private DevExpress.XtraGrid.GridControl gcMainItemRecord;
-        private DevExpress.XtraGrid.Views.Card.CardView cvMainItemRecord;
+        private DevExpress.XtraGrid.GridControl gcTjReport;
+        private DevExpress.XtraGrid.Views.Card.CardView gvTjReport;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn21;
         private DevExpress.XtraBars.Navigation.NavigationPage navHmsReport;
         private DevExpress.XtraEditors.PanelControl panelControl27;

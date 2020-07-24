@@ -13,11 +13,12 @@ namespace Hms.Entity
     [EntityAttribute(TableName = "modelParamCalc")]
     public class EntityModelParamCalc : BaseDataContract
     {
+
         /// <summary>
         /// modelId
         /// </summary>
         [DataMember]
-        [EntityAttribute(FieldName = "modelId", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 1)]
+        [EntityAttribute(FieldName = "modelId", DbType = DbType.Decimal, IsPK = true, IsSeq = false, SerNo = 1)]
         public System.Decimal modelId { get; set; }
 
         /// <summary>
@@ -31,15 +32,15 @@ namespace Hms.Entity
         /// regNo
         /// </summary>
         [DataMember]
-        [EntityAttribute(FieldName = "regNo", DbType = DbType.AnsiString, IsPK = false, IsSeq = false, SerNo = 3)]
+        [EntityAttribute(FieldName = "regNo", DbType = DbType.AnsiString, IsPK = true, IsSeq = false, SerNo = 3)]
         public System.String regNo { get; set; }
 
         /// <summary>
-        /// qnId
+        /// qnRecId
         /// </summary>
         [DataMember]
-        [EntityAttribute(FieldName = "qnId", DbType = DbType.AnsiString, IsPK = false, IsSeq = false, SerNo = 4)]
-        public System.String qnId { get; set; }
+        [EntityAttribute(FieldName = "qnRecId", DbType = DbType.Decimal, IsPK = true, IsSeq = false, SerNo = 4)]
+        public decimal qnRecId { get; set; }
 
         /// <summary>
         /// psychologyId
@@ -59,7 +60,7 @@ namespace Hms.Entity
         /// paramNo
         /// </summary>
         [DataMember]
-        [EntityAttribute(FieldName = "paramNo", DbType = DbType.AnsiString, IsPK = false, IsSeq = false, SerNo = 7)]
+        [EntityAttribute(FieldName = "paramNo", DbType = DbType.AnsiString, IsPK = true, IsSeq = false, SerNo = 7)]
         public System.String paramNo { get; set; }
 
         /// <summary>
@@ -74,7 +75,7 @@ namespace Hms.Entity
         /// </summary>
         [DataMember]
         [EntityAttribute(FieldName = "calcScore", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 9)]
-        public System.Decimal calcScore { get; set; }
+        public System.Decimal? calcScore { get; set; }
 
         /// <summary>
         /// recordDate
@@ -103,7 +104,7 @@ namespace Hms.Entity
             public string modelId = "modelId";
             public string clientId = "clientId";
             public string regNo = "regNo";
-            public string qnId = "qnId";
+            public string qnRecId = "qnRecId";
             public string psychologyId = "psychologyId";
             public string traMedicalId = "traMedicalId";
             public string paramNo = "paramNo";
@@ -112,5 +113,6 @@ namespace Hms.Entity
             public string recordDate = "recordDate";
             public string paramName = "paramName";
         }
+
     }
 }

@@ -155,7 +155,7 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityDicQnMain> GetQnMain(List<EntityParm> parms = null)
+        public List<EntityDicQnMain> GetQnMain(List<EntityParm> parms )
         {
             using (Biz202 biz = new Biz202())
             {
@@ -189,6 +189,33 @@ namespace Hms.Svc
             using (Biz203 biz = new Biz203())
             {
                 return biz.GetReportMainItemConfig(parms);
+            }
+        }
+
+
+        /// <summary>
+        /// 疾病模型结果及名项得分
+        /// </summary>
+        /// <param name="lstMdParamCalc"></param>
+        /// <returns></returns>
+        public int SaveModelResultAndParamCalc(EntitymModelAccessRecord mdAccessRecord, List<EntityClientModelResult> lstMdResult, List<EntityModelParamCalc> lstMdParamCalc)
+        {
+            using (Biz203 biz = new Biz203())
+            {
+                return biz.SaveModelResultAndParamCalc(mdAccessRecord, lstMdResult, lstMdParamCalc);
+            }
+        }
+
+        /// <summary>
+        /// 取消审核
+        /// </summary>
+        /// <param name="mdAccessRecord"></param>
+        /// <returns></returns>
+        public int UnConfirmRpt(EntitymModelAccessRecord mdAccessRecord)
+        {
+            using (Biz203 biz = new Biz203())
+            {
+                return biz.UnConfirmRpt(mdAccessRecord);
             }
         }
 

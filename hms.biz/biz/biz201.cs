@@ -32,11 +32,13 @@ namespace Hms.Biz
                             a.clientNo,
                             a.clientName,
                             a.gender,
+                            a.mobile,
                             a.birthday,
                             a.cardno,
                             a.gradeName,
                             a.company,
                             a.address,
+                            a.regTimes,
                             a.createDate
                             from V_ClientInfo a where (a.clientNo is not null or a.clientNo <> '')";
             List<IDataParameter> lstParm = new List<IDataParameter>();
@@ -89,7 +91,7 @@ namespace Hms.Biz
                     if (vo.gender == 2)
                         vo.sex = "女";
                     vo.birthday = dr["birthday"].ToString();
-                    //vo.mobile = dr["mobile"].ToString();
+                    vo.mobile = dr["mobile"].ToString();
                     //vo.telephone = dr["telephone"].ToString();
                     //vo.email = dr["email"].ToString();
                     //vo.qq = dr["qq"].ToString();
@@ -116,6 +118,8 @@ namespace Hms.Biz
                     //vo.modifyDate = Function.Datetime(dr["modifyDate"]);
                     //vo.modifyId = dr["modifyId"].ToString();
                     //vo.modifyName = dr["modifyName"].ToString();
+
+                    vo.regTimes = Function.Int(dr["regTimes"]);
 
                     strClinetNo += "'" + vo.clientNo + "',";
                     data.Add(vo);

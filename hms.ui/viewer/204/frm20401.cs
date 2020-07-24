@@ -91,7 +91,7 @@ namespace Hms.Ui
         {
             int affect = -1;
             List<EntityPromotionPlan> data = new List<EntityPromotionPlan>();
-            if (lstClientInfo.Count <= 0)
+            if (lstSelectClient.Count <= 0)
             {
                 DialogBox.Msg("请选择客户！");
                 return;
@@ -122,6 +122,7 @@ namespace Hms.Ui
                         plan.planRemind = promotion.planRemind;
                         plan.ignorPlan = "2";
                         plan.planState = "2";
+                        plan.regTimes = client.regTimes;
                         plan.createId = "00";
                         plan.createDate = DateTime.Now;
                         data.Add(plan);

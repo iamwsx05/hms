@@ -65,7 +65,7 @@ namespace Hms.Itf
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetQnControl")]
-        List<EntitySetQnControl> GetQnControl(List<EntityParm> parms );
+        List<EntitySetQnControl> GetQnControl(List<EntityParm> parms);
 
         /// <summary>
         /// 
@@ -107,7 +107,7 @@ namespace Hms.Itf
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetQnMain")]
-        List<EntityDicQnMain> GetQnMain(List<EntityParm> parms );
+        List<EntityDicQnMain> GetQnMain(List<EntityParm> parms);
 
         #endregion
 
@@ -135,6 +135,22 @@ namespace Hms.Itf
         /// <returns></returns>
         [OperationContract(Name = "GetModelParam")]
         List<EntityModelParam> GetModelParam(List<EntityParm> parms = null);
+
+        /// <summary>
+        /// 疾病模型结果及名项得分
+        /// </summary>
+        /// <param name="lstMdResult"></param>
+        /// <returns></returns>
+        [OperationContract(Name = "SaveModelResultAndParamCalc")]
+        int SaveModelResultAndParamCalc(EntitymModelAccessRecord mdAccessRecord, List<EntityClientModelResult> lstMdResult, List<EntityModelParamCalc> lstMdParamCalc);
+
+        /// <summary>
+        /// 取消审核
+        /// </summary>
+        /// <param name="mdAccessRecord"></param>
+        /// <returns></returns>
+        [OperationContract(Name = "UnConfirmRpt")]
+        int UnConfirmRpt(EntitymModelAccessRecord mdAccessRecord);
 
         /// <summary>
         /// 疾病模型分析要点
@@ -168,14 +184,14 @@ namespace Hms.Itf
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetPromotionTemplates")]
-        List<EntityPromotionTemplate> GetPromotionTemplates(List<EntityParm> parms );
+        List<EntityPromotionTemplate> GetPromotionTemplates(List<EntityParm> parms);
         /// <summary>
         /// 获取模板配置
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetPromotionTemplateConfigs")]
-        List<EntityPromotionTemplateConfig> GetPromotionTemplateConfigs(List<EntityParm> parms );
+        List<EntityPromotionTemplateConfig> GetPromotionTemplateConfigs(List<EntityParm> parms);
 
         /// <summary>
         /// 保存计划
@@ -337,8 +353,8 @@ namespace Hms.Itf
         #endregion
 
         #region 206 膳食管理
-		
-		#region 膳食原则
+
+        #region 膳食原则
         /// <summary>
         /// 获取膳食原则列表
         /// </summary>
@@ -501,8 +517,8 @@ namespace Hms.Itf
 
         [OperationContract(Name = "DeletePeItem")]
         int DeletePeItem(string itemId);
-		
-		 #region  体检报告模板
+
+        #region  体检报告模板
         /// <summary>
         /// 获取体检报告模板
         /// </summary>
@@ -516,7 +532,7 @@ namespace Hms.Itf
         /// <returns></returns>
         [OperationContract(Name = "GetReportTemplateDetail")]
         List<EntityDisplaypeitem> GetReportTemplateDetail();
-        
+
         #endregion
 
         #endregion
@@ -531,7 +547,7 @@ namespace Hms.Itf
         /// <param name="qnId"></param>
         /// <returns></returns>
         [OperationContract(Name = "SaveQNnormal")]
-        int SaveQNnormal(EntityDicQnMain vo, List<EntityDicQnDetail> lstDet, out decimal qnId, List<EntityDicQnCtlLocation>  lstLaction= null, List<EntityDicQnSetting> lstSettings = null);
+        int SaveQNnormal(EntityDicQnMain vo, List<EntityDicQnDetail> lstDet, out decimal qnId, List<EntityDicQnCtlLocation> lstLaction = null, List<EntityDicQnSetting> lstSettings = null);
 
         /// <summary>
         /// 删除

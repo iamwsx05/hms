@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Hms.Entity;
+using weCare.Core.Utils;
 
 namespace Hms.Ui
 {
@@ -18,7 +19,7 @@ namespace Hms.Ui
         #region var 
         List<EntityClientInfo> lstClientInfo { get; set; }
         List<EntityQnRecord> lstQnRecords { get; set; }
-        List<EntityParm> parms = new List<EntityParm>();
+       
         EntityParm voParm = null;
         #endregion
 
@@ -26,7 +27,7 @@ namespace Hms.Ui
         #region override
         public override void New()
         {
-            frmpopup2020701 frm = new frmpopup2020701(lstClientInfo);
+            frmpopup2020701 frm = new frmpopup2020701();
             frm.ShowDialog();
         }
 
@@ -37,7 +38,25 @@ namespace Hms.Ui
         {
             string search = this.txtSearch.Text;
 
-            this.gcQnRecord.DataSource = lstQnRecords.FindAll(r => r.clientName.Contains(search) || r.clientNo.Contains(search));
+            List<EntityParm> parms = new List<EntityParm>();
+            voParm = new EntityParm();
+            voParm.key = "qnType";
+            voParm.value = "2";
+            parms.Add(voParm);
+            if (string.IsNullOrEmpty(search))
+            {
+                voParm = new EntityParm();
+                voParm.key = "search";
+                voParm.value = search;
+                parms.Add(voParm);
+            }
+
+            using (ProxyHms proxy = new ProxyHms())
+            {
+                lstQnRecords = proxy.Service.GetQnRecords(parms);
+            }
+
+            this.gcQnRecord.DataSource = lstQnRecords;
             this.gcQnRecord.RefreshDataSource();
         }
 
@@ -49,7 +68,7 @@ namespace Hms.Ui
             if (this.gvQnRecord.SelectedRowsCount > 0)
             {
                 EntityQnRecord vo = this.gvQnRecord.GetRow(this.gvQnRecord.GetSelectedRows()[0]) as EntityQnRecord;
-                frmPopup2020702 frm = new frmPopup2020702(vo, lstClientInfo);
+                frmPopup2020702 frm = new frmPopup2020702(vo);
                 frm.ShowDialog();
                 if (frm.IsRequireRefresh)
                 {
@@ -113,14 +132,14 @@ namespace Hms.Ui
         #region methods
         public void Init()
         {
+            List<EntityParm> parms = new List<EntityParm>();
             voParm = new EntityParm();
             voParm.key = "qnType";
             voParm.value = "2";
             parms.Add(voParm);
             using (ProxyHms proxy = new ProxyHms())
-            {
+            { 
                 lstQnRecords = proxy.Service.GetQnRecords(parms);
-                lstClientInfo = proxy.Service.GetClientInfos();
             }
 
             this.gcQnRecord.DataSource = lstQnRecords;
@@ -138,7 +157,7 @@ namespace Hms.Ui
 
             using (ProxyHms proxy = new ProxyHms())
             {
-                lstQnRecords = proxy.Service.GetQnRecords(parms);
+                lstQnRecords = proxy.Service.GetQnRecords(null);
             }
             this.gcQnRecord.DataSource = lstQnRecords;
             this.gcQnRecord.RefreshDataSource();

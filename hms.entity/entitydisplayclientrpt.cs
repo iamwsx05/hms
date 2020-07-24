@@ -53,7 +53,12 @@ namespace Hms.Entity
         /// 审核状态
         /// </summary>
         [DataMember]
-        public int suditState { get; set; }
+        public int status { get; set; }
+        /// <summary>
+        /// 审核状态
+        /// </summary>
+        public string confirmState { get; set; }
+ 
         /// <summary>
         /// 报告份数
         /// </summary>
@@ -64,38 +69,6 @@ namespace Hms.Entity
         /// </summary>
         [DataMember]
         public string gradeName { get; set; }
-
-        //[DataMember]
-        //public string confirmState
-        //{
-        //    get
-        //    {
-        //        if (suditState == 1)
-        //            return "无需审核";
-        //        if (suditState == 2)
-        //            return "审核通过";
-        //        if (suditState == 3)
-        //            return "等等审核";
-        //        if (suditState == 4)
-        //            return "已分配审核";
-        //        if (suditState == 5)
-        //            return "审核不通过";
-        //        return "";
-        //    }
-        //}
-
-        //[DataMember]
-        //public string printState
-        //{
-        //    get
-        //    {
-        //        if (reportStatc == 1)
-        //            return "已打印";
-        //        if (reportStatc == 2)
-        //            return "未打印";
-        //        return "";
-        //    }
-        //}
         /// <summary>
         /// 年龄
         /// </summary>
@@ -121,6 +94,10 @@ namespace Hms.Entity
         public string examinationOrgan { get; set; }
         [DataMember]
         public string dataSource { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string recordDateStr { get; set; }
 
 
         #region  个人报告内容

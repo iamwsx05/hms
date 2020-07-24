@@ -114,6 +114,12 @@ namespace Hms.Ui
             EntityDisplayClientRpt vo = GetRowObject();
             if (vo != null)
             {
+                if (vo.status == 1)
+                {
+                    DialogBox.Msg("该报告已审核，重新生成请先取消审核！");
+                    return;
+                }
+
                 List<EntityParm> lstParms = new List<EntityParm>();
                 EntityParm parm = new EntityParm();
                 parm.key = "clientNo";
@@ -147,6 +153,7 @@ namespace Hms.Ui
             try
             {
                 this.BeginLoading();
+                int affect = -1;
                 EntityDisplayClientRpt disClientRpt = GetRowObject();
                 List<EntityModelParamCalc> lstMdParamCalc = null;
                 if (disClientRpt.qnRecord == null)
@@ -155,11 +162,58 @@ namespace Hms.Ui
                     return;
                 }
 
+                if (disClientRpt.status == 1)
+                {
+                    DialogBox.Msg("该报告已审核，重新生成请先取消审核！");
+                    return;
+                }
+
                 EntityClientReport rpt = GneralPersonalReport(disClientRpt,out lstMdParamCalc);
+                List<EntityClientModelResult> lstMdResult = null;
+                EntitymModelAccessRecord mdAccessRecord = null;
+                if (rpt != null)
+                {
+                    mdAccessRecord = new EntitymModelAccessRecord();
+                    mdAccessRecord.clientId = rpt.clientNo;
+                    mdAccessRecord.reportId = rpt.reportNo;
+                    mdAccessRecord.qnRecId= disClientRpt.qnRecord.recId;
+                    mdAccessRecord.recorder = "00";
+                    mdAccessRecord.recordDate = DateTime.Now;
+                    mdAccessRecord.status = 1;
+
+                    if (rpt.lstRptModelAcess != null)
+                    {
+                        lstMdResult = new List<EntityClientModelResult>();
+                        foreach (var mdAVo in rpt.lstRptModelAcess)
+                        {
+                            EntityClientModelResult vo = new EntityClientModelResult();
+                            vo.clientId = rpt.clientNo;
+                            vo.reportId = rpt.reportNo;
+                            vo.qnRecId = disClientRpt.qnRecord.recId;
+                            vo.modelId = mdAVo.modelId;
+                            vo.modelResult = mdAVo.resultStr;
+                            vo.modelScore = mdAVo.df;
+                            vo.createDate = DateTime.Now;
+                            
+                            lstMdResult.Add(vo);
+                        }
+                    }
+                }
+
+                if(lstMdResult != null && lstMdParamCalc != null)
+                {
+                    using (ProxyHms proxy = new ProxyHms())
+                    {
+                        affect = proxy.Service.SaveModelResultAndParamCalc(mdAccessRecord, lstMdResult, lstMdParamCalc);
+                    }
+                }
+
+                if (affect > 0)
+                    DialogBox.Msg("报告审核完成！");
             }
             catch (Exception ex)
             {
-
+                ExceptionLog.OutPutException(ex);
             }
             finally
             {
@@ -174,17 +228,40 @@ namespace Hms.Ui
         /// </summary>
         public override void Cancel()
         {
-            
+            int affect = -1;
+            if (DialogBox.Msg("确定取消审核报告 ？", MessageBoxIcon.Question) == DialogResult.Yes)
+            {         
+                EntityDisplayClientRpt vo = GetRowObject();
+                if (vo != null)
+                {
+                    if(vo.qnRecord != null)
+                    {
+                        EntitymModelAccessRecord voR = new EntitymModelAccessRecord();
+                        voR.reportId = vo.reportNo;
+                        voR.qnRecId = vo.qnRecord.recId;
+
+                        using (ProxyHms proxy = new ProxyHms())
+                        {
+                            affect = proxy.Service.UnConfirmRpt(voR);
+                        }
+                    }   
+                }
+
+                if(affect >0 )
+                {
+                    this.Search();
+                }
+            }
         }
         #endregion
 
-        #region 
+        #region 查看                                                                                                        
         /// <summary>
         /// 查看
         /// </summary>
         public override void LoadData()
         {
-            
+            this.Edit();
         }
         #endregion
 
@@ -262,12 +339,18 @@ namespace Hms.Ui
         internal EntityClientReport GneralPersonalReport(EntityDisplayClientRpt disClientRpt,out List<EntityModelParamCalc> lstMdParamCalcData)
         {
             EntityClientReport rpt = new EntityClientReport();
-            //lstMdResult = new List<EntityClientModelResult>();
+
             rpt.clientName = disClientRpt.clientName;
             rpt.clientNo = disClientRpt.clientNo;
             rpt.reportDate = disClientRpt.reportDate;
             rpt.reportNo = disClientRpt.reportNo;
             rpt.sex = disClientRpt.sex;
+            rpt.company = disClientRpt.company;
+            rpt.age = disClientRpt.age;
+            if (disClientRpt.qnRecord != null)
+            {
+                rpt.qnDate = disClientRpt.qnRecord.strQnDate;
+            }
             rpt.image01 = ReadImageFile("pic01.png");
             rpt.image02 = ReadImageFile("pic02.jpg");
             rpt.image03 = ReadImageFile("pic03.png");
@@ -275,6 +358,7 @@ namespace Hms.Ui
             rpt.image05 = ReadImageFile("pic05.png");
             rpt.imageTip = ReadImageFile("picTip.png");
             rpt.image07 = ReadImageFile("pic07.png");
+            
 
             rpt.lstRptModelAcess = new List<EntityRptModelAcess>();
             lstMdParamCalcData = new List<EntityModelParamCalc>();
@@ -467,7 +551,6 @@ namespace Hms.Ui
                 #endregion
 
                 #region 风险评估
-                string resultStr = string.Empty;
                 decimal bestDf = 0;
                 decimal df = 0;
                 lstMdParamCalc = CalcModelResult(modelId, out df, out bestDf);
@@ -477,22 +560,22 @@ namespace Hms.Ui
                 if (modelAcess.df <= 5)
                 {
                     modelAcess.imgFx01 = ReadImageFile("picFx.png");
-                    resultStr = "低危";
+                    modelAcess.resultStr = "低危";
                 }
                 else if (modelAcess.df > 5 && modelAcess.df < 20)
                 {
                     modelAcess.imgFx02 = ReadImageFile("picFx.png");
-                    resultStr = "中危";
+                    modelAcess.resultStr = "中危";
                 }
                 else if (modelAcess.df > 20 && modelAcess.df < 50)
                 {
                     modelAcess.imgFx03 = ReadImageFile("picFx.png");
-                    resultStr = "高危";
+                    modelAcess.resultStr = "高危";
                 }
                 else if (modelAcess.df >= 50)
                 {
                     modelAcess.imgFx04 = ReadImageFile("picFx.png");
-                    resultStr = "很高危";
+                    modelAcess.resultStr = "很高危";
                 }
 
                 modelAcess.lstEvaluate = new List<EntityEvaluateResult>();
@@ -568,15 +651,26 @@ namespace Hms.Ui
                                         if (dicData[modelGxy.paramNo] == "1")
                                         {
                                             score += Function.Dec(modelGxy.score);
-                                        }
 
-                                        paramCalcVo = new EntityModelParamCalc();
-                                        paramCalcVo.modelId = modelId;
-                                        paramCalcVo.paramNo = model.paramNo;
-                                        paramCalcVo.paramName = model.paramName;
-                                        paramCalcVo.calcScore = score;
-                                        paramCalcVo.paramValue = dicData[modelGxy.paramNo];
-                                        data.Add(paramCalcVo);
+                                            paramCalcVo = new EntityModelParamCalc();
+                                            paramCalcVo.clientId = vo.clientNo;
+                                            paramCalcVo.qnRecId = vo.qnRecord.recId;
+                                            paramCalcVo.regNo = vo.reportNo;
+                                            paramCalcVo.modelId = modelId;
+                                            paramCalcVo.paramNo = model.paramNo;
+                                            paramCalcVo.paramName = model.paramName;
+                                            paramCalcVo.calcScore = score;
+                                            paramCalcVo.paramValue = dicData[modelGxy.paramNo];
+                                            paramCalcVo.recordDate = DateTime.Now;
+
+                                            if(data.Any(r=>r.paramNo== paramCalcVo.paramNo && r.modelId == modelId && r.qnRecId == paramCalcVo.qnRecId && r.regNo ==  paramCalcVo.regNo))
+                                            {
+                                                EntityModelParamCalc cloneVo = data.Find(r => r.paramNo == paramCalcVo.paramNo && r.modelId == modelId && r.qnRecId == paramCalcVo.qnRecId && r.regNo == paramCalcVo.regNo);
+                                                cloneVo.calcScore = score;
+                                            }
+                                            else 
+                                                data.Add(paramCalcVo);
+                                        }
 
                                         result += score;
                                     }
@@ -594,11 +688,16 @@ namespace Hms.Ui
                                                 result += df;
                                                 ageFlag = true;
                                                 paramCalcVo = new EntityModelParamCalc();
+                                                paramCalcVo.clientId = vo.clientNo;
+                                                paramCalcVo.regNo = vo.reportNo;
+                                                paramCalcVo.qnRecId = vo.qnRecord.recId;
                                                 paramCalcVo.modelId = modelId;
-                                                paramCalcVo.paramNo = model.paramNo;
-                                                paramCalcVo.paramName = model.paramName;
+                                                paramCalcVo.paramNo = modelGxy.paramNo;
+                                                paramCalcVo.paramName = modelGxy.paramName;
                                                 paramCalcVo.calcScore = df;
+                                                paramCalcVo.recordDate = DateTime.Now;
                                                 paramCalcVo.paramValue = dicData["Birthday"];
+                                                paramCalcVo.recordDate = DateTime.Now;
                                                 data.Add(paramCalcVo);
                                             }
                                         }
@@ -623,14 +722,21 @@ namespace Hms.Ui
                             decimal bDf = 0;
                             df = CalcDf(tjValue, modelId, model.paramNo, out bDf);
                             paramCalcVo = new EntityModelParamCalc();
+                            paramCalcVo.clientId = vo.clientNo;
+                            paramCalcVo.regNo = vo.reportNo;
+                            paramCalcVo.qnRecId = vo.qnRecord.recId;
                             paramCalcVo.modelId = modelId;
                             paramCalcVo.paramNo = model.paramNo;
                             paramCalcVo.paramName = model.paramName;
                             paramCalcVo.calcScore = df;
-                            paramCalcVo.paramValue = tjVo.itemResult.ToString();
-                            data.Add(paramCalcVo);
+                            paramCalcVo.recordDate = DateTime.Now;
+                            paramCalcVo.paramValue = tjVo.itemResult.ToString(); 
                             result += df;
                             bestDf += bDf;
+                            if (data.Any(r => r.modelId == modelId && r.paramNo == model.paramNo && paramCalcVo.qnRecId == vo.qnRecord.recId))
+                                continue;
+                            else
+                                data.Add(paramCalcVo);
                         }
                     }
                 }

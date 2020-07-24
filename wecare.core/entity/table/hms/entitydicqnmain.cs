@@ -68,7 +68,6 @@ namespace weCare.Core.Entity
         [EntityAttribute(FieldName = "status", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 8)]
         public System.Int32 status { get; set; }
 
-        [DataMember]
         public string className
         {
             get
@@ -83,7 +82,6 @@ namespace weCare.Core.Entity
             set {; }
         }
 
-        [DataMember]
         public string statusName
         {
             get

@@ -69,6 +69,7 @@
     <Compile Include="entityevaluateparams.cs" />
     <Compile Include="entitymedicaladvicecs.cs" />
     <Compile Include="entitymodelaccess.cs" />
+    <Compile Include="entitymodelaccessrecord .cs" />
     <Compile Include="entitymodelanalysispoint.cs" />
     <Compile Include="entitymodelgroupitem.cs" />
     <Compile Include="entitymodelparam.cs" />

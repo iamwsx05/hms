@@ -39,6 +39,13 @@ namespace Hms.Entity
         public Image imgFx03 { get; set; }
         [DataMember]
         public Image imgFx04 { get; set; }
+
+        /// <summary>
+        /// 评估结果
+        /// </summary>
+        [DataMember]
+        public string resultStr { get; set; }
+
         //预防要点
         public List<string> lstPoint { get; set; }
 

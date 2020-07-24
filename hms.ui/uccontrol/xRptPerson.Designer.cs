@@ -158,7 +158,7 @@
             this.lblSex = new DevExpress.XtraReports.UI.XRLabel();
             this.lblAge = new DevExpress.XtraReports.UI.XRLabel();
             this.lblCompany = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel16 = new DevExpress.XtraReports.UI.XRLabel();
+            this.lblQnDate2 = new DevExpress.XtraReports.UI.XRLabel();
             this.lblReportDate = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel18 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel19 = new DevExpress.XtraReports.UI.XRLabel();
@@ -2352,17 +2352,17 @@
             this.lblCompany.Text = "广东软件园";
             this.lblCompany.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
-            // xrLabel16
+            // lblQnDate2
             // 
-            this.xrLabel16.Dpi = 100F;
-            this.xrLabel16.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.xrLabel16.LocationFloat = new DevExpress.Utils.PointFloat(341.7975F, 746.8333F);
-            this.xrLabel16.Name = "xrLabel16";
-            this.xrLabel16.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel16.SizeF = new System.Drawing.SizeF(350F, 22.99994F);
-            this.xrLabel16.StylePriority.UseFont = false;
-            this.xrLabel16.StylePriority.UseTextAlignment = false;
-            this.xrLabel16.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblQnDate2.Dpi = 100F;
+            this.lblQnDate2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblQnDate2.LocationFloat = new DevExpress.Utils.PointFloat(341.7975F, 746.8333F);
+            this.lblQnDate2.Name = "lblQnDate2";
+            this.lblQnDate2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.lblQnDate2.SizeF = new System.Drawing.SizeF(350F, 22.99994F);
+            this.lblQnDate2.StylePriority.UseFont = false;
+            this.lblQnDate2.StylePriority.UseTextAlignment = false;
+            this.lblQnDate2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
             // lblReportDate
             // 
@@ -2476,7 +2476,7 @@
             this.xrLabel19,
             this.xrLabel18,
             this.lblReportDate,
-            this.xrLabel16,
+            this.lblQnDate2,
             this.lblCompany,
             this.lblAge,
             this.lblSex,
@@ -16922,7 +16922,7 @@
         private DevExpress.XtraReports.UI.XRLabel lblSex;
         private DevExpress.XtraReports.UI.XRLabel lblAge;
         private DevExpress.XtraReports.UI.XRLabel lblCompany;
-        private DevExpress.XtraReports.UI.XRLabel xrLabel16;
+        private DevExpress.XtraReports.UI.XRLabel lblQnDate2;
         private DevExpress.XtraReports.UI.XRLabel lblReportDate;
         private DevExpress.XtraReports.UI.XRLabel xrLabel18;
         private DevExpress.XtraReports.UI.XRLabel xrLabel19;

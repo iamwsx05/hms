@@ -224,7 +224,7 @@ namespace Hms.Biz
                             b.gender,
                             b.birthday,
                             b.company,
-                            --b.mobile,
+                            b.mobile,
                             b.gradename,
                             d.planWay,
                             e.planContent,
@@ -237,7 +237,7 @@ namespace Hms.Biz
                             a.createName
                             from promotionPlan a
                             left join v_clientinfo b
-                            on a.clientId = b.clientNo
+                            on a.clientId = b.clientNo and a.regTimes = b.regTimes
                             left join promotionWayConfig d
                             on a.planWay = d.id
                             left join promotionContentConfig e
@@ -283,7 +283,7 @@ namespace Hms.Biz
                     vo.gender = Function.Int(dr["gender"]);
                     vo.age = Function.CalcAge(Function.Datetime(dr["birthday"]));
                     vo.company = dr["company"].ToString();
-                    //vo.mobile = dr["mobile"].ToString();
+                    vo.mobile = dr["mobile"].ToString();
                     vo.gradeName = dr["gradeName"].ToString();
                     vo.planWay = dr["planWay"].ToString();
                     vo.planContent = dr["planContent"].ToString();
@@ -454,7 +454,7 @@ namespace Hms.Biz
                         EntityPromotionPlan.Columns.planSource,
                         EntityPromotionPlan.Columns.planTemplateName,
                         EntityPromotionPlan.Columns.modifyId,
-                        EntityPromotionPlan.Columns.modifyDate,},
+                        EntityPromotionPlan.Columns.modifyDate },
                             new List<string>() { EntityPromotionPlan.Columns.id }));
                         }
                     }
@@ -491,7 +491,7 @@ namespace Hms.Biz
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
             string strSub = string.Empty;
             string Sql = string.Empty;
-            Sql = @"select a.recordId,
+            Sql = @"select 
                                     a.reportId,
                                     a.modelId,
                                     a.modelResult,
@@ -500,7 +500,7 @@ namespace Hms.Biz
                                     from clientModelResult a  
                                     left join modelAccess b
                                     on a.modelId = b.modelId
-                                    where a.recordId is not null  ";
+                                    where a.reportId is not null  ";
 
             List<IDataParameter> lstParm = new List<IDataParameter>();
 
@@ -538,7 +538,7 @@ namespace Hms.Biz
                     if (Function.Dec(dr["modelScore"]) == 0)
                         vo.modelScore = "-";
                     vo.modelResult = dr["modelResult"].ToString();
-                    vo.modelScoreAndResult = vo.modelScore + "|" + vo.modelResultStr;
+                    vo.modelScoreAndResult = vo.modelScore + "|" + vo.modelResult;
 
                     if (data.Any(r=>r.modelName == vo.modelName))
                     {
@@ -547,7 +547,7 @@ namespace Hms.Biz
                         string strScore = arrStr[0];
                         strScore += "," + vo.modelScore;
                         string strTmp = arrStr[1];
-                        strTmp += "," + vo.modelResultStr;
+                        strTmp += "," + vo.modelResult;
                         voClone.modelScoreAndResult = strScore + "|" + strTmp;
 
                     }
@@ -569,27 +569,21 @@ namespace Hms.Biz
         {
             List<EntityReportMainItem> data = null;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
-            string Sql = string.Empty;
-            Sql = @"select id,
-                            clientId,
-                            reportId,
-                            sectionName,
-                            itemName,
-                            itemValue,
-                            itemUnits,
-                            itemRefrange,
-                            isNormal,
-                            minValue,
-                            maxValue,
-                            orderId,
-                            bakField1,
-                            bakField2,
-                            createDate,
-                            createId,
-                            createName,
-                            modifyDate,
-                            modifyId,
-                            modifyName from reportMainItem where reportId = ?";
+            if (string.IsNullOrEmpty(reportId))
+                return null;
+            string Sql = @"select a.pat_name AS clientName,
+	                                a.reg_no AS reportId,
+                                    a.dept_name as sectionName,
+                                    a.hint as isNormal,
+	                                a.comb_code AS itemCode,
+	                                a.comb_name AS itemName,
+	                                a.result AS itemValue,
+	                                a.bound AS itemRefrange,
+	                                a.unit as itemUnits,
+	                                a.doct_name AS createName,
+	                                a.rec_date AS createDate
+                                FROM V_TJBG a
+                                WHERE a.reg_no = ? and a.comb_code in (select itemCode from reportMainItemConfig)";
             if (string.IsNullOrEmpty(reportId))
                 return null;
             IDataParameter parm = svc.CreateParm();
@@ -603,8 +597,8 @@ namespace Hms.Biz
                 foreach (DataRow dr in dt.Rows)
                 {
                     vo = new EntityReportMainItem();
-                    vo.id = dr["id"].ToString();
-                    vo.clientId = dr["clientId"].ToString();
+                    //vo.id = dr["id"].ToString();
+                    //vo.clientId = dr["clientId"].ToString();
                     vo.reportId = dr["reportId"].ToString();
                     vo.sectionName = dr["sectionName"].ToString();
                     vo.itemName = dr["itemName"].ToString();
@@ -612,17 +606,17 @@ namespace Hms.Biz
                     vo.itemUnits = dr["itemUnits"].ToString();
                     vo.itemRefrange = dr["itemRefrange"].ToString();
                     vo.isNormal = dr["isNormal"].ToString();
-                    vo.minValue = dr["minValue"].ToString();
-                    vo.maxValue = dr["maxValue"].ToString();
-                    vo.orderId = Function.Int(dr["orderId"]) ;
-                    vo.bakField1 = dr["bakField1"].ToString();
-                    vo.bakField2 = dr["bakField2"].ToString();
+                    //vo.minValue = dr["minValue"].ToString();
+                    //vo.maxValue = dr["maxValue"].ToString();
+                    //vo.orderId = Function.Int(dr["orderId"]) ;
+                    //vo.bakField1 = dr["bakField1"].ToString();
+                    //vo.bakField2 = dr["bakField2"].ToString();
                     vo.createDate = Function.Datetime(dr["createDate"]);
-                    vo.createId = dr["createId"].ToString();
+                    //vo.createId = dr["createId"].ToString();
                     vo.createName = dr["createName"].ToString();
-                    vo.modifyDate = Function.Datetime(dr["modifyDate"]) ;
-                    vo.modifyId = dr["modifyId"].ToString();
-                    vo.modifyName = dr["modifyName"].ToString();
+                    //vo.modifyDate = Function.Datetime(dr["modifyDate"]) ;
+                    //vo.modifyId = dr["modifyId"].ToString();
+                    //vo.modifyName = dr["modifyName"].ToString();
                     data.Add(vo);
                 }
             }

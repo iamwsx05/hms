@@ -85,6 +85,9 @@ namespace Hms.Entity
         [DataMember]
         public string strBirthday { get; set; }
 
+        [DataMember]
+        public int regTimes { get; set; }
+
         
     }
 }

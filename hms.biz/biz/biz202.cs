@@ -325,7 +325,7 @@ namespace Hms.Biz
 						   a.qnType,
                            a.qnDate,
                            a.qnSource,
-                          a.qnId,
+                           a.qnId,
                            d.oper_name as recorder,
                            q.xmlData
                         from qnRecord a
@@ -351,6 +351,9 @@ namespace Hms.Biz
                             break;
                         case "clientNo":
                             sub += " and a.clientNo = '" + pa.value + "'";
+                            break;
+                        case "search":
+                            sub += "and a.clientNo like '%" + pa.value + "%' or a.clinetName like '%" + pa.value + "%'";
                             break;
                         default:
                             break;
@@ -511,12 +514,32 @@ namespace Hms.Biz
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityDicQnMain> GetQnMain(List<EntityParm> parms = null)
+        public List<EntityDicQnMain> GetQnMain(List<EntityParm> parms)
         {
             List<EntityDicQnMain> data = null;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
             string Sql = string.Empty;
-            Sql = @"select qnid,qnName,classId,qnDesc from dicQnMain  where classId != 1 ";
+            Sql = @"select a.qnid,a.qnName,a.classId,a.qnDesc from dicQnMain a where a.qnid > -1 ";
+
+
+            string sub = string.Empty;
+            if (parms != null)
+            {
+                foreach (EntityParm pa in parms)
+                {
+                    string key = pa.key;
+
+                    switch (key)
+                    {
+                        case "class":
+                            sub += " and a.classId = '" + pa.value + "'";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            Sql += sub;
             DataTable dt = svc.GetDataTable(Sql);
 
             if (dt != null && dt.Rows.Count > 0)

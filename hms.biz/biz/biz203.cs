@@ -26,20 +26,67 @@ namespace Hms.Biz
         {
             List<EntityDisplayClientRpt> data = null;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
-            string Sql = string.Empty;
-            Sql = @"select clientName,
-                           clientNo,
-                           gender,
-                           age,
-                           company,
-                           gradeName,
-                           reportNo,
-	                       regTimes,
-	                       idcard,
-	                       reportDate
-                       from v_tjxx  a where a.clientNo is not null ";
+            string sql = string.Empty;
+            string sql1 = string.Empty;
+            string sql2 = string.Empty;
+            sql1 = @"SELECT  a.clientName,
+	                        a.clientNo,
+	                        a.gender,
+	                        a.age,
+	                        a.company,
+	                        a.gradeName,
+	                        a.reportNo,
+	                        a.regTimes,
+	                        a.idcard,
+	                        b.qnRecId,
+	                        a.reportDate,
+	                        c.recId,
+	                        c.qnName,
+	                        c.qnType,
+	                        c.qnDate,
+	                        c.qnSource,
+	                        c.qnId,
+                            c.qnDate,
+                            b.status,
+	                        d.xmlData,
+                            b.recordDate as confirmDate
+                        FROM 
+	                        v_tjxx a
+                        LEFT JOIN modelAccessRecord b ON a.reportNo = b.reportId and b.status > 0
+                        LEFT JOIN qnRecord c ON b.qnRecId = c.recId
+                        LEFT JOIN qnData d ON b.qnRecId = d.recId
+                        WHERE a.clientNo IS NOT NULL and b.qnRecId = null ";
 
+            sql2 = @"SELECT  a.clientName,
+	                                    a.clientNo,
+	                                    a.gender,
+	                                    a.age,
+	                                    a.company,
+	                                    a.gradeName,
+	                                    a.reportNo,
+	                                    a.regTimes,
+	                                    a.idcard,
+	                                    b.qnRecId,
+	                                    a.reportDate,
+	                                    c.recId,
+	                                    c.qnName,
+	                                    c.qnType,
+	                                    c.qnDate,
+	                                    c.qnSource,
+	                                    c.qnId,
+                                        c.qnDate,
+                                        b.status,
+	                                    d.xmlData,
+                                        b.recordDate as confirmDate
+                                    FROM 
+	                                    v_tjxx a
+                                    LEFT JOIN modelAccessRecord b ON a.reportNo = b.reportId and b.status > 0
+                                    LEFT JOIN qnRecord c ON b.qnRecId = c.recId
+                                    LEFT JOIN qnData d ON b.qnRecId = d.recId
+                                    WHERE a.clientNo IS NOT NULL  ";
             string strSub = string.Empty;
+            string strSub1 = string.Empty;
+            string strSub2 = string.Empty;
             List<IDataParameter> lstParm = new List<IDataParameter>();
             if (parms != null)
             {
@@ -57,7 +104,18 @@ namespace Hms.Biz
                             IDataParameter parm2 = svc.CreateParm();
                             parm2.Value = po.value.Split('|')[1];
                             lstParm.Add(parm2);
-                            strSub += " and (a.reportDate between ? and ? )";
+                            strSub1 += " and  a.reportDate between ? and ? ";
+
+                            IDataParameter parm3 = svc.CreateParm();
+                            parm3.Value = po.value.Split('|')[0];
+                            lstParm.Add(parm3);
+                            IDataParameter parm4 = svc.CreateParm();
+                            parm4.Value = po.value.Split('|')[1];
+                            lstParm.Add(parm4);
+                            strSub2 += " and  b.recordDate between ? and ? ";
+                            break;
+                        case "clientNo":
+                            strSub += " and  a.clientNo = '" + po.value + "'";
                             break;
                         default:
                             break;
@@ -65,11 +123,12 @@ namespace Hms.Biz
                 }
             }
 
-            Sql += strSub;
-            Sql += " order by reportDate";
+            sql1 += strSub + strSub1 + Environment.NewLine;
+            sql2 += strSub + strSub2;
+            
             string strClientNo = string.Empty;
-
-            DataTable dt = svc.GetDataTable(Sql, lstParm.ToArray());
+            sql = sql1 + "union all" + Environment.NewLine + sql2;
+            DataTable dt = svc.GetDataTable(sql, lstParm.ToArray());
             if (dt != null && dt.Rows.Count > 0)
             {
                 data = new List<EntityDisplayClientRpt>();
@@ -81,11 +140,48 @@ namespace Hms.Biz
                     vo.clientNo = dr["clientNo"].ToString();
                     vo.gender = Function.Int(dr["gender"]);
                     vo.reportNo = dr["reportNo"].ToString();
+                    if (vo.gender == 1)
+                        vo.sex = "男";
+                    if (vo.gender == 2)
+                        vo.sex = "女";
                     vo.reportDate = Function.Datetime(dr["reportDate"]).ToString("yyyy-MM-dd");
                     vo.company = dr["company"].ToString();
                     vo.gradeName = dr["gradeName"].ToString();
                     vo.age = dr["age"].ToString();
                     vo.reportCount = Function.Int(dr["regTimes"]);
+                    vo.status = Function.Int(dr["status"]);
+                    if(vo.status== 1)
+                    {
+                        vo.confirmState = "已审核";
+                    }
+                    if(dr["confirmDate"] != DBNull.Value)
+                    {
+                        vo.recordDateStr = Function.Datetime(dr["confirmDate"]).ToString("yyyy-MM-dd") ;
+                    }
+                    if (!string.IsNullOrEmpty(dr["recId"].ToString()))
+                    {
+                        vo.strQnDate = Function.Datetime(dr["qnDate"]).ToString("yyyy-MM-dd");
+                        vo.qnRecord = new EntityQnRecord();
+                        vo.qnRecord.recId = Function.Dec(dr["recId"]);
+                        vo.qnRecord.gender = Function.Int(dr["gender"]);
+                        if (vo.qnRecord.gender == 1)
+                            vo.qnRecord.sex = "男";
+                        if (vo.qnRecord.gender == 2)
+                            vo.qnRecord.sex = "女";
+                        vo.qnRecord.clientNo = dr["clientNo"].ToString();
+                        vo.qnRecord.clientName = dr["clientName"].ToString();
+                        vo.qnRecord.gradeName = dr["gradeName"].ToString();
+                        vo.qnRecord.age = dr["age"].ToString();
+                        vo.qnRecord.qnName = dr["qnName"].ToString();
+                        vo.qnRecord.qnId = Function.Dec(dr["qnId"]);
+                        vo.qnRecord.qnSource = Function.Dec(dr["qnSource"]);
+                        if (vo.qnRecord.qnSource == 1)
+                            vo.qnRecord.strQnSource = "采集系统";
+                        vo.qnRecord.qnDate = Function.Datetime(dr["qnDate"]);
+                        vo.qnRecord.strQnDate = Function.Datetime(dr["qnDate"]).ToString("yyyy-MM-dd");
+                        vo.qnRecord.xmlData = dr["xmlData"].ToString();
+                    }
+
                     data.Add(vo);
                 }
             }
@@ -93,6 +189,88 @@ namespace Hms.Biz
 
             return data;
         }
+        #endregion
+
+        #region 疾病模型结果及各项得分
+        /// <summary>
+        /// 疾病模型结果及各项得分
+        /// </summary>
+        /// <param name="lstMdResult"></param>
+        /// <returns></returns>
+
+        public int SaveModelResultAndParamCalc(EntitymModelAccessRecord mdAccessRecord, List<EntityClientModelResult> lstMdResult, List<EntityModelParamCalc> lstMdParamCalc)
+        {
+            SqlHelper svc = null;
+            int affect = -1;
+            try
+            {
+                svc = new SqlHelper(EnumBiz.onlineDB);
+                List<DacParm> lstParm = new List<DacParm>();
+                string sql = string.Empty;
+                if (mdAccessRecord != null)
+                {
+                    lstParm.Add(svc.GetDelParmByPk(mdAccessRecord));
+                    lstParm.Add(svc.GetInsertParm(mdAccessRecord));
+                }
+
+                if (lstMdResult != null)
+                {
+                    foreach (var mdVo in lstMdResult)
+                    {
+                        lstParm.Add(svc.GetDelParmByPk(mdVo));
+                    }
+
+                    foreach (var mdVo in lstMdResult)
+                    {
+                        lstParm.Add(svc.GetInsertParm(mdVo));
+                    }
+
+                }
+
+                if (lstMdParamCalc != null)
+                {
+                    foreach (var mdVo in lstMdParamCalc)
+                        lstParm.Add(svc.GetDelParmByPk(mdVo));
+
+                    foreach (var mdVo in lstMdParamCalc)
+                        lstParm.Add(svc.GetInsertParm(mdVo));
+                }
+
+                if (lstParm.Count > 0)
+                    affect = svc.Commit(lstParm);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.OutPutException(ex);
+                affect = -1;
+            }
+            finally
+            {
+                svc = null;
+            }
+
+            return affect;
+        }
+        #endregion
+
+        #region 取消审核
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mdAccessRecord"></param>
+        /// <returns></returns>
+        public int UnConfirmRpt(EntitymModelAccessRecord mdAccessRecord)
+        {
+            int affect = -1;
+            SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
+            string sql = "update modelAccessRecord set status = -1 where reportId = ? and qnRecId = ?";
+            IDataParameter[] param = svc.CreateParm(2);
+            param[0].Value = mdAccessRecord.reportId;
+            param[1].Value = mdAccessRecord.qnRecId;
+            affect = svc.ExecSql(sql, param);
+            return affect;
+        }
+
         #endregion
 
         #region dic

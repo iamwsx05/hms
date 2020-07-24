@@ -48,6 +48,7 @@ namespace Hms.Ui
                 lblReportDate.Text = report.reportDate;
                 lblSex.Text = report.sex;
                 lblAge.Text = report.age;
+                lblQnDate2.Text = report.qnDate;
                 #region 健康汇总
                 lblTjSumup.Text = string.IsNullOrEmpty(report.tjSumup.Trim()) ? "" : report.tjSumup;
                 #endregion

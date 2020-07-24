@@ -40,7 +40,7 @@ namespace Hms.Ui
             if (this.gvNormalQnRecord.SelectedRowsCount > 0)
             {
                 EntityQnRecord vo = this.gvNormalQnRecord.GetRow(this.gvNormalQnRecord.GetSelectedRows()[0]) as EntityQnRecord;
-                frmPopup2020201 frm = new frmPopup2020201(vo,lstClientInfo);
+                frmPopup2020201 frm = new frmPopup2020201(vo);
                 frm.ShowDialog();
                 if (frm.IsRequireRefresh)
                 {
@@ -147,13 +147,13 @@ namespace Hms.Ui
                 lstQnRecords = proxy.Service.GetQnRecords(null);
 
                 List<EntityParm> dicParm = new List<EntityParm>();
-                string beginDate = DateTime.Now.AddDays(-7).ToString("yyyy.MM.dd");
-                string endDate = DateTime.Now.ToString("yyyy.MM.dd");
-                if (beginDate != string.Empty && endDate != string.Empty)
-                {
-                    dicParm.Add(Function.GetParm("genDate", beginDate + "|" + endDate));
-                }
-                lstClientInfo = proxy.Service.GetClientInfoAndRpt(dicParm);
+                //string beginDate = DateTime.Now.AddDays(-7).ToString("yyyy.MM.dd");
+                //string endDate = DateTime.Now.ToString("yyyy.MM.dd");
+                //if (beginDate != string.Empty && endDate != string.Empty)
+                //{
+                //    dicParm.Add(Function.GetParm("genDate", beginDate + "|" + endDate));
+                //}
+                //lstClientInfo = proxy.Service.GetClientInfoAndRpt(dicParm);
             }
             this.gcNormalQnRecord.DataSource = lstQnRecords;
             this.gcNormalQnRecord.RefreshDataSource();

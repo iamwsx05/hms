@@ -89,6 +89,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\debug\DevExpress.Sparkline.v16.2.Core.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.TreeMap.v16.2.Core, Version=16.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v16.2, Version=16.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\debug\DevExpress.Utils.v16.2.dll</HintPath>
@@ -138,6 +139,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\debug\DevExpress.XtraTreeList.v16.2.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.XtraTreeMap.v16.2, Version=16.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=a20767533a162583, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\iCare2019\Debug\Microsoft.Practices.Unity.dll</HintPath>
@@ -158,6 +160,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmpopup2060201.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmpopup2060201.Designer.cs">
+      <DependentUpon>frmpopup2060201.cs</DependentUpon>
+    </Compile>
     <Compile Include="viewer\203\frmpopup2030102.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -988,6 +996,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmpopup2060201.resx">
+      <DependentUpon>frmpopup2060201.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="uccontrol\ucReportItem.resx">
       <DependentUpon>ucReportItem.cs</DependentUpon>
     </EmbeddedResource>

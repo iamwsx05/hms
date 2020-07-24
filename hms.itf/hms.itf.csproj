@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="comm.entity, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\debug\comm.entity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
@@ -46,10 +50,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\comm.entity\comm.entity.csproj">
-      <Project>{5aae7111-14de-4eb2-9749-67778c669efd}</Project>
-      <Name>comm.entity</Name>
-    </ProjectReference>
     <ProjectReference Include="..\hms.entity\hms.entity.csproj">
       <Project>{45da2627-d13f-4005-83ba-738ea3b18f4f}</Project>
       <Name>hms.entity</Name>

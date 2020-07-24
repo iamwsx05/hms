@@ -55,9 +55,9 @@ namespace Hms.Ui
         public EntityDisplayClientRpt GetRptRowsObject()
         {
             EntityDisplayClientRpt vo = null;
-            if (cvMainItemRecord.FocusedRowHandle >= 0)
+            if (gvTjReport.FocusedRowHandle >= 0)
             {
-                vo = cvMainItemRecord.GetRow(cvMainItemRecord.FocusedRowHandle) as EntityDisplayClientRpt;
+                vo = gvTjReport.GetRow(gvTjReport.FocusedRowHandle) as EntityDisplayClientRpt;
             }
 
             return vo;
@@ -68,7 +68,7 @@ namespace Hms.Ui
 
         #region events
 
-        #region
+        #region  汇总
         private void btnInfoCollect_Click(object sender, EventArgs e)
         {
             this.navigationFrame.SelectedPage = navInfoCollect;
@@ -87,10 +87,13 @@ namespace Hms.Ui
             }
         }
         #endregion
+
+        #region 危险因素及问题
         private void btnRiskQuestion_Click(object sender, EventArgs e)
         {
             this.navigationFrame.SelectedPage = navRiskQuestion;
         }
+        #endregion
 
         #region 重要指标
         private void btnImportantIdicate_Click(object sender, EventArgs e)
@@ -106,18 +109,20 @@ namespace Hms.Ui
                     parm.key = "clientNo";
                     parm.value = promotionPlan.clientNo;
                     lstParms.Add(parm);
-                    gcMainItemRecord.DataSource = proxy.Service.GetClientReports(lstParms);
+                    gcTjReport.DataSource = proxy.Service.GetClientReports(lstParms);
+                    gcTjReport.RefreshDataSource();
                 }
             }
         }
 
-        private void cvMainItemRecord_Click(object sender, EventArgs e)
+        private void gcTjReport_Click(object sender, EventArgs e)
         {
             EntityDisplayClientRpt vo = GetRptRowsObject();
 
             using (ProxyHms proxy = new ProxyHms())
             {
-                gcMainItemData.DataSource = proxy.Service.GetReportMainItem(vo.reportId);
+                gcMainItemData.DataSource = proxy.Service.GetReportMainItem(vo.reportNo);
+                gcMainItemData.RefreshDataSource();
             }
         }
 
@@ -131,18 +136,39 @@ namespace Hms.Ui
         }
         #endregion
 
+        #region 干预方案及总结
         private void btnPromotionCase_Click(object sender, EventArgs e)
         {
             this.navigationFrame.SelectedPage = navPromotionCase;
         }
+        #endregion
+
+        #region 健康报告 
         private void btnHmsReport_Click(object sender, EventArgs e)
         {
             this.navigationFrame.SelectedPage = navHmsReport;
+
+            using (ProxyHms proxy = new ProxyHms())
+            {
+                if (promotionPlan != null)
+                {
+                    List<EntityParm> lstParms = new List<EntityParm>();
+                    EntityParm param = new EntityParm();
+                    param.key = "clientNo";
+                    param.value = promotionPlan.clientNo;
+                    lstParms.Add(param);
+                    this.gcReport.DataSource = proxy.Service.GetClientReports(lstParms);
+                }
+            }
         }
+        #endregion
+
+        #region 服务
         private void btnService_Click(object sender, EventArgs e)
         {
             this.navigationFrame.SelectedPage = navService;
         }
+        #endregion
 
         #region 干预计划
         private void btnPromotionPlan_Click(object sender, EventArgs e)
@@ -199,10 +225,13 @@ namespace Hms.Ui
         }
         #endregion
 
+        #region 膳食方案
         private void btnDiet_Click(object sender, EventArgs e)
         {
             this.navigationFrame.SelectedPage = navDiet;
         }
+        #endregion
+
         #region 体检报告
         private void btnPeReport_Click(object sender, EventArgs e)
         {
@@ -274,13 +303,7 @@ namespace Hms.Ui
             lblDateTime.Text = DateTime.Now.ToString("yyyy年MM月dd日") + "  " + weekdays[(int)DateTime.Now.DayOfWeek] + "  " +DateTime.Now.ToString("HH:mm:ss");
         }
 
-
-
-
-
-
         #endregion
 
-        
     }
 }

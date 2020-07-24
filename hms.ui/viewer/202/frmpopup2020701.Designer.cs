@@ -67,7 +67,7 @@
             // 
             this.panelControl2.Controls.Add(this.btnAdd);
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelControl2.Location = new System.Drawing.Point(0, 198);
+            this.panelControl2.Location = new System.Drawing.Point(0, 480);
             this.panelControl2.Name = "panelControl2";
             this.panelControl2.Size = new System.Drawing.Size(501, 36);
             this.panelControl2.TabIndex = 4;
@@ -97,7 +97,7 @@
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelControl1.Location = new System.Drawing.Point(0, 36);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(501, 162);
+            this.panelControl1.Size = new System.Drawing.Size(501, 444);
             this.panelControl1.TabIndex = 5;
             // 
             // gridControl
@@ -106,7 +106,7 @@
             this.gridControl.Location = new System.Drawing.Point(2, 2);
             this.gridControl.MainView = this.cardView;
             this.gridControl.Name = "gridControl";
-            this.gridControl.Size = new System.Drawing.Size(497, 158);
+            this.gridControl.Size = new System.Drawing.Size(497, 440);
             this.gridControl.TabIndex = 4;
             this.gridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.cardView});
@@ -155,12 +155,13 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem(null, "自定义问卷")});
             this.rdgQn.Size = new System.Drawing.Size(304, 27);
             this.rdgQn.TabIndex = 2;
+            this.rdgQn.SelectedIndexChanged += new System.EventHandler(this.rdgQn_SelectedIndexChanged);
             // 
             // frmpopup2020701
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(501, 234);
+            this.ClientSize = new System.Drawing.Size(501, 516);
             this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.panelControl2);
             this.Name = "frmpopup2020701";

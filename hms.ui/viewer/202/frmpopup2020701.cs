@@ -14,10 +14,9 @@ namespace Hms.Ui
 {
     public partial class frmpopup2020701 : frmBasePopup
     {
-        public frmpopup2020701(List<EntityClientInfo> _lstClientInfo )
+        public frmpopup2020701()
         {
             InitializeComponent();
-            lstClientInfo = _lstClientInfo;
         }
 
         #region var
@@ -29,15 +28,26 @@ namespace Hms.Ui
         #region methods
         void Init()
         {
+            int classId = -1;
+            if (rdgQn.SelectedIndex == 2)
+                classId = 2;
+            else if (rdgQn.SelectedIndex == 1)
+                classId = 3;
+            else if (rdgQn.SelectedIndex == 0)
+                classId = 4;
+
             using (ProxyHms proxy = new ProxyHms())
             {
-                lstQnMain = proxy.Service.GetQnMain(null);
+                List<EntityParm> parms = new List<EntityParm>();
+                EntityParm vo = new EntityParm();
+                vo.key = "class";
+                vo.value = classId.ToString();
+                parms.Add(vo);
+                lstQnMain = proxy.Service.GetQnMain(parms);
             }
 
             this.gridControl.DataSource = lstQnMain;
         }
-
-
 
         public EntityDicQnMain GetRowObject()
         {
@@ -54,7 +64,7 @@ namespace Hms.Ui
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            frmPopup2020702 frm = new frmPopup2020702(GetRowObject(), lstClientInfo);
+            frmPopup2020702 frm = new frmPopup2020702(GetRowObject());
             frm.ShowDialog();
             this.Close();
         }
@@ -65,9 +75,27 @@ namespace Hms.Ui
         }
         #endregion
 
-        private void lstChkQn_SelectedIndexChanged(object sender, EventArgs e)
+        private void rdgQn_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int classId = -1;
+            if(rdgQn.SelectedIndex== 2)
+                classId = 2;
+            else if(rdgQn.SelectedIndex == 1)
+                classId = 3;
+            else if (rdgQn.SelectedIndex == 0)
+                classId = 4;
 
+            using (ProxyHms proxy = new ProxyHms())
+            {
+                List<EntityParm> parms = new List<EntityParm>();
+                EntityParm vo = new EntityParm();
+                vo.key = "class";
+                vo.value = classId.ToString();
+                parms.Add(vo);
+                lstQnMain = proxy.Service.GetQnMain(parms);
+            }
+
+            this.gridControl.DataSource = lstQnMain;
         }
     }
 }

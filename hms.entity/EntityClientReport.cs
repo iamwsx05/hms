@@ -10,13 +10,21 @@ namespace Hms.Entity
 {
     public class EntityClientReport : BaseDataContract
     {
-
+        [DataMember]
         public string reportNo { get; set; }
+        [DataMember]
         public string clientName { get; set; }
+        [DataMember]
         public string clientNo { get; set; }
+        [DataMember]
         public string company { get; set; }
+        [DataMember]
         public string reportDate { get; set; }
+        [DataMember]
+        public string qnDate { get; set; }
+        [DataMember]
         public string sex { get; set; }
+        [DataMember]
         public string age { get; set; }
 
         /// <summary>

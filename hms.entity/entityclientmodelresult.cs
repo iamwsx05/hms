@@ -13,12 +13,6 @@ namespace Hms.Entity
     [EntityAttribute(TableName = "clientModelResult")]
     public class EntityClientModelResult : BaseDataContract
     {
-        /// <summary>
-        /// recordId
-        /// </summary>
-        [DataMember]
-        [EntityAttribute(FieldName = "recordId", DbType = DbType.AnsiString, IsPK = false, IsSeq = false, SerNo = 1)]
-        public System.String recordId { get; set; }
 
         /// <summary>
         /// clientId
@@ -31,15 +25,15 @@ namespace Hms.Entity
         /// reportId
         /// </summary>
         [DataMember]
-        [EntityAttribute(FieldName = "reportId", DbType = DbType.AnsiString, IsPK = false, IsSeq = false, SerNo = 3)]
+        [EntityAttribute(FieldName = "reportId", DbType = DbType.AnsiString, IsPK = true, IsSeq = false, SerNo = 3)]
         public System.String reportId { get; set; }
 
         /// <summary>
-        /// conventionId
+        /// qnRecId
         /// </summary>
         [DataMember]
-        [EntityAttribute(FieldName = "conventionId", DbType = DbType.AnsiString, IsPK = false, IsSeq = false, SerNo = 4)]
-        public System.String conventionId { get; set; }
+        [EntityAttribute(FieldName = "qnRecId", DbType = DbType.Decimal, IsPK = true, IsSeq = false, SerNo = 4)]
+        public System.Decimal qnRecId { get; set; }
 
         /// <summary>
         /// psychologcaId
@@ -59,8 +53,8 @@ namespace Hms.Entity
         /// modelId
         /// </summary>
         [DataMember]
-        [EntityAttribute(FieldName = "modelId", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 7)]
-        public System.Decimal? modelId { get; set; }
+        [EntityAttribute(FieldName = "modelId", DbType = DbType.Decimal, IsPK = true, IsSeq = false, SerNo = 7)]
+        public System.Decimal modelId { get; set; }
 
         /// <summary>
         /// modelResult
@@ -114,10 +108,9 @@ namespace Hms.Entity
         /// </summary>
         public class EnumCols
         {
-            public string recordId = "recordId";
             public string clientId = "clientId";
             public string reportId = "reportId";
-            public string conventionId = "conventionId";
+            public string qnRecId = "qnRecId";
             public string psychologcaId = "psychologcaId";
             public string tcmphysiqueId = "tcmphysiqueId";
             public string modelId = "modelId";
@@ -128,5 +121,7 @@ namespace Hms.Entity
             public string bakField2 = "bakField2";
             public string createDate = "createDate";
         }
+
+
     }
 }

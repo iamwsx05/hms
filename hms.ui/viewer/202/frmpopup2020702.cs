@@ -15,18 +15,16 @@ namespace Hms.Ui
 {
     public partial class frmPopup2020702 : frmBasePopup
     {
-        public frmPopup2020702(EntityDicQnMain _qnVo, List<EntityClientInfo> _lstClientInfo)
+        public frmPopup2020702(EntityDicQnMain _qnVo)
         {
             InitializeComponent();
             qnVo = _qnVo;
-            lstClientInfo = _lstClientInfo;
         }
 
-        public frmPopup2020702(EntityQnRecord _qnRecordVo, List<EntityClientInfo> _lstClientInfo)
+        public frmPopup2020702(EntityQnRecord _qnRecordVo)
         {
             InitializeComponent();
             qnRecordVo = _qnRecordVo;
-            lstClientInfo = _lstClientInfo;
         }
 
         #region var
@@ -442,7 +440,7 @@ namespace Hms.Ui
             if (clientInfo != null)
             {
                 this.txtSex.Text = clientInfo.sex;
-                this.txtBirthday.Text = clientInfo.strBirthday;
+                this.dteBirthday.Text = clientInfo.strBirthday;
                 this.txtClientNo.Text = clientInfo.clientNo;
             }
         }
@@ -498,5 +496,27 @@ namespace Hms.Ui
             frm.ShowDialog();
         }
         #endregion
+
+        private void lueClient_KeyDown(object sender, KeyEventArgs e)
+        {
+            string search = this.lueClient.Text;
+            if (string.IsNullOrEmpty(search))
+                return;
+            if (e.KeyCode == Keys.Enter)
+            {
+                using (ProxyHms proxy = new ProxyHms())
+                {
+                    lstClientInfo = proxy.Service.GetClientInfos(search);
+                    lueClient.Properties.DataSource = lstClientInfo;
+                    lueClient.ShowPopup();
+                }
+
+            }
+        }
+
+        private void blbiClose_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

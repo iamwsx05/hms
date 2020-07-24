@@ -240,6 +240,13 @@ namespace Hms.Entity
         public System.String modifyName { get; set; }
 
         /// <summary>
+        /// reportId
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "regTimes", DbType = DbType.Int16, IsPK = false, IsSeq = false, SerNo = 34)]
+        public int regTimes { get; set; }
+
+        /// <summary>
         /// Columns
         /// </summary>
         public static EnumCols Columns = new EnumCols();
@@ -281,6 +288,7 @@ namespace Hms.Entity
             public string modifyDate = "modifyDate";
             public string modifyId = "modifyId";
             public string modifyName = "modifyName";
+            public string regTimes = "regTimes";
         }
     }
 
