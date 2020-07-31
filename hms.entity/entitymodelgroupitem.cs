@@ -70,6 +70,13 @@ namespace Hms.Entity
         public System.Int32 pointId { get; set; }
 
         /// <summary>
+        /// isFamily
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "isFamily", DbType = DbType.Int32, IsPK = false, IsSeq = false, SerNo = 13)]
+        public int isFamily { get; set; }
+
+        /// <summary>
         /// Columns
         /// </summary>
         public static EnumCols Columns = new EnumCols();
@@ -87,6 +94,7 @@ namespace Hms.Entity
             public string orderNum = "orderNum";
             public string isMain = "isMain";
             public string pointId = "pointId";
+            public string isFamily = "isFamily";
         }
     }
 }

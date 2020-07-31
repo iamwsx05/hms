@@ -87,11 +87,18 @@ namespace Hms.Ui
             {
                 uiHelper.BeginLoading(this);
                 this.dteQuestDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                lueClient.Properties.PopupWidth = 380;
-                lueClient.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
-                lueClient.Properties.ValueMember = "clientNo";
-                lueClient.Properties.DisplayMember = "clientName";
-                lueClient.Properties.DataSource = lstClientInfo;
+
+                this.glueClient.Properties.ValueMember = "clientNo";
+                this.glueClient.Properties.DisplayMember = "clientName";
+                this.glueClient.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.True;
+                this.glueClient.Properties.View.BestFitColumns();
+                this.glueClient.Properties.ShowFooter = false;
+                this.glueClient.Properties.View.OptionsView.ShowAutoFilterRow = true; 
+                this.glueClient.Properties.AutoComplete = false;
+                this.glueClient.Properties.ImmediatePopup = true;
+                this.glueClient.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
+                this.glueClient.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+                
 
                 dicQuestCtrl = new Dictionary<int, IQuest>();
                 dicQuestCtrl.Add(0, new Hms.Ui.Quest01());
@@ -142,6 +149,9 @@ namespace Hms.Ui
                             SetData(EnumDataType.Data, dicXmlData[i], i);
                         }
                     }
+
+                    this.glueClient.Enabled = false;
+                    this.txtSearch.Enabled = false;
                 }
             }
             finally
@@ -604,6 +614,19 @@ namespace Hms.Ui
                         });
                     }
                 }
+                else if (ctrl is DevExpress.XtraEditors.GridLookUpEdit)
+                {
+                    fieldName = (ctrl as DevExpress.XtraEditors.GridLookUpEdit).Properties.AccessibleName;
+                    if (!string.IsNullOrEmpty(fieldName))
+                    {
+                        lstControls.Add(new EntityControl()
+                        {
+                            FieldName = fieldName,
+                            Value = (ctrl as DevExpress.XtraEditors.GridLookUpEdit).Text.Trim(),
+                            TabIndex = (ctrl as DevExpress.XtraEditors.GridLookUpEdit).TabIndex
+                        });
+                    }
+                }
                 else if (ctrl is DevExpress.XtraEditors.TextEdit)
                 {
                     fieldName = (ctrl as DevExpress.XtraEditors.TextEdit).Properties.AccessibleName;
@@ -748,6 +771,14 @@ namespace Hms.Ui
                         if (!string.IsNullOrEmpty(fieldName) && dicData.ContainsKey(fieldName))
                         {
                             (ctrl as Common.Controls.LookUpEdit).SetDisplayText<EntityCodeOperator>(dicData[fieldName]);
+                        }
+                    }
+                    else if (ctrl is DevExpress.XtraEditors.GridLookUpEdit)
+                    {
+                        fieldName = (ctrl as DevExpress.XtraEditors.GridLookUpEdit).Properties.AccessibleName;
+                        if (!string.IsNullOrEmpty(fieldName) && dicData.ContainsKey(fieldName))
+                        {
+                            (ctrl as DevExpress.XtraEditors.GridLookUpEdit).Properties.NullText = dicData[fieldName];
                         }
                     }
                     else if (ctrl is DevExpress.XtraEditors.TextEdit)
@@ -920,27 +951,6 @@ namespace Hms.Ui
             SetData(EnumDataType.Data, dicXmlData[idx], idx);
         }
 
-        private void lueClient_EditValueChanged(object sender, EventArgs e)
-        {
-            if (qnRecordVo != null)
-                return;
-            string clientNo = this.lueClient.EditValue.ToString();
-            clientInfo = lstClientInfo.Find(r=>r.clientNo == clientNo) ;
-            if (clientInfo != null)
-            {
-                this.cboSex.Text = clientInfo.sex;
-                this.txtMobile.Text = clientInfo.mobile;
-                this.txtConnectName.Text = clientInfo.contactName;
-                this.txtConnectPhone.Text = clientInfo.contactNameMobile;
-                this.txtCompany.Text = clientInfo.company;
-                this.txtTelephone.Text = clientInfo.telephone;
-                this.dteBirthday.Text = clientInfo.strBirthday;
-                this.txtIdCard.Text = clientInfo.cardNo;
-                this.txtAddress.Text = clientInfo.address;
-
-            }
-        }
-
         private void timer_Tick(object sender, EventArgs e)
         {
             if (!dicXmlData.ContainsKey(idx))
@@ -984,7 +994,7 @@ namespace Hms.Ui
 
         #endregion
 
-        #endregion
+        
 
         private void blbiPrint_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
@@ -992,22 +1002,46 @@ namespace Hms.Ui
             frm.ShowDialog();
         }
 
-        private void lueClient_KeyDown(object sender, KeyEventArgs e)
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
         {
-            string search = this.lueClient.Text;
-            if (string.IsNullOrEmpty(search))
-                return;
-            if(e.KeyCode== Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
+                string search = txtSearch.Text.Trim();
+
+                if (string.IsNullOrEmpty(search))
+                {
+                    return;
+                }
                 using (ProxyHms proxy = new ProxyHms())
                 {
                     lstClientInfo = proxy.Service.GetClientInfos(search);
-                    lueClient.Properties.DataSource = lstClientInfo;
-                    lueClient.ShowPopup();
                 }
-                    
+                glueClient.Properties.DataSource = lstClientInfo;
+                glueClient.ShowPopup();
             }
         }
+
+        private void glueClient_EditValueChanged(object sender, EventArgs e)
+        {
+            if (qnRecordVo != null)
+                return;
+            string clientNo = this.glueClient.EditValue.ToString();
+            clientInfo = lstClientInfo.Find(r => r.clientNo == clientNo);
+            if (clientInfo != null)
+            {
+                this.cboSex.Text = clientInfo.sex;
+                this.txtMobile.Text = clientInfo.mobile;
+                this.txtConnectName.Text = clientInfo.contactName;
+                this.txtConnectPhone.Text = clientInfo.contactNameMobile;
+                this.txtCompany.Text = clientInfo.company;
+                this.txtTelephone.Text = clientInfo.telephone;
+                this.dteBirthday.Text = clientInfo.strBirthday;
+                this.txtIdCard.Text = clientInfo.cardNo;
+                this.txtAddress.Text = clientInfo.address;
+
+            }
+        }
+        #endregion
     }
 
     #region EntitySfControl

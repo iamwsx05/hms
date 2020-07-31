@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "weCare", "..\wecare\weCare.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "console.ui", "..\console.ui\console.ui.csproj", "{4071236B-B1E2-49DB-AA5A-BD63D6F38771}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "comm.control", "..\comm.control\comm.control.csproj", "{415A6157-FFBE-40BA-B933-70151E1F04AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,14 @@ Global
 		{4071236B-B1E2-49DB-AA5A-BD63D6F38771}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4071236B-B1E2-49DB-AA5A-BD63D6F38771}.Release|x86.ActiveCfg = Release|x86
 		{4071236B-B1E2-49DB-AA5A-BD63D6F38771}.Release|x86.Build.0 = Release|x86
+		{415A6157-FFBE-40BA-B933-70151E1F04AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{415A6157-FFBE-40BA-B933-70151E1F04AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{415A6157-FFBE-40BA-B933-70151E1F04AE}.Debug|x86.ActiveCfg = Debug|x86
+		{415A6157-FFBE-40BA-B933-70151E1F04AE}.Debug|x86.Build.0 = Debug|x86
+		{415A6157-FFBE-40BA-B933-70151E1F04AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{415A6157-FFBE-40BA-B933-70151E1F04AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{415A6157-FFBE-40BA-B933-70151E1F04AE}.Release|x86.ActiveCfg = Release|x86
+		{415A6157-FFBE-40BA-B933-70151E1F04AE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

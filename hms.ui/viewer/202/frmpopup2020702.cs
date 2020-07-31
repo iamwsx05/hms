@@ -51,11 +51,16 @@ namespace Hms.Ui
                 List<EntityDicQnSetting> lstTopic = null;
                 List<EntityDicQnSetting> lstItems = null;
                 dteQuestDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                lueClient.Properties.PopupWidth = 380;
-                lueClient.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
-                lueClient.Properties.ValueMember = "clientNo";
-                lueClient.Properties.DisplayMember = "clientName";
-                lueClient.Properties.DataSource = lstClientInfo;
+                this.glueClient.Properties.ValueMember = "clientNo";
+                this.glueClient.Properties.DisplayMember = "clientName";
+                this.glueClient.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.True;
+                this.glueClient.Properties.View.BestFitColumns();
+                this.glueClient.Properties.ShowFooter = false;
+                this.glueClient.Properties.View.OptionsView.ShowAutoFilterRow = true;
+                this.glueClient.Properties.AutoComplete = false;
+                this.glueClient.Properties.ImmediatePopup = true;
+                this.glueClient.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
+                this.glueClient.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
 
                 using (ProxyHms svc = new ProxyHms())
                 {
@@ -71,9 +76,14 @@ namespace Hms.Ui
                     if (this.qnVo != null)
                     {
                         lblTitle.Text = this.qnVo.qnName;
+                       
                     }
                     else
+                    {
                         lblTitle.Text = this.qnRecordVo.qnName;
+                        this.glueClient.Enabled = false;
+                        this.txtSearch.Enabled = false;
+                    }
 
                     EntityDicQnSetting item = null;
                     EntityDicQnSetting item2 = null;
@@ -202,7 +212,6 @@ namespace Hms.Ui
         }
         #endregion
 
-
         #region GetData
         /// <summary>
         /// GetData
@@ -226,6 +235,19 @@ namespace Hms.Ui
                             FieldName = fieldName,
                             Value = (ctrl as Common.Controls.LookUpEdit).Text.Trim(),
                             TabIndex = (ctrl as Common.Controls.LookUpEdit).TabIndex
+                        });
+                    }
+                }
+                else if (ctrl is DevExpress.XtraEditors.GridLookUpEdit)
+                {
+                    fieldName = (ctrl as DevExpress.XtraEditors.GridLookUpEdit).Properties.AccessibleName;
+                    if (!string.IsNullOrEmpty(fieldName))
+                    {
+                        lstControls.Add(new EntityControl()
+                        {
+                            FieldName = fieldName,
+                            Value = (ctrl as DevExpress.XtraEditors.GridLookUpEdit).Text.Trim(),
+                            TabIndex = (ctrl as DevExpress.XtraEditors.GridLookUpEdit).TabIndex
                         });
                     }
                 }
@@ -282,6 +304,19 @@ namespace Hms.Ui
                             FieldName = fieldName,
                             Value = (ctrl as Common.Controls.LookUpEdit).Text.Trim(),
                             TabIndex = (ctrl as Common.Controls.LookUpEdit).TabIndex
+                        });
+                    }
+                }
+                else if (ctrl is DevExpress.XtraEditors.GridLookUpEdit)
+                {
+                    fieldName = (ctrl as DevExpress.XtraEditors.GridLookUpEdit).Properties.AccessibleName;
+                    if (!string.IsNullOrEmpty(fieldName))
+                    {
+                        lstControls.Add(new EntityControl()
+                        {
+                            FieldName = fieldName,
+                            Value = (ctrl as DevExpress.XtraEditors.GridLookUpEdit).Text.Trim(),
+                            TabIndex = (ctrl as DevExpress.XtraEditors.GridLookUpEdit).TabIndex
                         });
                     }
                 }
@@ -358,6 +393,14 @@ namespace Hms.Ui
                         (ctrl as Common.Controls.LookUpEdit).SetDisplayText<EntityCodeOperator>(dicData[fieldName]);
                     }
                 }
+                else if (ctrl is DevExpress.XtraEditors.GridLookUpEdit)
+                {
+                    fieldName = (ctrl as DevExpress.XtraEditors.GridLookUpEdit).Properties.AccessibleName;
+                    if (!string.IsNullOrEmpty(fieldName) && dicData.ContainsKey(fieldName))
+                    {
+                        (ctrl as DevExpress.XtraEditors.GridLookUpEdit).Properties.NullText = dicData[fieldName];
+                    }
+                }
                 else if (ctrl is DevExpress.XtraEditors.TextEdit)
                 {
                     fieldName = (ctrl as DevExpress.XtraEditors.TextEdit).Properties.AccessibleName;
@@ -392,6 +435,14 @@ namespace Hms.Ui
                     if (!string.IsNullOrEmpty(fieldName) && dicData.ContainsKey(fieldName))
                     {
                         (ctrl as Common.Controls.LookUpEdit).SetDisplayText<EntityCodeOperator>(dicData[fieldName]);
+                    }
+                }
+                else if (ctrl is DevExpress.XtraEditors.GridLookUpEdit)
+                {
+                    fieldName = (ctrl as DevExpress.XtraEditors.GridLookUpEdit).Properties.AccessibleName;
+                    if (!string.IsNullOrEmpty(fieldName) && dicData.ContainsKey(fieldName))
+                    {
+                        (ctrl as DevExpress.XtraEditors.GridLookUpEdit).Properties.NullText = dicData[fieldName];
                     }
                 }
                 else if (ctrl is DevExpress.XtraEditors.TextEdit)
@@ -429,20 +480,6 @@ namespace Hms.Ui
         private void frmpopup2020702_Load(object sender, EventArgs e)
         {
             InitComponent();
-        }
-       
-        private void lueClient_EditValueChanged(object sender, EventArgs e)
-        {
-            if (qnRecordVo != null)
-                return;
-            string clientNo = this.lueClient.EditValue.ToString();
-            clientInfo = lstClientInfo.Find(r => r.clientNo == clientNo);
-            if (clientInfo != null)
-            {
-                this.txtSex.Text = clientInfo.sex;
-                this.dteBirthday.Text = clientInfo.strBirthday;
-                this.txtClientNo.Text = clientInfo.clientNo;
-            }
         }
 
         private void blbiSave_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -495,28 +532,46 @@ namespace Hms.Ui
             frmPopup2020202 frm = new frmPopup2020202(qnRecordVo);
             frm.ShowDialog();
         }
-        #endregion
+        
 
-        private void lueClient_KeyDown(object sender, KeyEventArgs e)
-        {
-            string search = this.lueClient.Text;
-            if (string.IsNullOrEmpty(search))
-                return;
-            if (e.KeyCode == Keys.Enter)
-            {
-                using (ProxyHms proxy = new ProxyHms())
-                {
-                    lstClientInfo = proxy.Service.GetClientInfos(search);
-                    lueClient.Properties.DataSource = lstClientInfo;
-                    lueClient.ShowPopup();
-                }
-
-            }
-        }
 
         private void blbiClose_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             this.Close();
         }
+
+        private void glueClient_EditValueChanged(object sender, EventArgs e)
+        {
+            if (qnRecordVo != null)
+                return;
+            string clientNo = this.glueClient.EditValue.ToString();
+            clientInfo = lstClientInfo.Find(r => r.clientNo == clientNo);
+            if (clientInfo != null)
+            {
+                this.txtSex.Text = clientInfo.sex;
+                this.dteBirthday.Text = clientInfo.strBirthday;
+                this.txtClientNo.Text = clientInfo.clientNo;
+            }
+        }
+
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                string search = txtSearch.Text.Trim();
+
+                if (string.IsNullOrEmpty(search))
+                {
+                    return;
+                }
+                using (ProxyHms proxy = new ProxyHms())
+                {
+                    lstClientInfo = proxy.Service.GetClientInfos(search);
+                }
+                glueClient.Properties.DataSource = lstClientInfo;
+                glueClient.ShowPopup();
+            }
+        }
+        #endregion
     }
 }

@@ -6,7 +6,7 @@ using DevExpress.UserSkins;
 using DevExpress.Skins;
 using DevExpress.LookAndFeel;
 
-namespace peDataSys
+namespace Hms.Ui
 {
     static class Program
     {
@@ -22,7 +22,7 @@ namespace peDataSys
             BonusSkins.Register();
             SkinManager.EnableFormSkins();
             UserLookAndFeel.Default.SetSkinStyle("DevExpress Style");
-            Application.Run(new Form1());
+            Application.Run(new frmTest());
         }
     }
 }

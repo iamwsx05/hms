@@ -52,7 +52,7 @@ namespace Hms.Biz
                             b.recordDate as confirmDate
                         FROM 
 	                        v_tjxx a
-                        LEFT JOIN modelAccessRecord b ON a.reportNo = b.reportId and b.status > 0
+                        LEFT JOIN modelAccessRecord b ON a.reportNo = b.reportId and b.status > -1
                         LEFT JOIN qnRecord c ON b.qnRecId = c.recId
                         LEFT JOIN qnData d ON b.qnRecId = d.recId
                         WHERE a.clientNo IS NOT NULL and b.qnRecId = null ";
@@ -80,7 +80,7 @@ namespace Hms.Biz
                                         b.recordDate as confirmDate
                                     FROM 
 	                                    v_tjxx a
-                                    LEFT JOIN modelAccessRecord b ON a.reportNo = b.reportId and b.status > 0
+                                    LEFT JOIN modelAccessRecord b ON a.reportNo = b.reportId and b.status > -1
                                     LEFT JOIN qnRecord c ON b.qnRecId = c.recId
                                     LEFT JOIN qnData d ON b.qnRecId = d.recId
                                     WHERE a.clientNo IS NOT NULL  ";
@@ -198,7 +198,7 @@ namespace Hms.Biz
         /// <param name="lstMdResult"></param>
         /// <returns></returns>
 
-        public int SaveModelResultAndParamCalc(EntitymModelAccessRecord mdAccessRecord, List<EntityClientModelResult> lstMdResult, List<EntityModelParamCalc> lstMdParamCalc)
+        public int SaveModelResultAndParamCalc(EntitymModelAccessRecord mdAccessRecord, List<EntityClientModelResult> lstMdResult, List<EntityModelParamCalc> lstMdParamCalc,List<EntityRiskFactorsResult> lstRiskFactorsResult)
         {
             SqlHelper svc = null;
             int affect = -1;
@@ -236,6 +236,15 @@ namespace Hms.Biz
                         lstParm.Add(svc.GetInsertParm(mdVo));
                 }
 
+                if(lstRiskFactorsResult != null)
+                {
+                    foreach (var rrVo in lstRiskFactorsResult)
+                        lstParm.Add(svc.GetDelParmByPk(rrVo));
+
+                    foreach (var rrVo in lstRiskFactorsResult)
+                        lstParm.Add(svc.GetInsertParm(rrVo));
+                }
+
                 if (lstParm.Count > 0)
                     affect = svc.Commit(lstParm);
             }
@@ -263,7 +272,7 @@ namespace Hms.Biz
         {
             int affect = -1;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
-            string sql = "update modelAccessRecord set status = -1 where reportId = ? and qnRecId = ?";
+            string sql = "update modelAccessRecord set status = 0 where reportId = ? and qnRecId = ?";
             IDataParameter[] param = svc.CreateParm(2);
             param[0].Value = mdAccessRecord.reportId;
             param[1].Value = mdAccessRecord.qnRecId;
@@ -458,7 +467,7 @@ namespace Hms.Biz
                             paramNo,
                             paramName,
                             orderNum,
-                            isMain,
+                            isMain,isFamily,
                             pointId from modelGroupItem ";
             DataTable dt = svc.GetDataTable(sql);
             if (dt != null && dt.Rows.Count > 0)
@@ -475,7 +484,126 @@ namespace Hms.Biz
                     vo.paramName = dr["paramName"].ToString();
                     vo.orderNum = Function.Int(dr["orderNum"]);
                     vo.isMain = Function.Int(dr["isMain"]);
+                    vo.isFamily = Function.Int(dr["isFamily"]);
                     vo.pointId = Function.Int(dr["pointId"]);
+                    data.Add(vo);
+                }
+            }
+
+            return data;
+        }
+        #endregion
+
+        #region 评估模型平均风险配置表
+        /// <summary>
+        /// 评估模型平均风险配置表
+        /// </summary>
+        /// <param name="parms"></param>
+        /// <returns></returns>
+        public List<EntityModelAvgRisk> GetModelAvgRisk()
+        {
+            List<EntityModelAvgRisk> data = null;
+            SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
+            string sql = @" select id,
+                            modelId,
+                            minAge,
+                            maxAge,
+                            defaultRisk,
+                            configRiskMan,
+                            configRiskWoman,
+                            isUse,
+                            recordDate from modelAvgRisk where isUse = 1";
+            DataTable dt = svc.GetDataTable(sql);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                data = new List<EntityModelAvgRisk>();
+                EntityModelAvgRisk vo = null;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    vo = new EntityModelAvgRisk();
+                    vo.id = Function.Int(dr["id"]);
+                    vo.modelId = Function.Dec(dr["modelId"]);
+                    vo.minAge = Function.Dec(dr["minAge"]);
+                    vo.maxAge = Function.Dec(dr["maxAge"]);
+                    vo.defaultRisk = Function.Dec(dr["defaultRisk"]);
+                    vo.configRiskMan = Function.Dec(dr["configRiskMan"]);
+                    vo.configRiskWoman = Function.Dec(dr["configRiskWoman"]);
+                    vo.isUse = Function.Int(dr["isUse"]) ;
+                    vo.recordDate = Function.Datetime(dr["recordDate"]);
+                    data.Add(vo);
+                }
+            }
+
+            return data;
+        }
+        #endregion
+
+        #region 危险因素
+        /// <summary>
+        /// 危险因素
+        /// </summary>
+        /// <param name="parms"></param>
+        /// <returns></returns>
+        public List<EntityRiskFactor> GetRiskFactor()
+        {
+            List<EntityRiskFactor> data = null;
+            SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
+            string sql = @" select id,
+                            showSort,
+                            riskFactor,
+                            inCondition,
+                            advice,jugeValue,
+                            remarks from riskFactor ";
+            DataTable dt = svc.GetDataTable(sql);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                data = new List<EntityRiskFactor>();
+                EntityRiskFactor vo = null;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    vo = new EntityRiskFactor();
+                    vo.id = dr["id"].ToString() ;
+                    vo.showSort = dr["showSort"].ToString();
+                    vo.riskFactor = dr["riskFactor"].ToString();
+                    vo.inCondition = dr["inCondition"].ToString();
+                    vo.advice = dr["advice"].ToString();
+                    vo.remarks = dr["remarks"].ToString();
+                    vo.jugeValue = dr["jugeValue"].ToString();
+
+                    data.Add(vo);
+                }
+            }
+
+            return data;
+        }
+        #endregion
+
+        #region 问卷家族疾病史
+        /// <summary>
+        /// 问卷家族疾病史
+        /// </summary>
+        /// <param name="parms"></param>
+        /// <returns></returns>
+        public List<EntityQnFamilyDease> GetQnFamilyDease()
+        {
+            List<EntityQnFamilyDease> data = null;
+            SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
+            string sql = @" select fieldId,
+                            fieldName,
+                            parentFieldId
+                            from qnFamilyDease ";
+            DataTable dt = svc.GetDataTable(sql);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                data = new List<EntityQnFamilyDease>();
+                EntityQnFamilyDease vo = null;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    vo = new EntityQnFamilyDease();
+                    vo.fieldId = dr["fieldId"].ToString();
+                    vo.fieldName = dr["fieldName"].ToString();
+                    vo.parentFieldId = dr["parentFieldId"].ToString();
+
                     data.Add(vo);
                 }
             }

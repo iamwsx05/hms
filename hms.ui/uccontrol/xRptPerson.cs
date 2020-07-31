@@ -20,8 +20,15 @@ namespace Hms.Ui
         {
             try
             {
+                decimal totalDf = 0;
+                string moreHighFx = string.Empty;
+                string highFx = string.Empty;
+                string lowFx = string.Empty;
+                string moreLowFx = string.Empty;
+
                 if (report == null)
                     return;
+
                 pic02.Image = report.image02;
                 pic03.Image = report.image03;
                 pic04.Image = report.image04;
@@ -49,6 +56,8 @@ namespace Hms.Ui
                 lblSex.Text = report.sex;
                 lblAge.Text = report.age;
                 lblQnDate2.Text = report.qnDate;
+                lblQnDate.Text = report.qnDate;
+                lblTjDate.Text = report.reportDate;
                 #region 健康汇总
                 lblTjSumup.Text = string.IsNullOrEmpty(report.tjSumup.Trim()) ? "" : report.tjSumup;
                 #endregion
@@ -114,6 +123,16 @@ namespace Hms.Ui
                                 this.lblGxyPoint8.Text = string.IsNullOrEmpty(gxyMdAccess.lstPoint[7]) ? "" : "8、" + gxyMdAccess.lstPoint[7];
                         }
                     }
+                    totalDf += gxyMdAccess.df;
+
+                    if (gxyMdAccess.resultStr == "很高危")
+                        moreHighFx += "高血压、";
+                    if (gxyMdAccess.resultStr == "高危")
+                        highFx += "高血压、";
+                    if (gxyMdAccess.resultStr == "低危")
+                        lowFx += "高血压、";
+                    if (gxyMdAccess.resultStr == "很低危")
+                        moreLowFx += "高血压、";
                 }
                 else
                 {
@@ -180,6 +199,15 @@ namespace Hms.Ui
                                 this.lblTnbPoint8.Text = string.IsNullOrEmpty(tnbMdAccess.lstPoint[7]) ? "" : "8、" + tnbMdAccess.lstPoint[7];
                         }
                     }
+                    totalDf += tnbMdAccess.df;
+                    if (tnbMdAccess.resultStr == "很高危")
+                        moreHighFx += "糖尿病、";
+                    if (tnbMdAccess.resultStr == "高危")
+                        highFx += "糖尿病、";
+                    if (tnbMdAccess.resultStr == "低危")
+                        lowFx += "糖尿病、";
+                    if (tnbMdAccess.resultStr == "很低危")
+                        moreLowFx += "糖尿病、";
                 }
                 else
                 {
@@ -208,13 +236,13 @@ namespace Hms.Ui
                     this.picGxbFx04.Image = gxbMdAccess.imgFx04;
 
                     if (gxbMdAccess.df > 5 && gxbMdAccess.df < 18)
-                        this.lblGxbTip.Text = "【说明】您在未来5~10年糖尿病的患病风险为" + this.lblGxbDf.Text + "%，有一定风险，但仍然低于同年龄、同性别人群的平均水平。";
+                        this.lblGxbTip.Text = "【说明】您在未来5~10年冠心病的患病风险为" + this.lblGxbDf.Text + "%，有一定风险，但仍然低于同年龄、同性别人群的平均水平。";
                     if (gxbMdAccess.df <= 5)
-                        this.lblGxbTip.Text = "【说明】您在未来5~10年糖尿病的患病风险为" + this.lblGxbDf.Text + "%，远低于同年龄、同性别人群的平均水平。";
+                        this.lblGxbTip.Text = "【说明】您在未来5~10年冠心病的患病风险为" + this.lblGxbDf.Text + "%，远低于同年龄、同性别人群的平均水平。";
                     if (gxbMdAccess.df >= 18 && gxbMdAccess.df < 50)
-                        this.lblGxbTip.Text = "【说明】您在未来5~10年糖尿病的患病风险为" + this.lblGxbDf.Text + "%，高于同年龄、同性别人群的平均水平。";
+                        this.lblGxbTip.Text = "【说明】您在未来5~10年冠心病的患病风险为" + this.lblGxbDf.Text + "%，高于同年龄、同性别人群的平均水平。";
                     if (gxbMdAccess.df >= 50)
-                        this.lblGxbTip.Text = "【说明】您在未来5~10年糖尿病的患病风险为" + this.lblGxbDf.Text + "%，远高于同年龄、同性别人群的平均水平。";
+                        this.lblGxbTip.Text = "【说明】您在未来5~10年冠心病的患病风险为" + this.lblGxbDf.Text + "%，远高于同年龄、同性别人群的平均水平。";
 
                     this.xrChartGxb.Series[0].SetDataMembers("evaluationName", "result");
                     this.xrChartGxb.Series[0].DataSource = gxbMdAccess.lstEvaluate[0];
@@ -245,6 +273,15 @@ namespace Hms.Ui
                                 this.lblGxbPoint8.Text = string.IsNullOrEmpty(gxbMdAccess.lstPoint[7]) ? "" : "8、" + gxbMdAccess.lstPoint[7];
                         }
                     }
+                    totalDf += gxbMdAccess.df;
+                    if (gxbMdAccess.resultStr == "很高危")
+                        moreHighFx += "冠心病、";
+                    if (gxbMdAccess.resultStr == "高危")
+                        highFx += "冠心病、";
+                    if (gxbMdAccess.resultStr == "低危")
+                        lowFx += "冠心病、";
+                    if (gxbMdAccess.resultStr == "很低危")
+                        moreLowFx += "冠心病、";
                 }
                 else
                 {
@@ -273,13 +310,13 @@ namespace Hms.Ui
                     this.picXzycFx04.Image = xzycMdAccess.imgFx04;
 
                     if (xzycMdAccess.df > 5 && xzycMdAccess.df < 18)
-                        this.lblXzycTip.Text = "【说明】您在未来5~10年糖尿病的患病风险为" + this.lblXzycDf.Text + "%，有一定风险，但仍然低于同年龄、同性别人群的平均水平。";
+                        this.lblXzycTip.Text = "【说明】您在未来5~10年血脂异常的患病风险为" + this.lblXzycDf.Text + "%，有一定风险，但仍然低于同年龄、同性别人群的平均水平。";
                     if (xzycMdAccess.df <= 5)
-                        this.lblXzycTip.Text = "【说明】您在未来5~10年糖尿病的患病风险为" + this.lblXzycDf.Text + "%，远低于同年龄、同性别人群的平均水平。";
+                        this.lblXzycTip.Text = "【说明】您在未来5~10年血脂异常的患病风险为" + this.lblXzycDf.Text + "%，远低于同年龄、同性别人群的平均水平。";
                     if (xzycMdAccess.df >= 18 && xzycMdAccess.df < 50)
-                        this.lblXzycTip.Text = "【说明】您在未来5~10年糖尿病的患病风险为" + this.lblXzycDf.Text + "%，高于同年龄、同性别人群的平均水平。";
+                        this.lblXzycTip.Text = "【说明】您在未来5~10年血脂异常的患病风险为" + this.lblXzycDf.Text + "%，高于同年龄、同性别人群的平均水平。";
                     if (xzycMdAccess.df >= 50)
-                        this.lblXzycTip.Text = "【说明】您在未来5~10年糖尿病的患病风险为" + this.lblXzycDf.Text + "%，远高于同年龄、同性别人群的平均水平。";
+                        this.lblXzycTip.Text = "【说明】您在未来5~10年血脂异常的患病风险为" + this.lblXzycDf.Text + "%，远高于同年龄、同性别人群的平均水平。";
 
                     this.xrChartXzyc.Series[0].SetDataMembers("evaluationName", "result");
                     this.xrChartXzyc.Series[0].DataSource = xzycMdAccess.lstEvaluate[0];
@@ -310,6 +347,15 @@ namespace Hms.Ui
                                 this.lblXzycPoint8.Text = string.IsNullOrEmpty(xzycMdAccess.lstPoint[7]) ? "" : "8、" + xzycMdAccess.lstPoint[7];
                         }
                     }
+                    totalDf += xzycMdAccess.df;
+                    if (xzycMdAccess.resultStr == "很高危")
+                        moreHighFx += "血脂异常、";
+                    if (xzycMdAccess.resultStr == "高危")
+                        highFx += "血脂异常、";
+                    if (xzycMdAccess.resultStr == "低危")
+                        lowFx += "血脂异常、";
+                    if (xzycMdAccess.resultStr == "很低危")
+                        moreLowFx += "血脂异常、";
                 }
                 else
                 {
@@ -339,13 +385,13 @@ namespace Hms.Ui
                     this.picFpzFx04.Image = fpzMdAccess.imgFx04;
 
                     if (fpzMdAccess.df > 5 && fpzMdAccess.df < 18)
-                        this.lblFpzTip.Text = "【说明】您在未来5~10年糖尿病的患病风险为" + this.lblFpzDf.Text + "%，有一定风险，但仍然低于同年龄、同性别人群的平均水平。";
+                        this.lblFpzTip.Text = "【说明】您在未来5~10年肥胖症的患病风险为" + this.lblFpzDf.Text + "%，有一定风险，但仍然低于同年龄、同性别人群的平均水平。";
                     if (fpzMdAccess.df <= 5)
-                        this.lblFpzTip.Text = "【说明】您在未来5~10年糖尿病的患病风险为" + this.lblFpzDf.Text + "%，远低于同年龄、同性别人群的平均水平。";
+                        this.lblFpzTip.Text = "【说明】您在未来5~10年肥胖症的患病风险为" + this.lblFpzDf.Text + "%，远低于同年龄、同性别人群的平均水平。";
                     if (fpzMdAccess.df >= 18 && fpzMdAccess.df < 50)
-                        this.lblFpzTip.Text = "【说明】您在未来5~10年糖尿病的患病风险为" + this.lblFpzDf.Text + "%，高于同年龄、同性别人群的平均水平。";
+                        this.lblFpzTip.Text = "【说明】您在未来5~10年肥胖症的患病风险为" + this.lblFpzDf.Text + "%，高于同年龄、同性别人群的平均水平。";
                     if (fpzMdAccess.df >= 50)
-                        this.lblFpzTip.Text = "【说明】您在未来5~10年糖尿病的患病风险为" + this.lblFpzDf.Text + "%，远高于同年龄、同性别人群的平均水平。";
+                        this.lblFpzTip.Text = "【说明】您在未来5~10年肥胖症的患病风险为" + this.lblFpzDf.Text + "%，远高于同年龄、同性别人群的平均水平。";
 
                     this.xrChartFpz.Series[0].SetDataMembers("evaluationName", "result");
                     this.xrChartFpz.Series[0].DataSource = fpzMdAccess.lstEvaluate[0];
@@ -376,13 +422,61 @@ namespace Hms.Ui
                                 this.lblFpzPoint8.Text = string.IsNullOrEmpty(fpzMdAccess.lstPoint[7]) ? "" : "8、" + fpzMdAccess.lstPoint[7];
                         }
                     }
+                    totalDf += fpzMdAccess.df;
+                    if (fpzMdAccess.resultStr == "很高危")
+                        moreHighFx += "肥胖症、";
+                    if (fpzMdAccess.resultStr == "高危")
+                        highFx += "肥胖症、";
+                    if (fpzMdAccess.resultStr == "低危")
+                        lowFx += "肥胖症、";
+                    if (fpzMdAccess.resultStr == "很低危")
+                        moreLowFx += "肥胖症、";
                 }
                 else
                 {
                     this.dtRptFpz.Visible = false;
                 }
-                   
+
                 #endregion
+
+                lblTotalDf.Text = totalDf.ToString("0.00");
+                if (!string.IsNullOrEmpty(moreHighFx))
+                {
+                    moreHighFx = moreHighFx.TrimEnd('、');
+                    lblMoreHigh.Text = moreHighFx;
+                }
+                else
+                {
+                    lblMoreHigh.Text = "暂无";
+                }
+                if (!string.IsNullOrEmpty(highFx))
+                {
+                    highFx = highFx.TrimEnd('、');
+                    lblHigh.Text = highFx;
+                }
+                else
+                {
+                    lblHigh.Text = "暂无";
+                }
+                if (!string.IsNullOrEmpty(lowFx))
+                {
+                    lowFx = lowFx.TrimEnd('、');
+                    lblLow.Text = lowFx;
+                }
+                else
+                {
+                    lblLow.Text = "暂无";
+                }
+                if (!string.IsNullOrEmpty(moreLowFx))
+                {
+                    moreLowFx = moreLowFx.TrimEnd('、');
+                    lblMoreLow.Text = moreLowFx;
+                }
+                else
+                {
+                    lblMoreLow.Text = "暂无";
+                }
+
 
                 #region 就医检查建议
                 //this.cellPeBseItem1.DataBindings.Add("Text", report.lstAdPeItemBse, "item1");//

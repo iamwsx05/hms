@@ -94,10 +94,10 @@
             this.xrLabel63 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel62 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel61 = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel60 = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel59 = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel58 = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel57 = new DevExpress.XtraReports.UI.XRLabel();
+            this.lblMoreLow = new DevExpress.XtraReports.UI.XRLabel();
+            this.lblLow = new DevExpress.XtraReports.UI.XRLabel();
+            this.lblHigh = new DevExpress.XtraReports.UI.XRLabel();
+            this.lblMoreHigh = new DevExpress.XtraReports.UI.XRLabel();
             this.pic04 = new DevExpress.XtraReports.UI.XRPictureBox();
             this.xrLabel56 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel55 = new DevExpress.XtraReports.UI.XRLabel();
@@ -1310,10 +1310,10 @@
             this.xrLabel63,
             this.xrLabel62,
             this.xrLabel61,
-            this.xrLabel60,
-            this.xrLabel59,
-            this.xrLabel58,
-            this.xrLabel57,
+            this.lblMoreLow,
+            this.lblLow,
+            this.lblHigh,
+            this.lblMoreHigh,
             this.pic04,
             this.xrLabel56,
             this.xrLabel55,
@@ -1542,91 +1542,91 @@
             this.xrLabel61.Text = "低";
             this.xrLabel61.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
-            // xrLabel60
+            // lblMoreLow
             // 
-            this.xrLabel60.BackColor = System.Drawing.Color.Transparent;
-            this.xrLabel60.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(172)))), ((int)(((byte)(225)))));
-            this.xrLabel60.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
+            this.lblMoreLow.BackColor = System.Drawing.Color.Transparent;
+            this.lblMoreLow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(172)))), ((int)(((byte)(225)))));
+            this.lblMoreLow.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
             | DevExpress.XtraPrinting.BorderSide.Right) 
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
-            this.xrLabel60.Dpi = 100F;
-            this.xrLabel60.Font = new System.Drawing.Font("Times New Roman", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.xrLabel60.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(166)))), ((int)(((byte)(73)))));
-            this.xrLabel60.LocationFloat = new DevExpress.Utils.PointFloat(607.861F, 313.8334F);
-            this.xrLabel60.Name = "xrLabel60";
-            this.xrLabel60.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel60.SizeF = new System.Drawing.SizeF(165.1659F, 87.12515F);
-            this.xrLabel60.StylePriority.UseBackColor = false;
-            this.xrLabel60.StylePriority.UseBorderColor = false;
-            this.xrLabel60.StylePriority.UseBorders = false;
-            this.xrLabel60.StylePriority.UseFont = false;
-            this.xrLabel60.StylePriority.UseForeColor = false;
-            this.xrLabel60.StylePriority.UseTextAlignment = false;
-            this.xrLabel60.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblMoreLow.Dpi = 100F;
+            this.lblMoreLow.Font = new System.Drawing.Font("Times New Roman", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMoreLow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(166)))), ((int)(((byte)(73)))));
+            this.lblMoreLow.LocationFloat = new DevExpress.Utils.PointFloat(607.861F, 313.8334F);
+            this.lblMoreLow.Name = "lblMoreLow";
+            this.lblMoreLow.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.lblMoreLow.SizeF = new System.Drawing.SizeF(165.1659F, 87.12515F);
+            this.lblMoreLow.StylePriority.UseBackColor = false;
+            this.lblMoreLow.StylePriority.UseBorderColor = false;
+            this.lblMoreLow.StylePriority.UseBorders = false;
+            this.lblMoreLow.StylePriority.UseFont = false;
+            this.lblMoreLow.StylePriority.UseForeColor = false;
+            this.lblMoreLow.StylePriority.UseTextAlignment = false;
+            this.lblMoreLow.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
-            // xrLabel59
+            // lblLow
             // 
-            this.xrLabel59.BackColor = System.Drawing.Color.Transparent;
-            this.xrLabel59.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(172)))), ((int)(((byte)(225)))));
-            this.xrLabel59.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
+            this.lblLow.BackColor = System.Drawing.Color.Transparent;
+            this.lblLow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(172)))), ((int)(((byte)(225)))));
+            this.lblLow.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
             | DevExpress.XtraPrinting.BorderSide.Right) 
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
-            this.xrLabel59.Dpi = 100F;
-            this.xrLabel59.Font = new System.Drawing.Font("Times New Roman", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.xrLabel59.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(177)))), ((int)(((byte)(83)))));
-            this.xrLabel59.LocationFloat = new DevExpress.Utils.PointFloat(423.4865F, 313.8334F);
-            this.xrLabel59.Name = "xrLabel59";
-            this.xrLabel59.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel59.SizeF = new System.Drawing.SizeF(167.2078F, 87.12515F);
-            this.xrLabel59.StylePriority.UseBackColor = false;
-            this.xrLabel59.StylePriority.UseBorderColor = false;
-            this.xrLabel59.StylePriority.UseBorders = false;
-            this.xrLabel59.StylePriority.UseFont = false;
-            this.xrLabel59.StylePriority.UseForeColor = false;
-            this.xrLabel59.StylePriority.UseTextAlignment = false;
-            this.xrLabel59.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblLow.Dpi = 100F;
+            this.lblLow.Font = new System.Drawing.Font("Times New Roman", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(177)))), ((int)(((byte)(83)))));
+            this.lblLow.LocationFloat = new DevExpress.Utils.PointFloat(423.4865F, 313.8334F);
+            this.lblLow.Name = "lblLow";
+            this.lblLow.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.lblLow.SizeF = new System.Drawing.SizeF(167.2078F, 87.12515F);
+            this.lblLow.StylePriority.UseBackColor = false;
+            this.lblLow.StylePriority.UseBorderColor = false;
+            this.lblLow.StylePriority.UseBorders = false;
+            this.lblLow.StylePriority.UseFont = false;
+            this.lblLow.StylePriority.UseForeColor = false;
+            this.lblLow.StylePriority.UseTextAlignment = false;
+            this.lblLow.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
-            // xrLabel58
+            // lblHigh
             // 
-            this.xrLabel58.BackColor = System.Drawing.Color.Transparent;
-            this.xrLabel58.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(172)))), ((int)(((byte)(225)))));
-            this.xrLabel58.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
+            this.lblHigh.BackColor = System.Drawing.Color.Transparent;
+            this.lblHigh.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(172)))), ((int)(((byte)(225)))));
+            this.lblHigh.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
             | DevExpress.XtraPrinting.BorderSide.Right) 
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
-            this.xrLabel58.Dpi = 100F;
-            this.xrLabel58.Font = new System.Drawing.Font("Times New Roman", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.xrLabel58.LocationFloat = new DevExpress.Utils.PointFloat(604.3196F, 201.5418F);
-            this.xrLabel58.Name = "xrLabel58";
-            this.xrLabel58.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel58.SizeF = new System.Drawing.SizeF(165.1667F, 81.33337F);
-            this.xrLabel58.StylePriority.UseBackColor = false;
-            this.xrLabel58.StylePriority.UseBorderColor = false;
-            this.xrLabel58.StylePriority.UseBorders = false;
-            this.xrLabel58.StylePriority.UseFont = false;
-            this.xrLabel58.StylePriority.UseTextAlignment = false;
-            this.xrLabel58.Text = "暂无";
-            this.xrLabel58.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblHigh.Dpi = 100F;
+            this.lblHigh.Font = new System.Drawing.Font("Times New Roman", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHigh.LocationFloat = new DevExpress.Utils.PointFloat(604.3196F, 201.5418F);
+            this.lblHigh.Name = "lblHigh";
+            this.lblHigh.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.lblHigh.SizeF = new System.Drawing.SizeF(165.1667F, 81.33337F);
+            this.lblHigh.StylePriority.UseBackColor = false;
+            this.lblHigh.StylePriority.UseBorderColor = false;
+            this.lblHigh.StylePriority.UseBorders = false;
+            this.lblHigh.StylePriority.UseFont = false;
+            this.lblHigh.StylePriority.UseTextAlignment = false;
+            this.lblHigh.Text = "暂无";
+            this.lblHigh.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
-            // xrLabel57
+            // lblMoreHigh
             // 
-            this.xrLabel57.BackColor = System.Drawing.Color.Transparent;
-            this.xrLabel57.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(172)))), ((int)(((byte)(225)))));
-            this.xrLabel57.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
+            this.lblMoreHigh.BackColor = System.Drawing.Color.Transparent;
+            this.lblMoreHigh.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(172)))), ((int)(((byte)(225)))));
+            this.lblMoreHigh.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
             | DevExpress.XtraPrinting.BorderSide.Right) 
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
-            this.xrLabel57.Dpi = 100F;
-            this.xrLabel57.Font = new System.Drawing.Font("Times New Roman", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.xrLabel57.LocationFloat = new DevExpress.Utils.PointFloat(423.4865F, 201.5418F);
-            this.xrLabel57.Name = "xrLabel57";
-            this.xrLabel57.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel57.SizeF = new System.Drawing.SizeF(166.6665F, 81.33337F);
-            this.xrLabel57.StylePriority.UseBackColor = false;
-            this.xrLabel57.StylePriority.UseBorderColor = false;
-            this.xrLabel57.StylePriority.UseBorders = false;
-            this.xrLabel57.StylePriority.UseFont = false;
-            this.xrLabel57.StylePriority.UseTextAlignment = false;
-            this.xrLabel57.Text = "暂无";
-            this.xrLabel57.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblMoreHigh.Dpi = 100F;
+            this.lblMoreHigh.Font = new System.Drawing.Font("Times New Roman", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMoreHigh.LocationFloat = new DevExpress.Utils.PointFloat(423.4865F, 201.5418F);
+            this.lblMoreHigh.Name = "lblMoreHigh";
+            this.lblMoreHigh.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.lblMoreHigh.SizeF = new System.Drawing.SizeF(166.6665F, 81.33337F);
+            this.lblMoreHigh.StylePriority.UseBackColor = false;
+            this.lblMoreHigh.StylePriority.UseBorderColor = false;
+            this.lblMoreHigh.StylePriority.UseBorders = false;
+            this.lblMoreHigh.StylePriority.UseFont = false;
+            this.lblMoreHigh.StylePriority.UseTextAlignment = false;
+            this.lblMoreHigh.Text = "暂无";
+            this.lblMoreHigh.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
             // pic04
             // 
@@ -2556,7 +2556,6 @@
             this.xrLabel11,
             this.lblPageHeader});
             this.PageHeader.Dpi = 100F;
-            this.PageHeader.Expanded = false;
             this.PageHeader.HeightF = 25F;
             this.PageHeader.Name = "PageHeader";
             this.PageHeader.PrintOn = DevExpress.XtraReports.UI.PrintOnPages.NotWithReportHeader;
@@ -2604,7 +2603,6 @@
             this.dtRptMain.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.Detail2});
             this.dtRptMain.Dpi = 100F;
-            this.dtRptMain.Expanded = false;
             this.dtRptMain.Level = 1;
             this.dtRptMain.Name = "dtRptMain";
             // 
@@ -16946,10 +16944,10 @@
         private DevExpress.XtraReports.UI.XRLabel xrLabel63;
         private DevExpress.XtraReports.UI.XRLabel xrLabel62;
         private DevExpress.XtraReports.UI.XRLabel xrLabel61;
-        private DevExpress.XtraReports.UI.XRLabel xrLabel60;
-        private DevExpress.XtraReports.UI.XRLabel xrLabel59;
-        private DevExpress.XtraReports.UI.XRLabel xrLabel58;
-        private DevExpress.XtraReports.UI.XRLabel xrLabel57;
+        private DevExpress.XtraReports.UI.XRLabel lblMoreLow;
+        private DevExpress.XtraReports.UI.XRLabel lblLow;
+        private DevExpress.XtraReports.UI.XRLabel lblHigh;
+        private DevExpress.XtraReports.UI.XRLabel lblMoreHigh;
         private DevExpress.XtraReports.UI.XRPictureBox pic04;
         private DevExpress.XtraReports.UI.XRLabel xrLabel56;
         private DevExpress.XtraReports.UI.XRLabel xrLabel55;

@@ -71,8 +71,6 @@
             this.memResult = new DevExpress.XtraEditors.MemoEdit();
             this.labelControl10 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
-            this.memoEdit3 = new DevExpress.XtraEditors.MemoEdit();
-            this.labelControl13 = new DevExpress.XtraEditors.LabelControl();
             this.plResult = new System.Windows.Forms.Panel();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.pcBackGround)).BeginInit();
@@ -98,7 +96,6 @@
             this.xtraScrollableControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.memSugg.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.memResult.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.memoEdit3.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // pcBackGround
@@ -516,8 +513,6 @@
             this.xtraScrollableControl1.Controls.Add(this.memResult);
             this.xtraScrollableControl1.Controls.Add(this.labelControl10);
             this.xtraScrollableControl1.Controls.Add(this.labelControl9);
-            this.xtraScrollableControl1.Controls.Add(this.memoEdit3);
-            this.xtraScrollableControl1.Controls.Add(this.labelControl13);
             this.xtraScrollableControl1.Controls.Add(this.plResult);
             this.xtraScrollableControl1.Controls.Add(this.labelControl3);
             this.xtraScrollableControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -528,10 +523,10 @@
             // 
             // memSugg
             // 
-            this.memSugg.Dock = System.Windows.Forms.DockStyle.Top;
-            this.memSugg.Location = new System.Drawing.Point(0, 504);
+            this.memSugg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.memSugg.Location = new System.Drawing.Point(0, 350);
             this.memSugg.Name = "memSugg";
-            this.memSugg.Size = new System.Drawing.Size(898, 144);
+            this.memSugg.Size = new System.Drawing.Size(915, 244);
             this.memSugg.TabIndex = 54;
             // 
             // labelControl11
@@ -547,18 +542,18 @@
             this.labelControl11.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
             this.labelControl11.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelControl11.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelControl11.Location = new System.Drawing.Point(0, 472);
+            this.labelControl11.Location = new System.Drawing.Point(0, 318);
             this.labelControl11.Name = "labelControl11";
-            this.labelControl11.Size = new System.Drawing.Size(898, 32);
+            this.labelControl11.Size = new System.Drawing.Size(915, 32);
             this.labelControl11.TabIndex = 53;
             this.labelControl11.Text = "建议";
             // 
             // memResult
             // 
             this.memResult.Dock = System.Windows.Forms.DockStyle.Top;
-            this.memResult.Location = new System.Drawing.Point(0, 350);
+            this.memResult.Location = new System.Drawing.Point(0, 196);
             this.memResult.Name = "memResult";
-            this.memResult.Size = new System.Drawing.Size(898, 122);
+            this.memResult.Size = new System.Drawing.Size(915, 122);
             this.memResult.TabIndex = 52;
             // 
             // labelControl10
@@ -574,9 +569,9 @@
             this.labelControl10.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
             this.labelControl10.Cursor = System.Windows.Forms.Cursors.Default;
             this.labelControl10.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelControl10.Location = new System.Drawing.Point(0, 318);
+            this.labelControl10.Location = new System.Drawing.Point(0, 164);
             this.labelControl10.Name = "labelControl10";
-            this.labelControl10.Size = new System.Drawing.Size(898, 32);
+            this.labelControl10.Size = new System.Drawing.Size(915, 32);
             this.labelControl10.TabIndex = 51;
             this.labelControl10.Text = "综述";
             // 
@@ -591,44 +586,18 @@
             this.labelControl9.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
             this.labelControl9.Cursor = System.Windows.Forms.Cursors.Hand;
             this.labelControl9.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelControl9.Location = new System.Drawing.Point(0, 286);
+            this.labelControl9.Location = new System.Drawing.Point(0, 132);
             this.labelControl9.Name = "labelControl9";
-            this.labelControl9.Size = new System.Drawing.Size(898, 32);
+            this.labelControl9.Size = new System.Drawing.Size(915, 32);
             this.labelControl9.TabIndex = 50;
             this.labelControl9.Text = " 报告总结";
-            // 
-            // memoEdit3
-            // 
-            this.memoEdit3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.memoEdit3.Location = new System.Drawing.Point(0, 164);
-            this.memoEdit3.Name = "memoEdit3";
-            this.memoEdit3.Size = new System.Drawing.Size(898, 122);
-            this.memoEdit3.TabIndex = 49;
-            // 
-            // labelControl13
-            // 
-            this.labelControl13.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(140)))), ((int)(((byte)(242)))));
-            this.labelControl13.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.labelControl13.Appearance.ForeColor = System.Drawing.Color.Black;
-            this.labelControl13.Appearance.Options.UseBackColor = true;
-            this.labelControl13.Appearance.Options.UseFont = true;
-            this.labelControl13.Appearance.Options.UseForeColor = true;
-            this.labelControl13.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labelControl13.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.UltraFlat;
-            this.labelControl13.Cursor = System.Windows.Forms.Cursors.Default;
-            this.labelControl13.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelControl13.Location = new System.Drawing.Point(0, 132);
-            this.labelControl13.Name = "labelControl13";
-            this.labelControl13.Size = new System.Drawing.Size(898, 32);
-            this.labelControl13.TabIndex = 36;
-            this.labelControl13.Text = " 异常信息";
             // 
             // plResult
             // 
             this.plResult.Dock = System.Windows.Forms.DockStyle.Top;
             this.plResult.Location = new System.Drawing.Point(0, 32);
             this.plResult.Name = "plResult";
-            this.plResult.Size = new System.Drawing.Size(898, 100);
+            this.plResult.Size = new System.Drawing.Size(915, 100);
             this.plResult.TabIndex = 35;
             // 
             // labelControl3
@@ -644,7 +613,7 @@
             this.labelControl3.Dock = System.Windows.Forms.DockStyle.Top;
             this.labelControl3.Location = new System.Drawing.Point(0, 0);
             this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(898, 32);
+            this.labelControl3.Size = new System.Drawing.Size(915, 32);
             this.labelControl3.TabIndex = 26;
             this.labelControl3.Text = "体检报告";
             // 
@@ -683,7 +652,6 @@
             this.xtraScrollableControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.memSugg.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.memResult.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.memoEdit3.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -724,7 +692,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn sex;
         private DevExpress.XtraGrid.Columns.GridColumn deptName;
         private DevExpress.XtraEditors.XtraScrollableControl xtraScrollableControl1;
-        private DevExpress.XtraEditors.LabelControl labelControl13;
         private System.Windows.Forms.Panel plResult;
         private DevExpress.XtraEditors.LabelControl labelControl3;
         private DevExpress.XtraEditors.MemoEdit memSugg;
@@ -732,6 +699,5 @@
         private DevExpress.XtraEditors.MemoEdit memResult;
         private DevExpress.XtraEditors.LabelControl labelControl10;
         private DevExpress.XtraEditors.LabelControl labelControl9;
-        private DevExpress.XtraEditors.MemoEdit memoEdit3;
     }
 }

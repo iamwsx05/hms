@@ -64,6 +64,7 @@
     <Compile Include="entitydisplayclientrpt.cs" />
     <Compile Include="entitydisplaydiccairecipe.cs" />
     <Compile Include="entitydisplaypromotionplan.cs" />
+    <Compile Include="entitydisplayriskresult.cs" />
     <Compile Include="entityevaluationresult.cs" />
     <Compile Include="entityhmssf.cs" />
     <Compile Include="entityevaluateparams.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="entitymodelaccess.cs" />
     <Compile Include="entitymodelaccessrecord .cs" />
     <Compile Include="entitymodelanalysispoint.cs" />
+    <Compile Include="entitymodelavgrisk.cs" />
     <Compile Include="entitymodelgroupitem.cs" />
     <Compile Include="entitymodelparam.cs" />
     <Compile Include="entitymodelparamcalc .cs" />
@@ -80,6 +82,7 @@
     <Compile Include="entitypromotiontemplateconfig.cs" />
     <Compile Include="entitypromotionwayconfig.cs" />
     <Compile Include="entityqndata .cs" />
+    <Compile Include="entityqnfamilydease.cs" />
     <Compile Include="entityqnrecord.cs" />
     <Compile Include="entityreportinfo.cs" />
     <Compile Include="entityreportitem.cs" />
@@ -87,6 +90,8 @@
     <Compile Include="entityreportmainitemconfig .cs" />
     <Compile Include="entityreportrecorde.cs" />
     <Compile Include="entityreporttemplate.cs" />
+    <Compile Include="entityriskfactor.cs" />
+    <Compile Include="entityriskfactorsresult.cs" />
     <Compile Include="entityrptmodelacess.cs" />
     <Compile Include="entityrpttemplateconfig.cs" />
     <Compile Include="entitysetqncontrol.cs" />

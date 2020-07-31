@@ -142,7 +142,7 @@ namespace Hms.Itf
         /// <param name="lstMdResult"></param>
         /// <returns></returns>
         [OperationContract(Name = "SaveModelResultAndParamCalc")]
-        int SaveModelResultAndParamCalc(EntitymModelAccessRecord mdAccessRecord, List<EntityClientModelResult> lstMdResult, List<EntityModelParamCalc> lstMdParamCalc);
+        int SaveModelResultAndParamCalc(EntitymModelAccessRecord mdAccessRecord, List<EntityClientModelResult> lstMdResult, List<EntityModelParamCalc> lstMdParamCalc,List<EntityRiskFactorsResult> lstRiskFactorsResult);
 
         /// <summary>
         /// 取消审核
@@ -175,6 +175,20 @@ namespace Hms.Itf
         /// <returns></returns>
         [OperationContract(Name = "GetModelGroup")]
         List<EntityModelGroupItem> GetModelGroup(string modelId = null);
+
+        /// <summary>
+        /// 危险因素
+        /// </summary>
+        /// <returns></returns>
+        [OperationContract(Name = "GetRiskFactor")]
+        List<EntityRiskFactor> GetRiskFactor();
+
+        /// <summary>
+        /// 问卷家庭疾病史
+        /// </summary>
+        /// <returns></returns>
+        [OperationContract(Name = "GetQnFamilyDease")]
+        List<EntityQnFamilyDease> GetQnFamilyDease();
         #endregion
 
         #region 204 健康干预
@@ -254,6 +268,13 @@ namespace Hms.Itf
         /// <returns></returns>
         [OperationContract(Name = "GetReportItems")]
         List<EntityReportItem> GetReportItems(string reportId);
+
+        /// <summary>
+        /// 危险因素结果
+        /// </summary>
+        /// <param name="parms"></param>
+        /// <returns></returns>
+        List<entitydisplayriskresult> GetRiskFactorsResult(List<EntityParm> parms);
         #endregion
 
         #region 205 慢病管理

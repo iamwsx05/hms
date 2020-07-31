@@ -28,14 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPopup2020201));
             this.xtraScrollableControl = new DevExpress.XtraEditors.XtraScrollableControl();
             this.plContent = new System.Windows.Forms.Panel();
             this.plUserCtrl = new System.Windows.Forms.Panel();
             this.plTitle = new System.Windows.Forms.Panel();
-            this.dteQuestDate = new DevExpress.XtraEditors.DateEdit();
-            this.barManager = new DevExpress.XtraBars.BarManager(this.components);
+            this.txtSearch = new DevExpress.XtraEditors.TextEdit();
+            this.barManager = new DevExpress.XtraBars.BarManager();
             this.bar1 = new DevExpress.XtraBars.Bar();
             this.blbiPrePage = new DevExpress.XtraBars.BarLargeButtonItem();
             this.blbiNextPage = new DevExpress.XtraBars.BarLargeButtonItem();
@@ -46,7 +45,7 @@
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-            this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
+            this.dockManager = new DevExpress.XtraBars.Docking.DockManager();
             this.dockPanel1 = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.panelControl14 = new DevExpress.XtraEditors.PanelControl();
@@ -77,6 +76,14 @@
             this.lblQ02 = new DevExpress.XtraEditors.LabelControl();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.lblQ01 = new DevExpress.XtraEditors.LabelControl();
+            this.glueClient = new DevExpress.XtraEditors.GridLookUpEdit();
+            this.gluevClient = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.dteQuestDate = new DevExpress.XtraEditors.DateEdit();
             this.labelControl23 = new DevExpress.XtraEditors.LabelControl();
             this.cboMarriage = new DevExpress.XtraEditors.ComboBoxEdit();
             this.labelControl22 = new DevExpress.XtraEditors.LabelControl();
@@ -114,21 +121,19 @@
             this.labelControl6 = new DevExpress.XtraEditors.LabelControl();
             this.txtMobile = new DevExpress.XtraEditors.TextEdit();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
-            this.lueClient = new DevExpress.XtraEditors.LookUpEdit();
             this.cboSex = new DevExpress.XtraEditors.ComboBoxEdit();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.timer = new System.Windows.Forms.Timer();
             ((System.ComponentModel.ISupportInitialize)(this.pcBackGround)).BeginInit();
             this.pcBackGround.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.marqueeProgressBarControl.Properties)).BeginInit();
             this.xtraScrollableControl.SuspendLayout();
             this.plContent.SuspendLayout();
             this.plTitle.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dteQuestDate.Properties.CalendarTimeProperties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dteQuestDate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSearch.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barManager)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
             this.dockPanel1.SuspendLayout();
@@ -161,6 +166,10 @@
             this.panelControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.glueClient.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gluevClient)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dteQuestDate.Properties.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dteQuestDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboMarriage.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboEhtnicGroup.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboRh.Properties)).BeginInit();
@@ -180,7 +189,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.cboYbType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConnectName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMobile.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lueClient.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboSex.Properties)).BeginInit();
             this.SuspendLayout();
             // 
@@ -229,6 +237,8 @@
             // 
             // plTitle
             // 
+            this.plTitle.Controls.Add(this.txtSearch);
+            this.plTitle.Controls.Add(this.glueClient);
             this.plTitle.Controls.Add(this.dteQuestDate);
             this.plTitle.Controls.Add(this.labelControl23);
             this.plTitle.Controls.Add(this.cboMarriage);
@@ -267,7 +277,6 @@
             this.plTitle.Controls.Add(this.labelControl6);
             this.plTitle.Controls.Add(this.txtMobile);
             this.plTitle.Controls.Add(this.labelControl4);
-            this.plTitle.Controls.Add(this.lueClient);
             this.plTitle.Controls.Add(this.cboSex);
             this.plTitle.Controls.Add(this.labelControl3);
             this.plTitle.Controls.Add(this.labelControl2);
@@ -277,24 +286,19 @@
             this.plTitle.Size = new System.Drawing.Size(828, 215);
             this.plTitle.TabIndex = 477;
             // 
-            // dteQuestDate
+            // txtSearch
             // 
-            this.dteQuestDate.EditValue = null;
-            this.dteQuestDate.Location = new System.Drawing.Point(477, 154);
-            this.dteQuestDate.MenuManager = this.barManager;
-            this.dteQuestDate.Name = "dteQuestDate";
-            this.dteQuestDate.Properties.AccessibleName = "QuestDate";
-            this.dteQuestDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dteQuestDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dteQuestDate.Properties.DisplayFormat.FormatString = "yyyy-MM-dd";
-            this.dteQuestDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-            this.dteQuestDate.Properties.EditFormat.FormatString = "yyyy-MM-dd";
-            this.dteQuestDate.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-            this.dteQuestDate.Properties.Mask.EditMask = "yyyy-MM-dd";
-            this.dteQuestDate.Size = new System.Drawing.Size(123, 20);
-            this.dteQuestDate.TabIndex = 57;
+            this.txtSearch.Location = new System.Drawing.Point(96, 7);
+            this.txtSearch.MenuManager = this.barManager;
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Properties.AccessibleName = "";
+            this.txtSearch.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Properties.Appearance.Options.UseFont = true;
+            this.txtSearch.Properties.NullText = "检索信息......";
+            this.txtSearch.Properties.NullValuePrompt = "检索信息......";
+            this.txtSearch.Size = new System.Drawing.Size(298, 24);
+            this.txtSearch.TabIndex = 60;
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             // 
             // barManager
             // 
@@ -900,6 +904,117 @@
             this.lblQ01.Text = "家族病史";
             this.lblQ01.Click += new System.EventHandler(this.lblQ01_Click);
             // 
+            // glueClient
+            // 
+            this.glueClient.Location = new System.Drawing.Point(78, 37);
+            this.glueClient.MenuManager = this.barManager;
+            this.glueClient.Name = "glueClient";
+            this.glueClient.Properties.AccessibleName = "ClientName";
+            this.glueClient.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.glueClient.Properties.NullText = "";
+            this.glueClient.Properties.View = this.gluevClient;
+            this.glueClient.Size = new System.Drawing.Size(123, 20);
+            this.glueClient.TabIndex = 59;
+            this.glueClient.EditValueChanged += new System.EventHandler(this.glueClient_EditValueChanged);
+            // 
+            // gluevClient
+            // 
+            this.gluevClient.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn1,
+            this.gridColumn2,
+            this.gridColumn3,
+            this.gridColumn4,
+            this.gridColumn5});
+            this.gluevClient.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
+            this.gluevClient.Name = "gluevClient";
+            this.gluevClient.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.gluevClient.OptionsView.ShowGroupPanel = false;
+            // 
+            // gridColumn1
+            // 
+            this.gridColumn1.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn1.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn1.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn1.Caption = "编号";
+            this.gridColumn1.FieldName = "clientNo";
+            this.gridColumn1.Name = "gridColumn1";
+            this.gridColumn1.Visible = true;
+            this.gridColumn1.VisibleIndex = 0;
+            this.gridColumn1.Width = 104;
+            // 
+            // gridColumn2
+            // 
+            this.gridColumn2.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn2.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn2.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn2.Caption = "姓名";
+            this.gridColumn2.FieldName = "clientName";
+            this.gridColumn2.Name = "gridColumn2";
+            this.gridColumn2.Visible = true;
+            this.gridColumn2.VisibleIndex = 1;
+            this.gridColumn2.Width = 104;
+            // 
+            // gridColumn3
+            // 
+            this.gridColumn3.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn3.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn3.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn3.Caption = "性别";
+            this.gridColumn3.FieldName = "sex";
+            this.gridColumn3.Name = "gridColumn3";
+            this.gridColumn3.Visible = true;
+            this.gridColumn3.VisibleIndex = 2;
+            this.gridColumn3.Width = 52;
+            // 
+            // gridColumn4
+            // 
+            this.gridColumn4.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn4.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn4.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn4.Caption = "出生日期";
+            this.gridColumn4.FieldName = "birthday";
+            this.gridColumn4.Name = "gridColumn4";
+            this.gridColumn4.Visible = true;
+            this.gridColumn4.VisibleIndex = 3;
+            this.gridColumn4.Width = 104;
+            // 
+            // gridColumn5
+            // 
+            this.gridColumn5.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn5.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn5.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn5.Caption = "单位名称";
+            this.gridColumn5.FieldName = "company";
+            this.gridColumn5.Name = "gridColumn5";
+            this.gridColumn5.Visible = true;
+            this.gridColumn5.VisibleIndex = 4;
+            this.gridColumn5.Width = 200;
+            // 
+            // dteQuestDate
+            // 
+            this.dteQuestDate.EditValue = null;
+            this.dteQuestDate.Location = new System.Drawing.Point(477, 154);
+            this.dteQuestDate.MenuManager = this.barManager;
+            this.dteQuestDate.Name = "dteQuestDate";
+            this.dteQuestDate.Properties.AccessibleName = "QuestDate";
+            this.dteQuestDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dteQuestDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dteQuestDate.Properties.DisplayFormat.FormatString = "yyyy-MM-dd";
+            this.dteQuestDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.dteQuestDate.Properties.EditFormat.FormatString = "yyyy-MM-dd";
+            this.dteQuestDate.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.dteQuestDate.Properties.Mask.EditMask = "yyyy-MM-dd";
+            this.dteQuestDate.Size = new System.Drawing.Size(123, 20);
+            this.dteQuestDate.TabIndex = 57;
+            // 
             // labelControl23
             // 
             this.labelControl23.Location = new System.Drawing.Point(411, 157);
@@ -1294,28 +1409,6 @@
             this.labelControl4.TabIndex = 20;
             this.labelControl4.Text = "手机号码：";
             // 
-            // lueClient
-            // 
-            this.lueClient.Location = new System.Drawing.Point(78, 38);
-            this.lueClient.Name = "lueClient";
-            this.lueClient.Properties.AccessibleName = "ClientName";
-            this.lueClient.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lueClient.Properties.Appearance.Options.UseFont = true;
-            this.lueClient.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.lueClient.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("clientNo", "编号", 100, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Center),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("clientName", "姓名", 80, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Center),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("sex", "性别", 40, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Center),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("strBirthday", "出生日期", 110, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Center)});
-            this.lueClient.Properties.DropDownRows = 10;
-            this.lueClient.Properties.NullText = "";
-            this.lueClient.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-            this.lueClient.Size = new System.Drawing.Size(123, 20);
-            this.lueClient.TabIndex = 19;
-            this.lueClient.EditValueChanged += new System.EventHandler(this.lueClient_EditValueChanged);
-            this.lueClient.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lueClient_KeyDown);
-            // 
             // cboSex
             // 
             this.cboSex.Location = new System.Drawing.Point(291, 38);
@@ -1397,8 +1490,7 @@
             this.plContent.ResumeLayout(false);
             this.plTitle.ResumeLayout(false);
             this.plTitle.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dteQuestDate.Properties.CalendarTimeProperties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dteQuestDate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSearch.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.barManager)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).EndInit();
             this.dockPanel1.ResumeLayout(false);
@@ -1431,6 +1523,10 @@
             this.panelControl2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.glueClient.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gluevClient)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dteQuestDate.Properties.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dteQuestDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboMarriage.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboEhtnicGroup.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboRh.Properties)).EndInit();
@@ -1450,7 +1546,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.cboYbType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtConnectName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMobile.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lueClient.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboSex.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1509,7 +1604,6 @@
         private DevExpress.XtraEditors.ComboBoxEdit cboSex;
         private DevExpress.XtraEditors.LabelControl labelControl3;
         private DevExpress.XtraEditors.LabelControl labelControl2;
-        public DevExpress.XtraEditors.LookUpEdit lueClient;
         private DevExpress.XtraEditors.LabelControl labelControl13;
         private DevExpress.XtraEditors.ComboBoxEdit cboYearIncom;
         private DevExpress.XtraEditors.LabelControl labelControl12;
@@ -1550,5 +1644,13 @@
         private DevExpress.XtraEditors.LabelControl labelControl17;
         private System.Windows.Forms.Timer timer;
         private DevExpress.XtraBars.BarLargeButtonItem blbiPrint;
+        private DevExpress.XtraEditors.GridLookUpEdit glueClient;
+        private DevExpress.XtraGrid.Views.Grid.GridView gluevClient;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
+        private DevExpress.XtraEditors.TextEdit txtSearch;
     }
 }

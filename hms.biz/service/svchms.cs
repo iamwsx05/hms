@@ -198,11 +198,11 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="lstMdParamCalc"></param>
         /// <returns></returns>
-        public int SaveModelResultAndParamCalc(EntitymModelAccessRecord mdAccessRecord, List<EntityClientModelResult> lstMdResult, List<EntityModelParamCalc> lstMdParamCalc)
+        public int SaveModelResultAndParamCalc(EntitymModelAccessRecord mdAccessRecord, List<EntityClientModelResult> lstMdResult, List<EntityModelParamCalc> lstMdParamCalc, List<EntityRiskFactorsResult> lstRiskFactorsResult)
         {
             using (Biz203 biz = new Biz203())
             {
-                return biz.SaveModelResultAndParamCalc(mdAccessRecord, lstMdResult, lstMdParamCalc);
+                return biz.SaveModelResultAndParamCalc(mdAccessRecord, lstMdResult, lstMdParamCalc, lstRiskFactorsResult);
             }
         }
 
@@ -268,6 +268,29 @@ namespace Hms.Svc
             using (Biz203 biz = new Biz203())
             {
                 return biz.GetModelGroup(modelId);
+            }
+        }
+        /// <summary>
+        /// 危险因素
+        /// </summary>
+        /// <returns></returns>
+        public List<EntityRiskFactor> GetRiskFactor()
+        {
+            using (Biz203 biz = new Biz203())
+            {
+                return biz.GetRiskFactor();
+            }
+        }
+        /// <summary>
+        /// 问卷家族疾病史
+        /// </summary>
+        /// <returns></returns>
+
+        public List<EntityQnFamilyDease> GetQnFamilyDease()
+        {
+            using (Biz203 biz = new Biz203())
+            {
+                return biz.GetQnFamilyDease();
             }
         }
         #endregion
@@ -409,6 +432,19 @@ namespace Hms.Svc
             using (Biz204 biz = new Biz204())
             {
                 return biz.GetModelAccesses();
+            }
+        }
+
+        /// <summary>
+        /// 危险因素结果
+        /// </summary>
+        /// <param name="parms"></param>
+        /// <returns></returns>
+        public List<entitydisplayriskresult> GetRiskFactorsResult(List<EntityParm> parms)
+        {
+            using (Biz204 biz = new Biz204())
+            {
+                return biz.GetRiskFactorsResult(parms);
             }
         }
 

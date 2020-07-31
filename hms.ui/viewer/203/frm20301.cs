@@ -34,6 +34,11 @@ namespace Hms.Ui
         List<EntityModelParam> lstModelParam { get; set; }
         //疾病模型
         List<EntityModelAccess> lstModelAccess { get; set; }
+        //疾病模型危险因素
+        List<EntityRiskFactor> lstRiskFactor { get; set; }
+        /// 问卷家族疾病史
+        List<EntityQnFamilyDease> lstFamilyDease { get; set; }
+
         List<EntityDisplayClientRpt> lstClientInfo { get; set; }
         //体检小结信息
         List<EntityTjResult> lstXjResult;
@@ -80,13 +85,14 @@ namespace Hms.Ui
                 this.BeginLoading();
                 EntityDisplayClientRpt disClientRpt = GetRowObject();
                 List<EntityModelParamCalc> lstMdParamCalc = null;
+                List<EntityRiskFactorsResult> lstRiskFactorsResult = null;
                 if (disClientRpt.qnRecord == null)
                 {
                     DialogBox.Msg("请选择问卷");
                     return;
                 }
 
-                EntityClientReport rpt = GneralPersonalReport(disClientRpt,out lstMdParamCalc);
+                EntityClientReport rpt = GneralPersonalReport(disClientRpt,out lstMdParamCalc,out lstRiskFactorsResult);
                 frmPopup2030101 frm = new frmPopup2030101(rpt);
                 frm.ShowDialog();
             }
@@ -156,6 +162,7 @@ namespace Hms.Ui
                 int affect = -1;
                 EntityDisplayClientRpt disClientRpt = GetRowObject();
                 List<EntityModelParamCalc> lstMdParamCalc = null;
+                List<EntityRiskFactorsResult> lstRiskFactorsResult = null;
                 if (disClientRpt.qnRecord == null)
                 {
                     DialogBox.Msg("请选择问卷");
@@ -168,7 +175,7 @@ namespace Hms.Ui
                     return;
                 }
 
-                EntityClientReport rpt = GneralPersonalReport(disClientRpt,out lstMdParamCalc);
+                EntityClientReport rpt = GneralPersonalReport(disClientRpt,out lstMdParamCalc,out lstRiskFactorsResult);
                 List<EntityClientModelResult> lstMdResult = null;
                 EntitymModelAccessRecord mdAccessRecord = null;
                 if (rpt != null)
@@ -204,7 +211,7 @@ namespace Hms.Ui
                 {
                     using (ProxyHms proxy = new ProxyHms())
                     {
-                        affect = proxy.Service.SaveModelResultAndParamCalc(mdAccessRecord, lstMdResult, lstMdParamCalc);
+                        affect = proxy.Service.SaveModelResultAndParamCalc(mdAccessRecord, lstMdResult, lstMdParamCalc, lstRiskFactorsResult);
                     }
                 }
 
@@ -270,7 +277,7 @@ namespace Hms.Ui
         #region methods
 
         #region Init
-        internal void Init()
+        public void Init()
         {
             try
             {
@@ -284,6 +291,8 @@ namespace Hms.Ui
                     lstModelPoint = proxy.Service.GetModelAnalysisPoint();
                     lstModelAccess = proxy.Service.GetModelAccess();
                     lstModelGroupItem = proxy.Service.GetModelGroup();
+                    lstFamilyDease = proxy.Service.GetQnFamilyDease();
+                    lstRiskFactor = proxy.Service.GetRiskFactor();
                 }
 
                 RefreshData();
@@ -336,7 +345,7 @@ namespace Hms.Ui
         /// </summary>
         /// <param name="disClientRpt"></param>
         /// <returns></returns>
-        internal EntityClientReport GneralPersonalReport(EntityDisplayClientRpt disClientRpt,out List<EntityModelParamCalc> lstMdParamCalcData)
+        public EntityClientReport GneralPersonalReport(EntityDisplayClientRpt disClientRpt,out List<EntityModelParamCalc> lstMdParamCalcData,out List<EntityRiskFactorsResult> lstRiskFactorsResult)
         {
             EntityClientReport rpt = new EntityClientReport();
 
@@ -363,10 +372,11 @@ namespace Hms.Ui
             rpt.lstRptModelAcess = new List<EntityRptModelAcess>();
             lstMdParamCalcData = new List<EntityModelParamCalc>();
             List<EntityModelParamCalc> lstMdParamCalc = new List<EntityModelParamCalc>();
+            lstRiskFactorsResult = new List<EntityRiskFactorsResult>();
             List<EntityModelAccess> lstMdAcess = GetModelAccess(disClientRpt);
 
             #region 健康汇总及重要指标
-            rpt.lstMainItem = GetMainIndicate();
+            rpt.lstMainItem = GetMainIndicate(disClientRpt);
             if (tjjljyVo != null)
                 rpt.tjSumup = tjjljyVo.sumup;
             #endregion
@@ -376,7 +386,7 @@ namespace Hms.Ui
             {
                 foreach (var mdAcess in lstMdAcess)
                 {
-                    rpt.lstRptModelAcess.Add(GetRptModelParam(mdAcess.modelId,out lstMdParamCalc));
+                    rpt.lstRptModelAcess.Add(GetRptModelParam(mdAcess.modelId, disClientRpt,out lstMdParamCalc));
 
                     if(lstMdParamCalc != null && lstMdParamCalc.Count > 0)
                     {
@@ -384,6 +394,10 @@ namespace Hms.Ui
                     }
                 }
             }
+            #endregion
+
+            #region 危险要素
+            lstRiskFactorsResult = GetRiskFactorsResults(disClientRpt);
             #endregion
 
             return rpt;
@@ -396,11 +410,11 @@ namespace Hms.Ui
         /// 重要指标
         /// </summary>
         /// <returns></returns>
-        internal List<EntityReportMainItem> GetMainIndicate()
+        internal List<EntityReportMainItem> GetMainIndicate(EntityDisplayClientRpt vo)
         {
             List<EntityReportMainItem> data = new List<EntityReportMainItem>();
             List<EntityReportMainItemConfig> lstMainItemConfig;
-            EntityDisplayClientRpt vo = GetRowObject();
+            //EntityDisplayClientRpt vo = GetRowObject();
             using (ProxyHms proxy = new ProxyHms())
             {
                 proxy.Service.GetTjResult(vo.reportNo, out lstTjResult, out lstXjResult, out tjjljyVo);
@@ -442,7 +456,7 @@ namespace Hms.Ui
         /// 疾病模型评估
         /// </summary>
         /// <returns></returns>
-        internal EntityRptModelAcess GetRptModelParam(decimal modelId,out List<EntityModelParamCalc> lstMdParamCalc)
+        internal EntityRptModelAcess GetRptModelParam(decimal modelId, EntityDisplayClientRpt vo,out List<EntityModelParamCalc> lstMdParamCalc)
         {
             EntityRptModelAcess modelAcess = new EntityRptModelAcess();
             lstMdParamCalc = new List<EntityModelParamCalc>();
@@ -452,8 +466,8 @@ namespace Hms.Ui
             try
             {
                 modelAcess.modelId = modelId;
-                List<EntityModelGroupItem> lstGxyModel = lstModelGroupItem.FindAll(r => r.modelId == modelId && r.isMain == 1);
-                EntityDisplayClientRpt vo = GetRowObject();
+                List<EntityModelGroupItem> lstModelGroup = lstModelGroupItem.FindAll(r => r.modelId == modelId && r.isMain == 1);
+                //EntityDisplayClientRpt vo = GetRowObject();
                 if (!string.IsNullOrEmpty(vo.qnRecord.xmlData))
                 {
                     XmlDocument document = new XmlDocument();
@@ -463,10 +477,10 @@ namespace Hms.Ui
                 }
 
                 #region 主要评估参数
-                if (lstGxyModel != null)
+                if (lstModelGroup != null)
                 {
                     bool rFlag = false;
-                    foreach (var model in lstGxyModel)
+                    foreach (var model in lstModelGroup)
                     {
                         rFlag = false;
                         param = new EntityRptModelParam();
@@ -476,10 +490,10 @@ namespace Hms.Ui
                         //问卷
                         if (model.paramType == 3 || model.paramType == 4)
                         {
-                            List<EntityModelParam> lstModelParamGxy = lstModelParam.FindAll(r => r.parentFieldId == model.paramNo && r.modelId == modelId);
-                            if (lstModelParamGxy != null)
+                            List<EntityModelParam> lstModelParamTmp = lstModelParam.FindAll(r => r.parentFieldId == model.paramNo && r.modelId == modelId);
+                            if (lstModelParamTmp != null)
                             {
-                                foreach (var gxyModel in lstModelParamGxy)
+                                foreach (var gxyModel in lstModelParamTmp)
                                 {
                                     rFlag = false;
                                     if (gxyModel.isNormal == "1")
@@ -553,7 +567,7 @@ namespace Hms.Ui
                 #region 风险评估
                 decimal bestDf = 0;
                 decimal df = 0;
-                lstMdParamCalc = CalcModelResult(modelId, out df, out bestDf);
+                lstMdParamCalc = CalcModelResult(modelId, vo, out df, out bestDf);
                 modelAcess.df = df;
                 modelAcess.bestDf = bestDf;
                 modelAcess.reduceDf = modelAcess.df - modelAcess.bestDf;
@@ -605,13 +619,128 @@ namespace Hms.Ui
 
         #endregion
 
+        #region 危险要素
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vo"></param>
+        /// <returns></returns>
+        internal List<EntityRiskFactorsResult> GetRiskFactorsResults(EntityDisplayClientRpt vo)
+        {
+            List<EntityRiskFactorsResult> data = null;
+            Dictionary<string, string> dicData = new Dictionary<string, string>();
+            if (vo == null)
+                return null; 
+            if (vo.qnRecord == null)
+                return null;
+            
+            if (!string.IsNullOrEmpty(vo.qnRecord.xmlData))
+            {
+                XmlDocument document = new XmlDocument();
+                document.LoadXml(vo.qnRecord.xmlData);
+                XmlNodeList list = document["FormData"].ChildNodes;
+                dicData = Function.ReadXML(vo.qnRecord.xmlData);
+            }
+
+            if (lstRiskFactor != null)
+            {
+                data = new List<EntityRiskFactorsResult>();
+                EntityRiskFactorsResult riskResult = null;
+                foreach (var risk in lstRiskFactor)
+                {
+                    if (risk.id == "AA001") //家族史
+                    {
+                        string[] arrParentId = risk.inCondition.Split(';');
+                        for (int i = 0; i < arrParentId.Length; i++)
+                        {
+                            string parentId = arrParentId[i];
+                            List<EntityQnFamilyDease> lstFamilyTmp = lstFamilyDease.FindAll(r => r.parentFieldId == parentId);
+                            if (lstFamilyTmp == null)
+                                continue;
+                            foreach (var fVo in lstFamilyTmp)
+                            {
+                                string filedId = fVo.fieldId;
+                                if (dicData.ContainsKey(filedId))
+                                {
+                                    if (dicData[filedId] == risk.jugeValue)
+                                    {
+                                        riskResult = new EntityRiskFactorsResult();
+                                        riskResult.clientId = vo.clientNo;
+                                        riskResult.questionId = vo.qnRecord.recId;
+                                        riskResult.factorsId = risk.id;
+                                        //riskResult.organFactorsId = "organFactorsId";
+                                        riskResult.isFamilyDisease = "1";
+                                        //riskResult.isHand = "isHand";
+                                        //riskResult.happenDate = "happenDate";
+                                        riskResult.advise = risk.advice;
+                                        riskResult.filedId = filedId;
+                                        riskResult.filedName = fVo.fieldName;
+                                        //riskResult.supplyExplian = "supplyExplian";
+                                        riskResult.recordDate = DateTime.Now;
+                                        riskResult.recordId = "00";
+                                        data.Add(riskResult);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (risk.inCondition.Contains(";"))
+                    {
+                        string[] arrIncondition = risk.inCondition.Split(';');
+                        for (int i = 0; i < arrIncondition.Length; i++)
+                        {
+                            string incondition = arrIncondition[i];
+
+                            if (dicData.ContainsKey(incondition))
+                            {
+                                if (dicData[incondition] == risk.jugeValue)
+                                {
+                                    riskResult = new EntityRiskFactorsResult();
+                                    riskResult.clientId = vo.clientNo;
+                                    riskResult.questionId = vo.qnRecord.recId;
+                                    riskResult.factorsId = risk.id;
+                                    riskResult.advise = risk.advice;
+                                    riskResult.filedId = incondition;
+                                    riskResult.recordDate = DateTime.Now;
+                                    riskResult.recordId = "00";
+                                    data.Add(riskResult);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        string incondition = risk.inCondition;
+                        if (dicData.ContainsKey(incondition))
+                        {
+                            if (dicData[incondition] == risk.jugeValue)
+                            {
+                                riskResult = new EntityRiskFactorsResult();
+                                riskResult.clientId = vo.clientNo;
+                                riskResult.questionId = vo.qnRecord.recId;
+                                riskResult.factorsId = risk.id;
+                                riskResult.advise = risk.advice;
+                                riskResult.filedId = incondition;
+                                riskResult.recordDate = DateTime.Now;
+                                riskResult.recordId = "00";
+                                data.Add(riskResult);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return data;
+        }
+        #endregion
+
         #region 计算疾病风险评估得分
         /// <summary>
         /// 
         /// </summary>
         /// <param name="modelId"></param>
         /// <returns></returns>
-        internal List<EntityModelParamCalc> CalcModelResult(decimal modelId,out decimal result, out decimal bestDf)
+        internal List<EntityModelParamCalc> CalcModelResult(decimal modelId, EntityDisplayClientRpt vo, out decimal result, out decimal bestDf)
         {
             result = 0;
             bestDf = 0;
@@ -620,7 +749,7 @@ namespace Hms.Ui
             EntityModelParamCalc paramCalcVo = null;
             Dictionary<string, string> dicData = new Dictionary<string, string>();
             List<EntityModelGroupItem> lstGxyModel = lstModelGroupItem.FindAll(r => r.modelId == modelId && r.isMain == 1);
-            EntityDisplayClientRpt vo = GetRowObject();
+            //EntityDisplayClientRpt vo = GetRowObject();
             if (!string.IsNullOrEmpty(vo.qnRecord.xmlData))
             {
                 XmlDocument document = new XmlDocument();

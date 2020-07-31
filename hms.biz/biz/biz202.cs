@@ -353,7 +353,7 @@ namespace Hms.Biz
                             sub += " and a.clientNo = '" + pa.value + "'";
                             break;
                         case "search":
-                            sub += "and a.clientNo like '%" + pa.value + "%' or a.clinetName like '%" + pa.value + "%'";
+                            sub += "and a.clientNo like '%" + pa.value + "%' or a.clientName like '%" + pa.value + "%'";
                             break;
                         default:
                             break;

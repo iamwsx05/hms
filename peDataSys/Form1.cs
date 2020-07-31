@@ -1457,7 +1457,6 @@ namespace peDataSys
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            labelControl1.Parent = pictureBox1;
             labelControl1.BackColor = Color.FromArgb(0, Color.Transparent);
 
             //this.gridLookUpEdit.Properties.DataSource = GetDicCaiRecipe();
@@ -1482,22 +1481,22 @@ namespace peDataSys
             //labelControl4.Text = this.checkEdit1.Width.ToString();
 
 
-            GetQnCustom(1, out lstTopic, out lstItems);
-            if (lstTopic != null)
-            {
-                gcPromotionTemplate.DataSource = lstTopic;
-                gcPromotionTemplate.RefreshDataSource();
-            }
+            //GetQnCustom(1, out lstTopic, out lstItems);
+            //if (lstTopic != null)
+            //{
+            //    gcPromotionTemplate.DataSource = lstTopic;
+            //    gcPromotionTemplate.RefreshDataSource();
+            //}
 
-            List<EntityModelAccess> lstModelAccess = GetModelAccesses();
-            if (lstModelAccess != null)
-            {
-                foreach (var vo in lstModelAccess)
-                {
-                    cboModel.Properties.Items.Add(vo.modelName);
-                    dicModelAccess.Add(vo.modelName, vo.modelId);
-                }
-            }
+            //List<EntityModelAccess> lstModelAccess = GetModelAccesses();
+            //if (lstModelAccess != null)
+            //{
+            //    foreach (var vo in lstModelAccess)
+            //    {
+            //        cboModel.Properties.Items.Add(vo.modelName);
+            //        dicModelAccess.Add(vo.modelName, vo.modelId);
+            //    }
+            //}
 
 
 

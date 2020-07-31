@@ -23,6 +23,11 @@ namespace Hms.Ui
         #region var/property
         EntityDisplayPromotionPlan promotionPlan { get; set; }
         string [] weekdays = new string[] { "星期制日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+        List<EntityTjResult> lstXjResult;
+        //体检结果
+        List<EntityTjResult> lstTjResult;
+        //体检结论建议
+        EntityTjjljy tjjljyVo;
         #endregion
 
         #region  methods
@@ -68,7 +73,7 @@ namespace Hms.Ui
 
         #region events
 
-        #region  汇总
+        #region  疾病评估
         private void btnInfoCollect_Click(object sender, EventArgs e)
         {
             this.navigationFrame.SelectedPage = navInfoCollect;
@@ -83,6 +88,7 @@ namespace Hms.Ui
                     parm.value = promotionPlan.clientId;
                     lstParms.Add(parm);
                     gcClientModel.DataSource = proxy.Service.GetDisplayClientModelAcess(lstParms);
+                    gcClientModel.RefreshDataSource();
                 }
             }
         }
@@ -92,6 +98,19 @@ namespace Hms.Ui
         private void btnRiskQuestion_Click(object sender, EventArgs e)
         {
             this.navigationFrame.SelectedPage = navRiskQuestion;
+            using (ProxyHms proxy = new ProxyHms())
+            {
+                List<EntityParm> lstParms = new List<EntityParm>();
+                if (promotionPlan != null)
+                {
+                    EntityParm parm = new EntityParm();
+                    parm.key = "clientId";
+                    parm.value = promotionPlan.clientId;
+                    lstParms.Add(parm);
+                    gcRiskFactors.DataSource = proxy.Service.GetRiskFactorsResult(lstParms);
+                    gcRiskFactors.RefreshDataSource();
+                }
+            }
         }
         #endregion
 
@@ -118,11 +137,22 @@ namespace Hms.Ui
         private void gcTjReport_Click(object sender, EventArgs e)
         {
             EntityDisplayClientRpt vo = GetRptRowsObject();
-
             using (ProxyHms proxy = new ProxyHms())
             {
                 gcMainItemData.DataSource = proxy.Service.GetReportMainItem(vo.reportNo);
                 gcMainItemData.RefreshDataSource();
+                 proxy.Service.GetTjResult(vo.reportNo, out lstTjResult, out lstXjResult, out tjjljyVo);
+                
+                if (tjjljyVo != null)
+                {
+                    this.memResult.Text = tjjljyVo.results + Environment.NewLine + tjjljyVo.sumup;
+                    this.memSugg.Text = tjjljyVo.suggTage;
+                }
+                else
+                {
+                    this.memResult.Text = "";
+                    this.memSugg.Text = "";
+                }
             }
         }
 
@@ -161,6 +191,35 @@ namespace Hms.Ui
                 }
             }
         }
+        private void btnLoadReport_Click(object sender, EventArgs e)
+        {
+            List<EntityModelParamCalc> lstMdParamCalc = null;
+            List<EntityRiskFactorsResult> lstRiskFactorsResults = null;
+            frm20301 frm = new frm20301();
+            EntityDisplayClientRpt disClientRpt = GetRowObject();
+            if(disClientRpt != null)
+            {
+                if(disClientRpt.qnRecord == null)
+                {
+                    DialogBox.Msg("请在个人报告选择问卷，并生成报告！");
+                    return;
+                }
+                frm.Init();
+                EntityClientReport rpt = frm.GneralPersonalReport(disClientRpt, out lstMdParamCalc,out lstRiskFactorsResults);
+                frmPopup2030101 frmRpt = new frmPopup2030101(rpt);
+                frmRpt.ShowDialog();
+            }
+        }
+
+
+        #region 
+        EntityDisplayClientRpt GetRowObject()
+        {
+            if (this.gvReport.FocusedRowHandle < 0) return null;
+            return this.gvReport.GetRow(this.gvReport.FocusedRowHandle) as EntityDisplayClientRpt;
+        }
+        #endregion
+
         #endregion
 
         #region 服务
@@ -305,5 +364,6 @@ namespace Hms.Ui
 
         #endregion
 
+        
     }
 }

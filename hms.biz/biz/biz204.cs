@@ -193,31 +193,6 @@ namespace Hms.Biz
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
             string strSub = string.Empty;
             string Sql = string.Empty;
-            //Sql = @"select a.clientId, b.clientName,
-            //                b.clientNo,
-            //                b.gender,
-            //                b.birthday,
-            //                b.company,
-            //                b.mobile,
-            //                c.gradeName,
-            //                d.planWay,
-            //                e.planContent,
-            //                a.planRemind,
-            //                a.planDate,
-            //                a.auditState,
-            //                a.createDate,
-            //                a.createName,
-            //                a.executeTime,
-            //                a.createName
-            //                from promotionPlan a
-            //                left join clientInfo b
-            //                on a.clientId = b.id
-            //                left join userGrade c
-            //                on b.gradeId = c.id
-            //                left join promotionWayConfig d
-            //                on a.planWay = d.id
-            //                left join promotionContentConfig e
-            //                on a.planContent = e.id where  a.planState = 2 ";
 
             Sql = @"select a.clientId, b.clientName,
                             b.clientNo,
@@ -702,6 +677,82 @@ namespace Hms.Biz
             return data;
         }
 
+        #endregion
+
+        #region 危险要素
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parms"></param>
+        /// <returns></returns>
+        public List<entitydisplayriskresult> GetRiskFactorsResult(List<EntityParm> parms)
+        {
+            List<entitydisplayriskresult> data = null;
+            SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
+            string strSub = string.Empty;
+            string Sql = string.Empty;
+            Sql = @"select a.clientId,
+                            a.questionId,
+                            a.factorsId,
+                            b.showSort,
+                            b.riskFactor,
+                            a.isFamilyDisease,
+                            a.filedId,
+                            a.filedName,
+                            a.advise 
+                            from riskFactorsResult a 
+                            left join riskFactor b
+                            on a.factorsId = b.id  where a.clientId <> 'T' ";
+
+            List<IDataParameter> lstParm = new List<IDataParameter>();
+
+            if (parms != null)
+            {
+                foreach (EntityParm po in parms)
+                {
+                    switch (po.key)
+                    {
+                        case "clientId":
+                            IDataParameter parm = svc.CreateParm();
+                            parm.Value = po.value;
+                            lstParm.Add(parm);
+                            strSub += " and a.clientId = ?";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            Sql += strSub;
+            DataTable dt = svc.GetDataTable(Sql, lstParm);
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                data = new List<entitydisplayriskresult>();
+                entitydisplayriskresult vo = null;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    vo = new entitydisplayriskresult();
+
+                    vo.clientId = dr["clientId"].ToString();
+                    vo.questionId = dr["questionId"].ToString() ;
+                    vo.factorsId = dr["factorsId"].ToString();
+                    vo.showSort = dr["showSort"].ToString();
+                    vo.riskFactor = dr["riskFactor"].ToString();
+                    vo.isFamilyDisease = dr["isFamilyDisease"].ToString();
+                    vo.filedId = dr["filedId"].ToString();
+                    vo.filedName = dr["filedName"].ToString();
+                    if (!string.IsNullOrEmpty(vo.filedName))
+                        vo.riskFactor = vo.filedName;
+                    vo.advise = dr["advise"].ToString();
+                    data.Add(vo);
+                }
+            }
+
+            return data;
+
+        }
         #endregion
 
         #region Dispose
