@@ -23,7 +23,7 @@ namespace weCare.Core.Utils
     /// <summary>
     /// 公共函数/方法
     /// </summary>
-    public class Function
+    public static class Function
     {
         #region API
         public enum DMDO
@@ -2340,6 +2340,68 @@ namespace weCare.Core.Utils
             else if (totalMonth < 12)
                 return totalMonth + "月";
             return "";
+        }
+        #endregion
+
+        #region 反射实现两个类的对象之间相同属性的值的复制
+        /// <summary>
+        /// 反射实现两个类的对象之间相同属性的值的复制
+        /// 适用于没有新建实体之间
+        /// </summary>
+        /// <typeparam name="D">返回的实体</typeparam>
+        /// <typeparam name="S">数据源实体</typeparam>
+        /// <param name="d">返回的实体</param>
+        /// <param name="s">数据源实体</param>
+        /// <returns></returns>
+        public static D MapperToModel<D, S>(D d, S s, Dictionary<string, string> mapping)
+        {
+            try
+            {
+                var Types = s.GetType();//获得类型  
+                var Typed = typeof(D);
+               
+                foreach (PropertyInfo sp in Types.GetProperties())//获得类型的属性字段  
+                {
+                    
+                    foreach (PropertyInfo dp in Typed.GetProperties())
+                    {
+                        if ((mapping == null || !mapping.ContainsKey(sp.Name)) && Typed.GetProperties().Any(x => x.Name == sp.Name))
+                        {
+                            if (dp.Name == sp.Name && dp.PropertyType == sp.PropertyType && dp.Name != "Error" && dp.Name != "Item")//判断属性名是否相同  
+                            {
+                                dp.SetValue(d, sp.GetValue(s, null), null);//获得s对象属性的值复制给d对象的属性  
+                            }
+                        }
+                        else if(mapping != null && mapping.ContainsKey(sp.Name) && Typed.GetProperties().Any(x => x.Name == mapping[sp.Name]))
+                        {
+                            string spName = Typed.GetProperties().FirstOrDefault(x => x.Name == mapping[sp.Name]).Name;
+
+                            if (dp.Name == sp.Name && dp.PropertyType == sp.PropertyType && dp.Name != "Error" && dp.Name != "Item")//判断属性名是否相同  
+                            {
+                                dp.SetValue(d, sp.GetValue(s, null), null);//获得s对象属性的值复制给d对象的属性  
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return d;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="D"></typeparam>
+        /// <typeparam name="S"></typeparam>
+        /// <param name="d"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static D MapperToModel<D, S>(D d, S s)
+        {
+            return MapperToModel(d,s,null);
         }
         #endregion
     }

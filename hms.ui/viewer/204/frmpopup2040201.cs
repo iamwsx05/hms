@@ -9,10 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using weCare.Core.Entity;
+using weCare.Core.Utils;
 
 namespace Hms.Ui
 {
-    public partial class frmPopup2040201 :frmBase
+    public partial class frmPopup2040201 : frmBase
     {
         public frmPopup2040201(EntityDisplayPromotionPlan _displayPromotionPlan = null)
         {
@@ -22,12 +23,17 @@ namespace Hms.Ui
 
         #region var/property
         EntityDisplayPromotionPlan promotionPlan { get; set; }
-        string [] weekdays = new string[] { "星期制日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+        string[] weekdays = new string[] { "星期制日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
         List<EntityTjResult> lstXjResult;
         //体检结果
         List<EntityTjResult> lstTjResult;
         //体检结论建议
         EntityTjjljy tjjljyVo;
+
+        //干预形式
+        List<EntityPromotionWayConfig> lstPromtionWays { get; set; }
+        //干预内容
+        List<EntityPromotionContentConfig> lstPromotionContents { get; set; }
         #endregion
 
         #region  methods
@@ -38,21 +44,27 @@ namespace Hms.Ui
         /// </summary>
         void Init()
         {
-            if(promotionPlan != null)
-            {
-                lblClientName.Text = promotionPlan.clientName;
-                lblCompany.Text = promotionPlan.company;
-                lblGradName.Text = promotionPlan.gradeName;
-                lblMobile.Text = promotionPlan.mobile;
-                lblSex.Text = promotionPlan.sex;
-                lblAge.Text = promotionPlan.age;
+            if (promotionPlan == null)
+                return;
 
-                dtePlan.Text = promotionPlan.planDate;
-                cboPlanContent.Text = promotionPlan.planContent;
-                cboPlanways.Text = promotionPlan.planWay;
-                memPlanRemind.Text = promotionPlan.planRemind;
-                lblDoctor.Text = promotionPlan.createName;
-            }
+            lblClientName.Text = promotionPlan.clientName;
+            lblCompany.Text = promotionPlan.company;
+            lblGradName.Text = promotionPlan.gradeName;
+            lblMobile.Text = promotionPlan.mobile;
+            lblSex.Text = promotionPlan.sex;
+            lblAge.Text = promotionPlan.age;
+
+            dtePlan.Text = promotionPlan.planDate;
+            cboPlanContent.Text = promotionPlan.planContent;
+            cboPlanways.Text = promotionPlan.planWay;
+            memPlanRemind.Text = promotionPlan.planRemind;
+            lblDoctor.Text = promotionPlan.createName;
+
+            using (ProxyHms proxy = new ProxyHms())
+            {
+                lstPromtionWays = proxy.Service.GetPromotionWayConfigs();
+                lstPromotionContents = proxy.Service.GetPromotionContentConfigs();
+            }  
         }
         #endregion
 
@@ -122,7 +134,7 @@ namespace Hms.Ui
             using (ProxyHms proxy = new ProxyHms())
             {
                 List<EntityParm> lstParms = new List<EntityParm>();
-                if(promotionPlan != null)
+                if (promotionPlan != null)
                 {
                     EntityParm parm = new EntityParm();
                     parm.key = "clientNo";
@@ -141,8 +153,8 @@ namespace Hms.Ui
             {
                 gcMainItemData.DataSource = proxy.Service.GetReportMainItem(vo.reportNo);
                 gcMainItemData.RefreshDataSource();
-                 proxy.Service.GetTjResult(vo.reportNo, out lstTjResult, out lstXjResult, out tjjljyVo);
-                
+                proxy.Service.GetTjResult(vo.reportNo, out lstTjResult, out lstXjResult, out tjjljyVo);
+
                 if (tjjljyVo != null)
                 {
                     this.memResult.Text = tjjljyVo.results + Environment.NewLine + tjjljyVo.sumup;
@@ -197,15 +209,15 @@ namespace Hms.Ui
             List<EntityRiskFactorsResult> lstRiskFactorsResults = null;
             frm20301 frm = new frm20301();
             EntityDisplayClientRpt disClientRpt = GetRowObject();
-            if(disClientRpt != null)
+            if (disClientRpt != null)
             {
-                if(disClientRpt.qnRecord == null)
+                if (disClientRpt.qnRecord == null)
                 {
                     DialogBox.Msg("请在个人报告选择问卷，并生成报告！");
                     return;
                 }
                 frm.Init();
-                EntityClientReport rpt = frm.GneralPersonalReport(disClientRpt, out lstMdParamCalc,out lstRiskFactorsResults);
+                EntityClientReport rpt = frm.GneralPersonalReport(disClientRpt, out lstMdParamCalc, out lstRiskFactorsResults);
                 frmPopup2030101 frmRpt = new frmPopup2030101(rpt);
                 frmRpt.ShowDialog();
             }
@@ -243,6 +255,7 @@ namespace Hms.Ui
                     parm.value = promotionPlan.clientNo;
                     lstParms.Add(parm);
                     gcPromotionPlan.DataSource = proxy.Service.GetPromotionPlans(lstParms);
+                    gcPromotionPlan.RefreshDataSource();
                 }
             }
         }
@@ -322,7 +335,7 @@ namespace Hms.Ui
             {
                 gcReportItemData.DataSource = proxy.Service.GetReportItems(vo.reportId);
                 gcReportItemData.RefreshDataSource();
-            }  
+            }
         }
 
         #endregion
@@ -358,12 +371,39 @@ namespace Hms.Ui
             btnInfoCollect_Click(null, null);
         }
         private void timer_Tick(object sender, EventArgs e)
-        { 
-            lblDateTime.Text = DateTime.Now.ToString("yyyy年MM月dd日") + "  " + weekdays[(int)DateTime.Now.DayOfWeek] + "  " +DateTime.Now.ToString("HH:mm:ss");
+        {
+            lblDateTime.Text = DateTime.Now.ToString("yyyy年MM月dd日") + "  " + weekdays[(int)DateTime.Now.DayOfWeek] + "  " + DateTime.Now.ToString("HH:mm:ss");
+        }
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            if (promotionPlan == null)
+                return;
+
+            EntityPromotionPlan planRecord = new EntityPromotionPlan();
+            planRecord = Function.MapperToModel(planRecord, promotionPlan);
+            planRecord.planVisitRecord = memVisitRecord.Text;
+            planRecord.planRemind = memPlanRemind.Text;
+            planRecord.planWay = lstPromtionWays.Find(r => r.planWay == planRecord.planWay).id;
+            planRecord.planContent = lstPromotionContents.Find(r => r.planContent == planRecord.planContent).id;
+            string recordPlanWay = cboPlanways.Text;
+            planRecord.recordWay = lstPromtionWays.Find(r => r.planWay == recordPlanWay).id;
+            string recordPlanContent = cboPlanContent.Text;
+            planRecord.recordContent = lstPromotionContents.Find(r=>r.planContent == recordPlanContent).id;
+            string planPleasedLevel = cboCooperate.Text;
+            planRecord.executeTime = DateTime.Now;
+            planRecord.executeUserId = "00";
+            planRecord.planState = "1";
+            using (ProxyHms proxy = new ProxyHms())
+            {
+                if (proxy.Service.SavePromotionRecord(planRecord) > 0)
+                {
+                    DialogBox.Msg("计划执行成功!");
+                }
+            }
+                
         }
 
         #endregion
-
-        
     }
 }

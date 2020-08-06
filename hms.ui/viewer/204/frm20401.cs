@@ -122,9 +122,14 @@ namespace Hms.Ui
                         plan.planRemind = promotion.planRemind;
                         plan.ignorPlan = "2";
                         plan.planState = "2";
+                        if(chkConfirm.Checked == true)
+                        {
+                            plan.auditState = "3";
+                        }
                         plan.regTimes = client.regTimes;
                         plan.createId = "00";
                         plan.createDate = DateTime.Now;
+
                         data.Add(plan);
                     }
                 }

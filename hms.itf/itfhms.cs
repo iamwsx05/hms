@@ -216,6 +216,14 @@ namespace Hms.Itf
         int SavePromotionPan(List<EntityPromotionPlan> promotionPlans);
 
         /// <summary>
+        /// int SavePromotionRecord(EntityPromotionPlan promotionPlan)
+        /// </summary>
+        /// <param name="promotionPlan"></param>
+        /// <returns></returns>
+        [OperationContract(Name = "SavePromotionPan")]
+        int SavePromotionRecord(EntityPromotionPlan promotionPlan);
+
+        /// <summary>
         /// 干预形式
         /// </summary>
         /// <param name="parms"></param>

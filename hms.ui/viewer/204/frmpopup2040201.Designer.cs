@@ -130,6 +130,7 @@
             this.gridColumn41 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn42 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panelControl35 = new DevExpress.XtraEditors.PanelControl();
+            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton30 = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton29 = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton28 = new DevExpress.XtraEditors.SimpleButton();
@@ -311,7 +312,7 @@
             this.labelControl26 = new DevExpress.XtraEditors.LabelControl();
             this.cboCooperate = new DevExpress.XtraEditors.ComboBoxEdit();
             this.labelControl25 = new DevExpress.XtraEditors.LabelControl();
-            this.memoEdit2 = new DevExpress.XtraEditors.MemoEdit();
+            this.memVisitRecord = new DevExpress.XtraEditors.MemoEdit();
             this.labelControl24 = new DevExpress.XtraEditors.LabelControl();
             this.memPlanRemind = new DevExpress.XtraEditors.MemoEdit();
             this.labelControl23 = new DevExpress.XtraEditors.LabelControl();
@@ -348,7 +349,6 @@
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.pictureEdit1 = new DevExpress.XtraEditors.PictureEdit();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.marqueeProgressBarControl.Properties)).BeginInit();
             this.xtraScrollableControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.navigationFrame)).BeginInit();
@@ -518,7 +518,7 @@
             this.panTime.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cboService.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboCooperate.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.memoEdit2.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.memVisitRecord.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.memPlanRemind.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboPlanways.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboPlanContent.Properties)).BeginInit();
@@ -1814,6 +1814,14 @@
             this.panelControl35.Name = "panelControl35";
             this.panelControl35.Size = new System.Drawing.Size(692, 36);
             this.panelControl35.TabIndex = 7;
+            // 
+            // simpleButton3
+            // 
+            this.simpleButton3.Location = new System.Drawing.Point(504, 5);
+            this.simpleButton3.Name = "simpleButton3";
+            this.simpleButton3.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton3.TabIndex = 6;
+            this.simpleButton3.Text = "执行";
             // 
             // simpleButton30
             // 
@@ -3953,7 +3961,7 @@
             this.panTime.Controls.Add(this.labelControl26);
             this.panTime.Controls.Add(this.cboCooperate);
             this.panTime.Controls.Add(this.labelControl25);
-            this.panTime.Controls.Add(this.memoEdit2);
+            this.panTime.Controls.Add(this.memVisitRecord);
             this.panTime.Controls.Add(this.labelControl24);
             this.panTime.Controls.Add(this.memPlanRemind);
             this.panTime.Controls.Add(this.labelControl23);
@@ -3981,6 +3989,7 @@
             this.btnOk.Size = new System.Drawing.Size(343, 34);
             this.btnOk.TabIndex = 18;
             this.btnOk.Text = "确定";
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // cboService
             // 
@@ -4016,12 +4025,12 @@
             this.labelControl25.TabIndex = 14;
             this.labelControl25.Text = "配合态度：";
             // 
-            // memoEdit2
+            // memVisitRecord
             // 
-            this.memoEdit2.Location = new System.Drawing.Point(15, 473);
-            this.memoEdit2.Name = "memoEdit2";
-            this.memoEdit2.Size = new System.Drawing.Size(417, 145);
-            this.memoEdit2.TabIndex = 13;
+            this.memVisitRecord.Location = new System.Drawing.Point(15, 473);
+            this.memVisitRecord.Name = "memVisitRecord";
+            this.memVisitRecord.Size = new System.Drawing.Size(417, 145);
+            this.memVisitRecord.TabIndex = 13;
             // 
             // labelControl24
             // 
@@ -4461,14 +4470,6 @@
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
-            // simpleButton3
-            // 
-            this.simpleButton3.Location = new System.Drawing.Point(504, 5);
-            this.simpleButton3.Name = "simpleButton3";
-            this.simpleButton3.Size = new System.Drawing.Size(75, 23);
-            this.simpleButton3.TabIndex = 6;
-            this.simpleButton3.Text = "执行";
-            // 
             // frmPopup2040201
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
@@ -4674,7 +4675,7 @@
             this.panTime.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cboService.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboCooperate.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.memoEdit2.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.memVisitRecord.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.memPlanRemind.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboPlanways.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboPlanContent.Properties)).EndInit();
@@ -4748,7 +4749,7 @@
         private DevExpress.XtraEditors.LabelControl labelControl26;
         private DevExpress.XtraEditors.ComboBoxEdit cboCooperate;
         private DevExpress.XtraEditors.LabelControl labelControl25;
-        private DevExpress.XtraEditors.MemoEdit memoEdit2;
+        private DevExpress.XtraEditors.MemoEdit memVisitRecord;
         private DevExpress.XtraEditors.LabelControl labelControl24;
         private DevExpress.XtraEditors.MemoEdit memPlanRemind;
         private DevExpress.XtraEditors.LabelControl labelControl23;

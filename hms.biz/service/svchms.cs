@@ -337,6 +337,19 @@ namespace Hms.Svc
         }
 
         /// <summary>
+        /// 干预计划转为干预记录
+        /// </summary>
+        /// <param name="promotionPlan"></param>
+        /// <returns></returns>
+        public int SavePromotionRecord(EntityPromotionPlan promotionPlan)
+        {
+            using (Biz204 biz = new Biz204())
+            {
+                return biz.SavePromotionRecord(promotionPlan);
+            }
+        }
+
+        /// <summary>
         /// 干预内容 
         /// </summary>
         /// <returns></returns>

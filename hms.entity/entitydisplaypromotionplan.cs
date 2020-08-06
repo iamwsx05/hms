@@ -11,6 +11,8 @@ namespace Hms.Entity
     public class EntityDisplayPromotionPlan :BaseDataContract
     {
         [DataMember]
+        public string id { get; set; }
+        [DataMember]
         public string clientId { get; set; }
         [DataMember]
         public string clientName { get; set; }
@@ -29,7 +31,11 @@ namespace Hms.Entity
         [DataMember]
         public string planWay { get; set; }
         [DataMember]
+        public string recordWay { get; set; }
+        [DataMember]
         public string planContent { get; set; }
+        [DataMember]
+        public string recordContent { get; set; }
         [DataMember]
         public string planRemind { get; set; }
         [DataMember]
@@ -53,5 +59,7 @@ namespace Hms.Entity
 
         [DataMember]
         public string age { get; set; }
+        [DataMember]
+        public int regTimes { get; set; } 
     }
 }

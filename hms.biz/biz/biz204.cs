@@ -14,6 +14,8 @@ namespace Hms.Biz
 {
     public class Biz204 : IDisposable
     {
+        #region dic字典
+
         #region 模板
         /// <summary>
         /// 模板
@@ -181,6 +183,8 @@ namespace Hms.Biz
         }
         #endregion
 
+        #endregion
+
         #region  待执行计划
         /// <summary>
         /// 待执行计划
@@ -194,7 +198,7 @@ namespace Hms.Biz
             string strSub = string.Empty;
             string Sql = string.Empty;
 
-            Sql = @"select a.clientId, b.clientName,
+            Sql = @"select a.id, a.clientId, b.clientName,
                             b.clientNo,
                             b.gender,
                             b.birthday,
@@ -209,6 +213,7 @@ namespace Hms.Biz
                             a.createDate,
                             a.createName,
                             a.executeTime,
+                            a.regTimes,
                             a.createName
                             from promotionPlan a
                             left join v_clientinfo b
@@ -234,6 +239,9 @@ namespace Hms.Biz
                             lstParm.Add(parm);
                             strSub += " and b.clientNo = ?";
                             break;
+                        case "auditState":
+                            strSub += "  and a.auditState not in('3')";
+                            break;
                         default:
                             break;
                     }
@@ -252,10 +260,12 @@ namespace Hms.Biz
                 foreach (DataRow dr in dt.Rows)
                 {
                     vo = new EntityDisplayPromotionPlan();
+                    vo.id = dr["id"].ToString();
                     vo.clientId = dr["clientId"].ToString();
                     vo.clientName = dr["clientName"].ToString();
                     vo.clientNo = dr["clientNo"].ToString();
                     vo.gender = Function.Int(dr["gender"]);
+
                     vo.age = Function.CalcAge(Function.Datetime(dr["birthday"]));
                     vo.company = dr["company"].ToString();
                     vo.mobile = dr["mobile"].ToString();
@@ -265,6 +275,7 @@ namespace Hms.Biz
                     vo.planRemind = dr["planRemind"].ToString();
                     vo.planDate = Function.Datetime(dr["planDate"]).ToString("yyyy-MM-dd");
                     vo.auditState = dr["auditState"].ToString();
+                    vo.regTimes = Function.Int(dr["regTimes"]);
                     if(dr["executeTime"] != DBNull.Value)
                         vo.executeTime = Function.Datetime(dr["executeTime"]).ToString("yyyy-MM-dd");
                     vo.createName = dr["createName"].ToString();
@@ -302,33 +313,41 @@ namespace Hms.Biz
             string strSub = string.Empty;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
             string Sql = string.Empty;
-            Sql = @"select  a.clientId,
-                            b.clientName,
+            Sql = @"select a.id, a.clientId, b.clientName,
                             b.clientNo,
                             b.gender,
                             b.birthday,
                             b.company,
                             b.mobile,
-                            c.gradeName,
+                            b.gradename,
                             d.planWay,
                             e.planContent,
                             a.planRemind,
                             a.planDate,
                             a.planVisitRecord,
+                            dd.planWay as recordWay,
+                            ee.planContent as recordContent,
+                            a.auditState,
+                            a.createDate,
+                            a.createName,
                             a.executeTime,
-                            a.executeUserName,
-                            a.createName
+                            o.oper_name,
+                            a.regTimes
                             from promotionPlan a
-                            left join clientInfo b
-                            on a.clientId = b.id
-                            left join userGrade c
-                            on b.gradeId = c.id
+                            left join v_clientinfo b
+                            on a.clientId = b.clientNo and a.regTimes = b.regTimes
                             left join promotionWayConfig d
                             on a.planWay = d.id
+                            left join promotionWayConfig dd
+                            on a.recordWay = dd.id
                             left join promotionContentConfig e
-                            on a.planContent = e.id
-                            where a.planState = 1
-                            and a.clientId is not null ";
+                            on a.planContent = e.id 
+                            left join promotionContentConfig ee
+                            on a.recordContent = ee.id 
+                            left join code_operator o
+                            on a.executeUserId = o.oper_code
+							                            where  a.planState = 1 
+							                            and b.clientNo is not null ";
 
             List<IDataParameter> lstParm = new List<IDataParameter>();
 
@@ -361,23 +380,30 @@ namespace Hms.Biz
                 foreach (DataRow dr in dt.Rows)
                 {
                     vo = new EntityDisplayPromotionPlan();
+                    vo.id = dr["id"].ToString();
                     vo.clientId = dr["clientId"].ToString();
                     vo.clientName = dr["clientName"].ToString();
                     vo.clientNo = dr["clientNo"].ToString();
                     vo.gender = Function.Int(dr["gender"]);
+                    if (vo.gender == 1)
+                        vo.sex = "男";
+                    if (vo.gender == 2)
+                        vo.sex = "女";
                     vo.age = Function.CalcAge(Function.Datetime(dr["birthday"]));
                     vo.company = dr["company"].ToString();
                     vo.mobile = dr["mobile"].ToString();
                     vo.gradeName = dr["gradeName"].ToString();
                     vo.planWay = dr["planWay"].ToString();
                     vo.planContent = dr["planContent"].ToString();
+                    vo.recordWay = dr["recordWay"].ToString();
+                    vo.recordContent = dr["recordContent"].ToString();
                     vo.planRemind = dr["planRemind"].ToString();
                     vo.planVisitRecord = dr["planVisitRecord"].ToString();
-                    vo.executeUserName = dr["executeUserName"].ToString();
+                    vo.executeUserName = dr["oper_name"].ToString();
                     vo.planDate = Function.Datetime(dr["planDate"]).ToString("yyyy-MM-dd");
                     if (dr["executeTime"] != DBNull.Value)
                         vo.executeTime = Function.Datetime(dr["executeTime"]).ToString("yyyy-MM-dd");
-                    vo.executeUserName = dr["executeUserName"].ToString();
+                    vo.executeUserName = dr["oper_name"].ToString();
                     vo.createName = dr["createName"].ToString();
                     data.Add(vo);
                 }
@@ -452,6 +478,51 @@ namespace Hms.Biz
             return affect;
         }
 
+        #endregion
+
+        #region 干预计划转为干预记录
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="promotionPlan"></param>
+        /// <returns></returns>
+        public int SavePromotionRecord(EntityPromotionPlan promotionPlan)
+        {
+            int affect = -1;
+            if (promotionPlan == null)
+                return affect;
+            SqlHelper svc = null;
+            try
+            {
+                svc = new SqlHelper(EnumBiz.onlineDB);
+                List<DacParm> lstParm = new List<DacParm>();
+
+                lstParm.Add(svc.GetUpdateParm(promotionPlan, new List<string>() {
+                        EntityPromotionPlan.Columns.planState,
+                        EntityPromotionPlan.Columns.planWay,
+                        EntityPromotionPlan.Columns.planContent,
+                        EntityPromotionPlan.Columns.planRemind,
+                         EntityPromotionPlan.Columns.planVisitRecord,
+                        EntityPromotionPlan.Columns.recordWay,
+                        EntityPromotionPlan.Columns.recordContent,
+                        EntityPromotionPlan.Columns.executeTime,
+                        EntityPromotionPlan.Columns.executeUserId},
+                                new List<string>() { EntityPromotionPlan.Columns.id }));
+
+                if (lstParm.Count > 0)
+                    affect = svc.Commit(lstParm);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.OutPutException(ex);
+            }
+            finally
+            {
+                svc = null; 
+            }
+                        
+            return affect;
+        }
         #endregion
 
         #region 健康管理报告评估分数

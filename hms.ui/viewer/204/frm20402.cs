@@ -20,6 +20,7 @@ namespace Hms.Ui
         #endregion
 
         #region overrid
+
         public override void Edit()
         {
             frmPopup2040101 frm = new frmPopup2040101();
@@ -30,9 +31,16 @@ namespace Hms.Ui
         public override void LoadData()
         {
             EntityDisplayPromotionPlan plan = GetRowObject();
-            frmPopup2040201 frm = new frmPopup2040201(plan);
-            frm.ShowDialog();
-
+            if (plan.planWay == "短信")
+            {
+                frm20404 frmMsg = new frm20404();
+                frmMsg.ShowDialog();
+            }
+            else
+            {
+                frmPopup2040201 frm = new frmPopup2040201(plan);
+                frm.ShowDialog();
+            }
         }
         #endregion
 
@@ -67,7 +75,7 @@ namespace Hms.Ui
         {
             Init();
         }
-        
+
         private void gridView_CustomDrawRowIndicator(object sender, DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventArgs e)
         {
             if (e.Info.IsRowIndicator && e.RowHandle >= 0)
