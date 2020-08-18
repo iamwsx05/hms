@@ -45,7 +45,7 @@
             this.labelControl6 = new DevExpress.XtraEditors.LabelControl();
             this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
-            this.txtFieldName = new DevExpress.XtraEditors.TextEdit();
+            this.txtClientName = new DevExpress.XtraEditors.TextEdit();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.barManager = new DevExpress.XtraBars.BarManager(this.components);
             this.bar1 = new DevExpress.XtraBars.Bar();
@@ -56,8 +56,8 @@
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-            this.gridControl = new DevExpress.XtraGrid.GridControl();
-            this.gridView = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gcData = new DevExpress.XtraGrid.GridControl();
+            this.gvData = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.itemName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.sex = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -69,6 +69,7 @@
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemMemoEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pcBackGround)).BeginInit();
             this.pcBackGround.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.marqueeProgressBarControl.Properties)).BeginInit();
@@ -81,20 +82,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFieldName.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtClientName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barManager)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gcData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gvData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // pcBackGround
             // 
-            this.pcBackGround.Controls.Add(this.gridControl);
+            this.pcBackGround.Controls.Add(this.gcData);
             this.pcBackGround.Controls.Add(this.panelControl1);
             this.pcBackGround.Location = new System.Drawing.Point(0, 60);
-            this.pcBackGround.Size = new System.Drawing.Size(825, 645);
+            this.pcBackGround.Size = new System.Drawing.Size(892, 645);
             // 
             // defaultLookAndFeel
             // 
@@ -120,12 +121,12 @@
             this.panelControl1.Controls.Add(this.labelControl6);
             this.panelControl1.Controls.Add(this.textEdit1);
             this.panelControl1.Controls.Add(this.labelControl2);
-            this.panelControl1.Controls.Add(this.txtFieldName);
+            this.panelControl1.Controls.Add(this.txtClientName);
             this.panelControl1.Controls.Add(this.labelControl1);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl1.Location = new System.Drawing.Point(2, 2);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(821, 66);
+            this.panelControl1.Size = new System.Drawing.Size(888, 66);
             this.panelControl1.TabIndex = 0;
             // 
             // comboBoxEdit2
@@ -330,17 +331,17 @@
             this.labelControl2.TabIndex = 4;
             this.labelControl2.Text = "姓名：";
             // 
-            // txtFieldName
+            // txtClientName
             // 
-            this.txtFieldName.EnterMoveNextControl = true;
-            this.txtFieldName.Location = new System.Drawing.Point(71, 9);
-            this.txtFieldName.Name = "txtFieldName";
-            this.txtFieldName.Properties.Appearance.Font = new System.Drawing.Font("宋体", 9.5F);
-            this.txtFieldName.Properties.Appearance.ForeColor = System.Drawing.Color.Crimson;
-            this.txtFieldName.Properties.Appearance.Options.UseFont = true;
-            this.txtFieldName.Properties.Appearance.Options.UseForeColor = true;
-            this.txtFieldName.Size = new System.Drawing.Size(153, 20);
-            this.txtFieldName.TabIndex = 3;
+            this.txtClientName.EnterMoveNextControl = true;
+            this.txtClientName.Location = new System.Drawing.Point(71, 9);
+            this.txtClientName.Name = "txtClientName";
+            this.txtClientName.Properties.Appearance.Font = new System.Drawing.Font("宋体", 9.5F);
+            this.txtClientName.Properties.Appearance.ForeColor = System.Drawing.Color.Crimson;
+            this.txtClientName.Properties.Appearance.Options.UseFont = true;
+            this.txtClientName.Properties.Appearance.Options.UseForeColor = true;
+            this.txtClientName.Size = new System.Drawing.Size(153, 20);
+            this.txtClientName.TabIndex = 3;
             // 
             // labelControl1
             // 
@@ -419,7 +420,7 @@
             this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
             this.barDockControlTop.Manager = this.barManager;
-            this.barDockControlTop.Size = new System.Drawing.Size(825, 60);
+            this.barDockControlTop.Size = new System.Drawing.Size(892, 60);
             // 
             // barDockControlBottom
             // 
@@ -427,7 +428,7 @@
             this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.barDockControlBottom.Location = new System.Drawing.Point(0, 705);
             this.barDockControlBottom.Manager = this.barManager;
-            this.barDockControlBottom.Size = new System.Drawing.Size(825, 0);
+            this.barDockControlBottom.Size = new System.Drawing.Size(892, 0);
             // 
             // barDockControlLeft
             // 
@@ -441,36 +442,37 @@
             // 
             this.barDockControlRight.CausesValidation = false;
             this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.barDockControlRight.Location = new System.Drawing.Point(825, 60);
+            this.barDockControlRight.Location = new System.Drawing.Point(892, 60);
             this.barDockControlRight.Manager = this.barManager;
             this.barDockControlRight.Size = new System.Drawing.Size(0, 645);
             // 
-            // gridControl
+            // gcData
             // 
-            this.gridControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl.Location = new System.Drawing.Point(2, 68);
-            this.gridControl.MainView = this.gridView;
-            this.gridControl.Name = "gridControl";
-            this.gridControl.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.gcData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gcData.Location = new System.Drawing.Point(2, 68);
+            this.gcData.MainView = this.gvData;
+            this.gcData.Name = "gcData";
+            this.gcData.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemMemoEdit1,
             this.repositoryItemCheckEdit1});
-            this.gridControl.Size = new System.Drawing.Size(821, 575);
-            this.gridControl.TabIndex = 13;
-            this.gridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView});
+            this.gcData.Size = new System.Drawing.Size(888, 575);
+            this.gcData.TabIndex = 13;
+            this.gcData.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gvData});
             // 
-            // gridView
+            // gvData
             // 
-            this.gridView.Appearance.GroupPanel.Font = new System.Drawing.Font("宋体", 9F);
-            this.gridView.Appearance.GroupPanel.Options.UseFont = true;
-            this.gridView.Appearance.Preview.Font = new System.Drawing.Font("宋体", 9F);
-            this.gridView.Appearance.Preview.Options.UseFont = true;
-            this.gridView.Appearance.Row.Font = new System.Drawing.Font("宋体", 9F);
-            this.gridView.Appearance.Row.Options.UseFont = true;
-            this.gridView.Appearance.Row.Options.UseTextOptions = true;
-            this.gridView.Appearance.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridView.ColumnPanelRowHeight = 26;
-            this.gridView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gvData.Appearance.GroupPanel.Font = new System.Drawing.Font("宋体", 9F);
+            this.gvData.Appearance.GroupPanel.Options.UseFont = true;
+            this.gvData.Appearance.Preview.Font = new System.Drawing.Font("宋体", 9F);
+            this.gvData.Appearance.Preview.Options.UseFont = true;
+            this.gvData.Appearance.Row.Font = new System.Drawing.Font("宋体", 9F);
+            this.gvData.Appearance.Row.Options.UseFont = true;
+            this.gvData.Appearance.Row.Options.UseTextOptions = true;
+            this.gvData.Appearance.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gvData.ColumnPanelRowHeight = 26;
+            this.gvData.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn4,
             this.gridColumn1,
             this.itemName,
             this.sex,
@@ -480,18 +482,18 @@
             this.isMainName,
             this.gridColumn2,
             this.gridColumn3});
-            this.gridView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFullFocus;
-            this.gridView.GridControl = this.gridControl;
-            this.gridView.GroupFormat = "[#image]{1} {2}";
-            this.gridView.IndicatorWidth = 40;
-            this.gridView.Name = "gridView";
-            this.gridView.OptionsBehavior.AllowFixedGroups = DevExpress.Utils.DefaultBoolean.True;
-            this.gridView.OptionsBehavior.AllowPixelScrolling = DevExpress.Utils.DefaultBoolean.True;
-            this.gridView.OptionsBehavior.AutoExpandAllGroups = true;
-            this.gridView.OptionsDetail.EnableMasterViewMode = false;
-            this.gridView.OptionsView.GroupDrawMode = DevExpress.XtraGrid.Views.Grid.GroupDrawMode.Office;
-            this.gridView.OptionsView.ShowGroupPanel = false;
-            this.gridView.RowHeight = 27;
+            this.gvData.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFullFocus;
+            this.gvData.GridControl = this.gcData;
+            this.gvData.GroupFormat = "[#image]{1} {2}";
+            this.gvData.IndicatorWidth = 40;
+            this.gvData.Name = "gvData";
+            this.gvData.OptionsBehavior.AllowFixedGroups = DevExpress.Utils.DefaultBoolean.True;
+            this.gvData.OptionsBehavior.AllowPixelScrolling = DevExpress.Utils.DefaultBoolean.True;
+            this.gvData.OptionsBehavior.AutoExpandAllGroups = true;
+            this.gvData.OptionsDetail.EnableMasterViewMode = false;
+            this.gvData.OptionsView.GroupDrawMode = DevExpress.XtraGrid.Views.Grid.GroupDrawMode.Office;
+            this.gvData.OptionsView.ShowGroupPanel = false;
+            this.gvData.RowHeight = 27;
             // 
             // gridColumn1
             // 
@@ -517,7 +519,7 @@
             this.itemName.AppearanceHeader.Options.UseTextOptions = true;
             this.itemName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.itemName.Caption = "姓名";
-            this.itemName.FieldName = "patName";
+            this.itemName.FieldName = "clientName";
             this.itemName.Name = "itemName";
             this.itemName.OptionsColumn.AllowEdit = false;
             this.itemName.OptionsColumn.AllowFocus = false;
@@ -536,7 +538,7 @@
             this.sex.AppearanceHeader.Options.UseTextOptions = true;
             this.sex.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.sex.Caption = "性别";
-            this.sex.FieldName = "sexCH";
+            this.sex.FieldName = "sex";
             this.sex.Name = "sex";
             this.sex.OptionsColumn.AllowEdit = false;
             this.sex.OptionsColumn.AllowFocus = false;
@@ -576,7 +578,7 @@
             this.isCompareName.AppearanceHeader.Options.UseTextOptions = true;
             this.isCompareName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.isCompareName.Caption = "工作单位";
-            this.isCompareName.FieldName = "manageBeginDate";
+            this.isCompareName.FieldName = "company";
             this.isCompareName.Name = "isCompareName";
             this.isCompareName.OptionsColumn.AllowEdit = false;
             this.isCompareName.OptionsColumn.AllowFocus = false;
@@ -596,7 +598,7 @@
             this.refRange.AppearanceHeader.Options.UseTextOptions = true;
             this.refRange.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.refRange.Caption = "人员类别";
-            this.refRange.FieldName = "patClass";
+            this.refRange.FieldName = "gradeName";
             this.refRange.Name = "refRange";
             this.refRange.OptionsColumn.AllowEdit = false;
             this.refRange.OptionsColumn.AllowFocus = false;
@@ -616,7 +618,7 @@
             this.isMainName.AppearanceHeader.Options.UseTextOptions = true;
             this.isMainName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.isMainName.Caption = "最新高血压";
-            this.isMainName.FieldName = "manageLevel";
+            this.isMainName.FieldName = "gxy";
             this.isMainName.Name = "isMainName";
             this.isMainName.OptionsColumn.AllowEdit = false;
             this.isMainName.OptionsColumn.AllowFocus = false;
@@ -634,7 +636,7 @@
             this.gridColumn2.AppearanceHeader.Options.UseTextOptions = true;
             this.gridColumn2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn2.Caption = "高血压组合异常";
-            this.gridColumn2.FieldName = "sfTimes";
+            this.gridColumn2.FieldName = "gxyYc";
             this.gridColumn2.Name = "gridColumn2";
             this.gridColumn2.OptionsColumn.AllowEdit = false;
             this.gridColumn2.OptionsColumn.AllowFocus = false;
@@ -652,7 +654,7 @@
             this.gridColumn3.AppearanceHeader.Options.UseTextOptions = true;
             this.gridColumn3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn3.Caption = "高血压";
-            this.gridColumn3.FieldName = "evaTimes";
+            this.gridColumn3.FieldName = "isGxy";
             this.gridColumn3.Name = "gridColumn3";
             this.gridColumn3.OptionsColumn.AllowEdit = false;
             this.gridColumn3.OptionsColumn.AllowFocus = false;
@@ -674,11 +676,28 @@
             this.repositoryItemCheckEdit1.ValueChecked = 1;
             this.repositoryItemCheckEdit1.ValueUnchecked = 0;
             // 
+            // gridColumn4
+            // 
+            this.gridColumn4.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn4.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn4.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn4.Caption = "体检编号";
+            this.gridColumn4.FieldName = "regNo";
+            this.gridColumn4.Name = "gridColumn4";
+            this.gridColumn4.OptionsColumn.AllowEdit = false;
+            this.gridColumn4.OptionsColumn.AllowFocus = false;
+            this.gridColumn4.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn4.OptionsFilter.AllowFilter = false;
+            this.gridColumn4.Visible = true;
+            this.gridColumn4.VisibleIndex = 0;
+            this.gridColumn4.Width = 100;
+            // 
             // frmPopup2050103
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(825, 705);
+            this.ClientSize = new System.Drawing.Size(892, 705);
             this.Controls.Add(this.barDockControlLeft);
             this.Controls.Add(this.barDockControlRight);
             this.Controls.Add(this.barDockControlBottom);
@@ -706,10 +725,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cboType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFieldName.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtClientName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.barManager)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gcData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gvData)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
             this.ResumeLayout(false);
@@ -728,7 +747,7 @@
         private DevExpress.XtraBars.BarDockControl barDockControlRight;
         private DevExpress.XtraEditors.TextEdit textEdit1;
         private DevExpress.XtraEditors.LabelControl labelControl2;
-        private DevExpress.XtraEditors.TextEdit txtFieldName;
+        private DevExpress.XtraEditors.TextEdit txtClientName;
         private DevExpress.XtraEditors.LabelControl labelControl1;
         private DevExpress.XtraEditors.TextEdit textEdit2;
         private DevExpress.XtraEditors.LabelControl labelControl4;
@@ -742,8 +761,8 @@
         private DevExpress.XtraEditors.LabelControl labelControl7;
         private DevExpress.XtraEditors.ComboBoxEdit comboBoxEdit3;
         private DevExpress.XtraEditors.LabelControl labelControl8;
-        private DevExpress.XtraGrid.GridControl gridControl;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView;
+        private DevExpress.XtraGrid.GridControl gcData;
+        private DevExpress.XtraGrid.Views.Grid.GridView gvData;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
         private DevExpress.XtraGrid.Columns.GridColumn itemName;
         private DevExpress.XtraGrid.Columns.GridColumn sex;
@@ -758,5 +777,6 @@
         private DevExpress.XtraBars.BarLargeButtonItem blbiQuery;
         private DevExpress.XtraBars.BarLargeButtonItem blbiAdd;
         private DevExpress.XtraBars.BarLargeButtonItem blbiClose;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
     }
 }

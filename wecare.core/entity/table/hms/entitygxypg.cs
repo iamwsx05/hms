@@ -34,7 +34,7 @@ namespace weCare.Core.Entity
         public System.String bloodPressLevel { get; set; }
 
         /// <summary>
-        /// riskLevel
+        /// dangerLevel
         /// </summary>
         [DataMember]
         [EntityAttribute(FieldName = "dangerLevel", DbType = DbType.AnsiString, IsPK = false, IsSeq = false, SerNo = 4)]
@@ -66,7 +66,33 @@ namespace weCare.Core.Entity
         /// </summary>
         [DataMember]
         [EntityAttribute(FieldName = "status", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 8)]
-        public System.Int32 status { get; set; }
+        public System.Decimal status { get; set; }
+        /// <summary>
+        /// recordDate
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "recordDate", DbType = DbType.DateTime, IsPK = false, IsSeq = false, SerNo = 9)]
+        public System.DateTime? recordDate { get; set; }
+
+        [DataMember]
+        public string clientName { get; set; }
+        [DataMember]
+        public string clientNo { get; set; }
+        [DataMember]
+        public string sex { get; set; }
+        [DataMember]
+        public string age { get; set; }
+        [DataMember]
+        public string company { get; set; }
+        [DataMember]
+        public string birthday { get; set; }
+        [DataMember]
+        public string gradeName { get; set; }
+        [DataMember]
+        public string evaDateStr { get; set; }
+        [DataMember]
+        public string pgData { get; set; }
+
 
         /// <summary>
         /// Columns
@@ -79,13 +105,14 @@ namespace weCare.Core.Entity
         public class EnumCols
         {
             public string pgId = "pgId";
-            public string patId = "patId";
+            public string recId = "recId";
             public string bloodPressLevel = "bloodPressLevel";
             public string dangerLevel = "dangerLevel";
             public string manageLevel = "manageLevel";
             public string evaluator = "evaluator";
             public string evaDate = "evaDate";
             public string status = "status";
+            public string recordDate = "recordDate";
         }
     }
 }

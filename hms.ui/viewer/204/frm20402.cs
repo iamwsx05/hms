@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Hms.Entity;
+using weCare.Core.Utils;
 
 namespace Hms.Ui
 {
@@ -42,6 +43,12 @@ namespace Hms.Ui
                 frm.ShowDialog();
             }
         }
+
+
+        public override void Refresh()
+        {
+            Init();
+        }
         #endregion
 
 
@@ -50,7 +57,9 @@ namespace Hms.Ui
         {
             using (ProxyHms proxy = new ProxyHms())
             {
-                lstPromotionPlan = proxy.Service.GetPromotionPlans(null);
+                List<EntityParm> dicParm = new List<EntityParm>();
+                dicParm.Add(Function.GetParm("auditState", "('1','2','4')"));
+                lstPromotionPlan = proxy.Service.GetPromotionPlans(dicParm);
                 gridControl.DataSource = lstPromotionPlan;
                 gridControl.RefreshDataSource();
             }

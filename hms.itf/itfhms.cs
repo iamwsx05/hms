@@ -216,12 +216,20 @@ namespace Hms.Itf
         int SavePromotionPan(List<EntityPromotionPlan> promotionPlans);
 
         /// <summary>
-        /// int SavePromotionRecord(EntityPromotionPlan promotionPlan)
+        /// 干预计划转记录
         /// </summary>
         /// <param name="promotionPlan"></param>
         /// <returns></returns>
         [OperationContract(Name = "SavePromotionPan")]
         int SavePromotionRecord(EntityPromotionPlan promotionPlan);
+
+        /// <summary>
+        /// 干预计划审核
+        /// </summary>
+        /// <param name="lstPlan"></param>
+        /// <returns></returns>
+        [OperationContract(Name = "ConfirmPromotionRecord")]
+        int ConfirmPromotionRecord(List<EntityPromotionPlan> lstPlan);
 
         /// <summary>
         /// 干预形式
@@ -295,7 +303,16 @@ namespace Hms.Itf
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetGxyPatients")]
-        List<EntityHmsSF> GetGxyPatients(List<EntityParm> parms);
+        List<EntityGxyRecord> GetGxyPatients(List<EntityParm> parms);
+
+        /// <summary>
+        /// 添加人员记录
+        /// </summary>
+        /// <param name="gxyRecord"></param>
+        /// <param name="recId"></param>
+        /// <returns></returns>
+        [OperationContract(Name = "SaveGxyRecord")]
+        int SaveGxyRecord(EntityGxyRecord gxyRecord, out decimal recId);
 
         /// <summary>
         /// 随访记录-获取
@@ -303,7 +320,7 @@ namespace Hms.Itf
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetGxySfRecords")]
-        List<EntityHmsSF> GetGxySfRecords(List<EntityParm> parms);
+        List<EntityGxySf> GetGxySfRecords(List<EntityParm> parms);
 
         /// <summary>
         /// 随访记录-保存
@@ -312,7 +329,7 @@ namespace Hms.Itf
         /// <param name="sfId"></param>
         /// <returns></returns>
         [OperationContract(Name = "SaveGxySfRecord")]
-        int SaveGxySfRecord(EntityGxySfData sfData, out decimal sfId);
+        int SaveGxySfRecord(EntityGxyRecord gxyRecord, EntityGxySf gxySf, EntityGxySfData sfData, out decimal sfId);
 
         /// <summary>
         /// 评估记录-获取
@@ -320,7 +337,7 @@ namespace Hms.Itf
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetGxyPgRecords")]
-        List<EntityHmsSF> GetGxyPgRecords(List<EntityParm> parms);
+        List<EntityGxyPg> GetGxyPgRecords(List<EntityParm> parms);
 
         /// <summary>
         /// 评估记录-保存
@@ -329,7 +346,15 @@ namespace Hms.Itf
         /// <param name="pgId"></param>
         /// <returns></returns>
         [OperationContract(Name = "SaveGxyPgRecord")]
-        int SaveGxyPgRecord(EntityGxyPgData pgData, out decimal pgId);
+        int SaveGxyPgRecord(EntityGxyPg gxyPg, EntityGxyPgData pgData, out decimal pgId);
+
+        /// <summary>
+        /// 体检结果 血压
+        /// </summary>
+        /// <param name="clientNoStr"></param>
+        /// <returns></returns>
+        [OperationContract(Name = "GetClientGxyResults")]
+        List<EntityClientGxyResult> GetClientGxyResults(string clientNoStr);
 
         #endregion
 

@@ -15,7 +15,7 @@ namespace Hms.Entity
         /// 记录ID
         /// </summary>
         [DataMember]
-        public string recId { get; set; }
+        public decimal recId { get; set; }
         /// <summary>
         /// 病人ID
         /// </summary>

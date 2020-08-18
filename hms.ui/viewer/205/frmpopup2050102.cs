@@ -19,7 +19,7 @@ namespace Hms.Ui
         /// <summary>
         /// ctor
         /// </summary>
-        public frmPopup2050102(EntityHmsSF _pgVo)
+        public frmPopup2050102(EntityGxyPg _pgVo)
         {
             InitializeComponent();
             this.Height = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
@@ -32,11 +32,27 @@ namespace Hms.Ui
                 this.pgVo = _pgVo;
             }
         }
+
+        public frmPopup2050102(EntityGxyRecord _gxyRecord)
+        {
+            InitializeComponent();
+            this.Height = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
+            if (!DesignMode)
+            {
+                this.lueEnaOper.LookAndFeel.UseDefaultLookAndFeel = false;
+                this.lueEnaOper.LookAndFeel.SkinName = "Black";
+                this.lueRecorder.LookAndFeel.UseDefaultLookAndFeel = false;
+                this.lueRecorder.LookAndFeel.SkinName = "Black";
+                this.gxyRecord = _gxyRecord;
+            }
+        }
         #endregion
 
         #region var/property
 
-        public EntityHmsSF pgVo { get; set; }
+        public EntityGxyPg pgVo { get; set; }
+        public EntityGxyPgData pgData { get; set; }
+        public EntityGxyRecord gxyRecord { get; set; }
 
         public bool IsRequireRefresh { get; set; }
 
@@ -112,12 +128,24 @@ namespace Hms.Ui
 
             SetCheckedChanged();
 
+            if(gxyRecord != null)
+            {
+                this.txtPatName.Text = this.gxyRecord.clientName;
+                this.txtClientNo.Text = this.gxyRecord.clientNo;
+                this.txtSex.Text = this.gxyRecord.sex;
+                this.txtAge.Text = this.gxyRecord.age;
+                this.dteEnaDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+
             if (this.pgVo != null)
             {
-                this.txtPatName.Text = this.pgVo.patName;
+                this.txtPatName.Text = this.pgVo.clientName;
                 this.txtClientNo.Text = this.pgVo.clientNo;
-                this.txtSex.Text = this.pgVo.sexCH;
+                this.txtSex.Text = this.pgVo.sex;
                 this.txtAge.Text = this.pgVo.age;
+                this.dteEnaDate.Text = this.pgVo.evaDateStr;
+                this.SetData(pgVo.pgData);
+
             }
         }
         #endregion
@@ -218,15 +246,124 @@ namespace Hms.Ui
         }
         #endregion
 
+        #region SetData
+        /// <summary>
+        /// SetData
+        /// </summary>
+        /// <param name="xmlData"></param>
+        void SetData(string xmlData)
+        {
+            if (string.IsNullOrEmpty(xmlData)) return;
+            Dictionary<string, string> dicData = Function.ReadXmlNodes(xmlData, "FormData");
+            if (dicData != null && dicData.Count > 0)
+            {
+                string fieldName = string.Empty;
+                foreach (Control ctrl in this.plContent.Controls)
+                {
+                    if (ctrl is Common.Controls.LookUpEdit)
+                    {
+                        fieldName = (ctrl as Common.Controls.LookUpEdit).Properties.AccessibleName;
+                        if (!string.IsNullOrEmpty(fieldName) && dicData.ContainsKey(fieldName))
+                        {
+                            (ctrl as Common.Controls.LookUpEdit).SetDisplayText<EntityCodeOperator>(dicData[fieldName]);
+                        }
+                    }
+                    else if (ctrl is DevExpress.XtraEditors.TextEdit)
+                    {
+                        fieldName = (ctrl as DevExpress.XtraEditors.TextEdit).Properties.AccessibleName;
+                        if (!string.IsNullOrEmpty(fieldName) && dicData.ContainsKey(fieldName))
+                        {
+                            (ctrl as DevExpress.XtraEditors.TextEdit).Text = dicData[fieldName];
+                        }
+                    }
+                    else if (ctrl is DevExpress.XtraEditors.CheckEdit)
+                    {
+                        fieldName = (ctrl as DevExpress.XtraEditors.CheckEdit).Properties.AccessibleName;
+                        if (!string.IsNullOrEmpty(fieldName) && dicData.ContainsKey(fieldName))
+                        {
+                            (ctrl as DevExpress.XtraEditors.CheckEdit).Checked = Function.Int(dicData[fieldName]) == 1 ? true : false;
+                        }
+                    }
+                    else if (ctrl is DevExpress.XtraEditors.DateEdit)
+                    {
+                        fieldName = (ctrl as DevExpress.XtraEditors.DateEdit).Properties.AccessibleName;
+                        if (!string.IsNullOrEmpty(fieldName) && dicData.ContainsKey(fieldName))
+                        {
+                            (ctrl as DevExpress.XtraEditors.DateEdit).Text = dicData[fieldName];
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
         #region SaveData
         /// <summary>
         /// SaveData
         /// </summary>
         /// <returns></returns>
-        bool SaveData()
+        void SaveData()
         {
+            if (pgVo == null)
+            {
+                pgVo = new EntityGxyPg();
+                pgVo.recId = gxyRecord.recId;
+            }
+            if (gxyRecord == null)
+            {
+                gxyRecord = new EntityGxyRecord();
+                gxyRecord.recId = pgVo.recId;
+            }
+            if (chkXyfj01.Checked == true)
+                pgVo.bloodPressLevel = "1";
+            if (chkXyfj02.Checked == true)
+                pgVo.bloodPressLevel = "2";
+            if (chkXyfj03.Checked == true)
+                pgVo.bloodPressLevel = "3";
+            if (chkXyfj04.Checked == true)
+                pgVo.bloodPressLevel = "4";
+            if (chkXyfj05.Checked == true)
+                pgVo.bloodPressLevel = "5";
+            if (chkXyfj06.Checked == true)
+                pgVo.bloodPressLevel = "6";
 
-            return true;
+            if (chkWxfc01.Checked == true)
+                pgVo.dangerLevel = "1";
+            if (chkWxfc02.Checked == true)
+                pgVo.dangerLevel = "2";
+            if (chkWxfc03.Checked == true)
+                pgVo.dangerLevel = "3";
+
+            if (chkManageLevel01.Checked == true)
+                pgVo.manageLevel = "1";
+            if (chkManageLevel02.Checked == true)
+                pgVo.manageLevel = "2";
+            if (chkManageLevel03.Checked == true)
+                pgVo.manageLevel = "3";
+            pgVo.evaluator = lueEnaOper.EditValue.ToString();
+            pgVo.evaDate = Function.Datetime(dteEnaDate.Text);
+            pgData = new EntityGxyPgData();
+            pgData.xmlData = GetData();
+            decimal pgId = 0;
+            bool isNew = this.pgVo.pgId <= 0 ? true : false;
+            using (ProxyHms proxy = new ProxyHms())
+            {
+                if (proxy.Service.SaveGxyPgRecord(this.pgVo, this.pgData, out pgId) > 0)
+                {
+                    this.IsRequireRefresh = true;
+                    if (isNew)
+                    {
+                        this.pgVo.pgId = pgId;
+                        this.pgData.pgId = pgId;
+                    }
+
+                    DialogBox.Msg("保存成功！");
+                }
+                else
+                {
+                    DialogBox.Msg("保存失败。");
+                }
+            }
         }
         #endregion
 
@@ -288,7 +425,7 @@ namespace Hms.Ui
 
         private void blbiSave_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            MessageBox.Show(this.GetData());
+            SaveData();
         }
 
         private void blbiClose_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -297,6 +434,5 @@ namespace Hms.Ui
         }
 
         #endregion
-
     }
 }

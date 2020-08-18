@@ -695,11 +695,15 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.dteSfDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dteSfDate.Properties.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm";
+            this.dteSfDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.dteSfDate.Properties.EditFormat.FormatString = "yyyy-MM-dd HH:mm";
+            this.dteSfDate.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.dteSfDate.Properties.LookAndFeel.SkinName = "Black";
             this.dteSfDate.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
-            this.dteSfDate.Properties.Mask.EditMask = "yyyy-MM-dd";
+            this.dteSfDate.Properties.Mask.EditMask = "yyyy-MM-dd HH:mm";
             this.dteSfDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.dteSfDate.Size = new System.Drawing.Size(93, 22);
+            this.dteSfDate.Size = new System.Drawing.Size(130, 22);
             this.dteSfDate.TabIndex = 5;
             // 
             // txtRecomDoctRemark
@@ -1131,7 +1135,7 @@
             this.txtSex.Properties.LookAndFeel.SkinName = "Black";
             this.txtSex.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
             this.txtSex.Properties.ReadOnly = true;
-            this.txtSex.Size = new System.Drawing.Size(93, 20);
+            this.txtSex.Size = new System.Drawing.Size(130, 20);
             this.txtSex.TabIndex = 3;
             // 
             // txtClientNo
@@ -1213,7 +1217,7 @@
             this.txtPatName.Properties.LookAndFeel.SkinName = "Black";
             this.txtPatName.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
             this.txtPatName.Properties.ReadOnly = true;
-            this.txtPatName.Size = new System.Drawing.Size(93, 20);
+            this.txtPatName.Size = new System.Drawing.Size(130, 20);
             this.txtPatName.TabIndex = 1;
             // 
             // labelControl58

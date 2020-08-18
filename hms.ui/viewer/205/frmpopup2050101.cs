@@ -20,7 +20,7 @@ namespace Hms.Ui
         /// <summary>
         /// ctor
         /// </summary>
-        public frmPopup2050101(EntityHmsSF _sfVo)
+        public frmPopup2050101(EntityGxySf _sfVo)
         {
             InitializeComponent();
             this.Height = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
@@ -30,14 +30,31 @@ namespace Hms.Ui
                 this.lueSfOper.LookAndFeel.SkinName = "Black";
                 this.lueSfRecorder.LookAndFeel.UseDefaultLookAndFeel = false;
                 this.lueSfRecorder.LookAndFeel.SkinName = "Black";
-                this.sfVo = _sfVo;
+                this.gxySf = _sfVo;
+            }
+        }
+
+        public frmPopup2050101(EntityGxyRecord _gxyRecord)
+        {
+            InitializeComponent();
+            this.Height = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
+            if (!DesignMode)
+            {
+                this.lueSfOper.LookAndFeel.UseDefaultLookAndFeel = false;
+                this.lueSfOper.LookAndFeel.SkinName = "Black";
+                this.lueSfRecorder.LookAndFeel.UseDefaultLookAndFeel = false;
+                this.lueSfRecorder.LookAndFeel.SkinName = "Black";
+                gxyRecord = _gxyRecord;
             }
         }
         #endregion
 
         #region var/property
-
+        EnumGxytab gxyTab { get; set; }
         public EntityHmsSF sfVo { get; set; }
+        public EntityGxySf gxySf { get; set; }
+        EntityGxySfData sfData { get; set; }
+        public EntityGxyRecord gxyRecord { get; set; }
 
         public bool IsRequireRefresh { get; set; }
 
@@ -46,9 +63,6 @@ namespace Hms.Ui
 
         // 多选数组
         List<List<DevExpress.XtraEditors.CheckEdit>> lstMultiCheck { get; set; }
-
-        EntityGxySfData sfData { get; set; }
-
         #endregion
 
         #region method
@@ -121,29 +135,28 @@ namespace Hms.Ui
 
             SetCheckedChanged();
 
-            if (this.sfVo != null)
+            if (this.gxyRecord != null)
             {
-                this.sfData = new EntityGxySfData() { sfId = Function.Dec(this.sfVo.sfId) };
-                this.txtPatName.Text = this.sfVo.patName;
-                this.txtClientNo.Text = this.sfVo.clientNo;
-                this.txtSex.Text = this.sfVo.sexCH;
-                this.txtAge.Text = this.sfVo.age;
-                using (ProxyEntityFactory proxy = new ProxyEntityFactory())
-                {
-                    DataTable dt = proxy.Service.SelectByPk(new EntityGxySfData() { sfId = Function.Dec(this.sfVo.sfId) });
-                    if (dt != null && dt.Rows.Count > 0)
-                    {
-                        List<EntityGxySfData> data = EntityTools.ConvertToEntityList<EntityGxySfData>(dt);
-                        if (data != null && data.Count > 0)
-                        {
-                            this.SetData(data[0].xmlData);
-                        }
-                    }
-                }
+                this.txtPatName.Text = this.gxyRecord.clientName;
+                this.txtClientNo.Text = this.gxyRecord.clientNo;
+                this.txtSex.Text = this.gxyRecord.sex;
+                this.txtAge.Text = this.gxyRecord.age;
+
+                //查询体检项目结果
+            }
+
+            if (this.gxySf != null)
+            {
+                this.dteSfDate.Text = gxySf.sfDate.ToString("yyyy-MM-dd HH:mm");
+                this.txtPatName.Text = this.gxySf.clientName;
+                this.txtClientNo.Text = this.gxySf.clientNo;
+                this.txtSex.Text = this.gxySf.sex;
+                this.txtAge.Text = this.gxySf.age;
+                this.SetData(gxySf.sfData);
             }
             else
             {
-                this.sfData = new EntityGxySfData();
+                this.dteSfDate.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
             }
         }
         #endregion
@@ -307,20 +320,62 @@ namespace Hms.Ui
         /// <returns></returns>
         void SaveData()
         {
+            if (gxySf == null)
+            {
+                gxySf = new EntityGxySf();
+                gxySf.recId = gxyRecord.recId;
+            }
+
+            if (gxyRecord == null)
+            {
+                gxyRecord = new EntityGxyRecord();
+                gxyRecord.recId = gxySf.recId;
+            }
+
+            gxySf.sfDate = Function.Datetime(dteSfDate.Text);
+            if (chkSffs01.Checked == true)
+                gxySf.sfMethod = "1";
+            if (chkSffs01.Checked == true)
+                gxySf.sfMethod = "2";
+            if (chkSffs01.Checked == true)
+                gxySf.sfClass = "3";
+            if (chkSfClass01.Checked == true)
+                gxySf.sfClass = "1";
+            if (chkSfClass02.Checked == true)
+                gxySf.sfClass = "2";
+            if (chkSfClass03.Checked == true)
+                gxySf.sfClass = "3";
+            if (chkSfClass04.Checked == true)
+                gxySf.sfClass = "4";
+            gxySf.sfRecorder = this.lueSfRecorder.EditValue.ToString();
+            gxySf.sfStatus = 1;
+            if (this.sfData == null)
+                this.sfData = new EntityGxySfData();
+            this.sfData.sfId = gxySf.sfId;
+            this.sfData.xmlData = this.GetData();
+
+            if (!string.IsNullOrEmpty(dteNextSfDate.Text))
+                gxyRecord.nextSfDate = Function.Datetime(dteNextSfDate.Text);
+            if (chkManageLevel01.Checked == true)
+                gxyRecord.manageLevel = "1";
+            if (chkManageLevel01.Checked == true)
+                gxyRecord.manageLevel = "2";
+            if (chkManageLevel01.Checked == true)
+                gxyRecord.manageLevel = "3";
+            decimal sfId = 0;
+            bool isNew = this.sfData.sfId <= 0 ? true : false;
             using (ProxyHms proxy = new ProxyHms())
             {
-                if (this.sfData == null)
-                    this.sfData = new EntityGxySfData();
-                if (this.sfVo != null)
-                    this.sfData.sfId = Function.Dec(this.sfVo.sfId);
-                this.sfData.xmlData = this.GetData();
-                decimal sfId = 0;
-                bool isNew = this.sfData.sfId <= 0 ? true : false;
-                if (proxy.Service.SaveGxySfRecord(this.sfData, out sfId) > 0)
+                if (proxy.Service.SaveGxySfRecord(this.gxyRecord, this.gxySf, this.sfData, out sfId) > 0)
                 {
                     this.IsRequireRefresh = true;
                     if (isNew)
+                    {
+                        this.gxySf.sfId = sfId;
                         this.sfData.sfId = sfId;
+                        this.gxyRecord.sfId = sfId;
+                    }
+
                     DialogBox.Msg("保存成功！");
                 }
                 else

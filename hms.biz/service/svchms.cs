@@ -350,6 +350,19 @@ namespace Hms.Svc
         }
 
         /// <summary>
+        /// 干预计划审核
+        /// </summary>
+        /// <param name="lstPlan"></param>
+        /// <returns></returns>
+        public int ConfirmPromotionRecord(List<EntityPromotionPlan> lstPlan)
+        {
+            using (Biz204 biz = new Biz204())
+            {
+                return biz.ConfirmPromotionRecord(lstPlan);
+            }
+        }
+
+        /// <summary>
         /// 干预内容 
         /// </summary>
         /// <returns></returns>
@@ -473,11 +486,27 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityHmsSF> GetGxyPatients(List<EntityParm> parms)
+        public List<EntityGxyRecord> GetGxyPatients(List<EntityParm> parms)
         {
             using (Biz205 biz = new Biz205())
             {
                 return biz.GetGxyPatients(parms);
+            }
+        }
+        #endregion
+
+        #region 添加人员记录
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gxyRecord"></param>
+        /// <param name="recId"></param>
+        /// <returns></returns>
+        public int SaveGxyRecord(EntityGxyRecord gxyRecord, out decimal recId)
+        {
+            using (Biz205 biz = new Biz205())
+            {
+                return biz.SaveGxyRecord(gxyRecord,out recId);
             }
         }
         #endregion
@@ -488,7 +517,7 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityHmsSF> GetGxySfRecords(List<EntityParm> parms)
+        public List<EntityGxySf> GetGxySfRecords(List<EntityParm> parms)
         {
             using (Biz205 biz = new Biz205())
             {
@@ -501,11 +530,11 @@ namespace Hms.Svc
         /// <param name="sfData"></param>
         /// <param name="sfId"></param>
         /// <returns></returns>
-        public int SaveGxySfRecord(EntityGxySfData sfData, out decimal sfId)
+        public int SaveGxySfRecord(EntityGxyRecord gxyRecord, EntityGxySf gxySf, EntityGxySfData sfData, out decimal sfId)
         {
             using (Biz205 biz = new Biz205())
             {
-                return biz.SaveGxySfRecord(sfData, out sfId);
+                return biz.SaveGxySfRecord(gxyRecord, gxySf, sfData, out sfId);
             }
         }
         #endregion
@@ -516,7 +545,7 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityHmsSF> GetGxyPgRecords(List<EntityParm> parms)
+        public List<EntityGxyPg> GetGxyPgRecords(List<EntityParm> parms)
         {
             using (Biz205 biz = new Biz205())
             {
@@ -529,11 +558,26 @@ namespace Hms.Svc
         /// <param name="pgData"></param>
         /// <param name="pgId"></param>
         /// <returns></returns>
-        public int SaveGxyPgRecord(EntityGxyPgData pgData, out decimal pgId)
+        public int SaveGxyPgRecord(EntityGxyPg gxyPg, EntityGxyPgData pgData, out decimal pgId)
         {
             using (Biz205 biz = new Biz205())
             {
-                return biz.SaveGxyPgRecord(pgData, out pgId);
+                return biz.SaveGxyPgRecord(gxyPg, pgData, out pgId);
+            }
+        }
+        #endregion
+
+        #region 体检结果 血压
+        /// <summary>
+        /// 体检结果 血压
+        /// </summary>
+        /// <param name="clientNoStr"></param>
+        /// <returns></returns>
+        public List<EntityClientGxyResult> GetClientGxyResults(string clientNoStr)
+        {
+            using (Biz205 biz = new Biz205())
+            {
+                return biz.GetClientGxyResults(clientNoStr);
             }
         }
         #endregion

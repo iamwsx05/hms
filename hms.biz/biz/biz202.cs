@@ -199,6 +199,110 @@ namespace Hms.Biz
 
             return dicDataResult;
         }
+
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="regNo"></param>
+        ///// <param name="deptName"></param>
+        ///// <returns></returns>
+        //public List<EntityTjResult>  GetTjResult(string regNo)
+        //{
+        //    //dataResult = null;
+        //    //tjjljyVo = null;
+        //    //xjResult = null;
+        //    if (string.IsNullOrEmpty(regNo))
+        //        return null;
+
+        //    Dictionary<string, List<EntityTjResult>> dicDataResult = new Dictionary<string, List<EntityTjResult>>();
+        //    List<string> lstExaminatino = new List<string>();
+        //    bool pFlag = false;
+        //    SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
+        //    IDataParameter param = null;
+        //    string Sql = string.Empty;
+        //    Sql = @"select a.pat_name AS clientName,
+	       //             a.reg_no AS regNo,
+        //                a.pFlag,
+	       //             a.sex,
+	       //             a.examination_no AS examination,
+        //                a.ttop,
+	       //             a.comb_code AS itemCode,
+	       //             a.comb_name AS itemName,
+	       //             a.result AS itemResult,
+        //                a.hint,
+	       //             a.bound AS range,
+	       //             a.unit,
+	       //             a.doct_name AS doctName,
+	       //             a.rec_date AS regDate
+        //            FROM V_TJBG a
+        //            WHERE a.reg_no = ?";
+        //    param = svc.CreateParm();
+        //    param.Value = regNo;
+
+        //    DataTable dt = svc.GetDataTable(Sql, param);
+
+        //    if (dt != null && dt.Rows.Count > 0)
+        //    {
+        //        //dataResult = new List<EntityTjResult>();
+        //        //xjResult = new List<EntityTjResult>();
+        //        EntityTjResult vo = null;
+        //        lstExaminatino = new List<string>();
+        //        foreach (DataRow dr in dt.Rows)
+        //        {
+        //            vo = new EntityTjResult();
+        //            vo.ttop = dr["ttop"].ToString();
+        //            vo.clientName = dr["clientName"].ToString();
+        //            vo.regNo = dr["regNo"].ToString();
+        //            vo.pFlag = dr["pFlag"].ToString();
+        //            pFlag = dr["pFlag"].ToString().Trim() == "R" ? true : false;
+        //            vo.sex = dr["sex"].ToString();
+        //            vo.itemName = dr["itemName"].ToString();
+        //            vo.itemCode = dr["itemCode"].ToString();
+        //            vo.itemResult = dr["itemResult"].ToString() + " " + dr["hint"].ToString();
+        //            vo.range = dr["range"].ToString();
+        //            vo.unit = dr["unit"].ToString();
+        //            vo.doctName = dr["doctName"].ToString();
+        //            vo.regDate = dr["regDate"].ToString();
+        //            vo.examinationNo = dr["examination"].ToString();
+        //            dataResult.Add(vo);
+        //            if (string.IsNullOrEmpty(vo.examinationNo) || vo.ttop == "1")
+        //                xjResult.Add(vo);
+        //            if (string.IsNullOrEmpty(vo.examinationNo) || lstExaminatino.Contains(vo.examinationNo))
+        //                continue;
+        //            lstExaminatino.Add(vo.examinationNo);
+        //        }
+
+        //        if (lstExaminatino.Count > 0)
+        //        {
+        //            foreach (var examination in lstExaminatino)
+        //            {
+        //                dicDataResult.Add(examination, dataResult.FindAll(r => r.examinationNo == examination));
+        //            }
+        //        }
+        //    }
+
+        //    string sqlPt = @"select results,sumup,suggTag from V_TJPTJLJY where regNo = ?";
+        //    string sqlZyb = @"select results,sumup,suggTag from V_TJZYBJLJY where regNo = ?";
+
+        //    param = svc.CreateParm();
+        //    param.Value = regNo;
+        //    DataTable dtTjjl = null;
+        //    if (pFlag)
+        //        dtTjjl = svc.GetDataTable(sqlZyb, param);
+        //    else
+        //        dtTjjl = svc.GetDataTable(sqlPt, param);
+
+        //    if (dtTjjl != null && dtTjjl.Rows.Count > 0)
+        //    {
+        //        tjjljyVo = new EntityTjjljy();
+        //        tjjljyVo.results = dtTjjl.Rows[0]["results"].ToString();
+        //        tjjljyVo.sumup = dtTjjl.Rows[0]["sumup"].ToString();
+        //        tjjljyVo.suggTage = dtTjjl.Rows[0]["suggTag"].ToString();
+        //    }
+
+        //    return dicDataResult;
+        //}
         #endregion
 
         #region  获取表单控件

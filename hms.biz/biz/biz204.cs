@@ -240,7 +240,7 @@ namespace Hms.Biz
                             strSub += " and b.clientNo = ?";
                             break;
                         case "auditState":
-                            strSub += "  and a.auditState not in('3')";
+                            strSub += string.Format("  and a.auditState in {0}",po.value);
                             break;
                         default:
                             break;
@@ -521,6 +521,46 @@ namespace Hms.Biz
                 svc = null; 
             }
                         
+            return affect;
+        }
+        #endregion
+
+        #region 干预计划审核
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="promotionPlan"></param>
+        /// <returns></returns>
+        public int ConfirmPromotionRecord(List<EntityPromotionPlan> lstPlan)
+        {
+            int affect = -1;
+            if (lstPlan == null)
+                return affect;
+            SqlHelper svc = null;
+            try
+            {
+                svc = new SqlHelper(EnumBiz.onlineDB);
+                List<DacParm> lstParm = new List<DacParm>();
+
+                foreach(var plan in lstPlan)
+                {
+                    lstParm.Add(svc.GetUpdateParm(plan, new List<string>() {
+                        EntityPromotionPlan.Columns.auditState},
+                                new List<string>() { EntityPromotionPlan.Columns.id }));
+                }
+
+                if (lstParm.Count > 0)
+                    affect = svc.Commit(lstParm);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.OutPutException(ex);
+            }
+            finally
+            {
+                svc = null;
+            }
+
             return affect;
         }
         #endregion

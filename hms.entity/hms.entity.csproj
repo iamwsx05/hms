@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="entityadpeitem.cs" />
+    <Compile Include="entityclientgxyresult.cs" />
     <Compile Include="entityclientinfo.cs" />
     <Compile Include="entityclientmodelresult.cs" />
     <Compile Include="entityclientreport.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="entityunnormal.cs" />
     <Compile Include="entityunnormalcombin.cs" />
     <Compile Include="entityusergrade.cs" />
+    <Compile Include="enumgxytab.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

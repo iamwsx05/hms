@@ -852,7 +852,7 @@ namespace Common.Controls
             SaveFileDialog sp = new SaveFileDialog();
             sp.InitialDirectory = @"c:\";
             sp.RestoreDirectory = true;
-            sp.Filter = "Xls(*.xls)|*.xls";
+            sp.Filter = "Xls(*.xls)|*.xls|Xls(*.xlsx)|*.xlsx";
             sp.FilterIndex = 1;
             if (sp.ShowDialog() == DialogResult.OK)
             {

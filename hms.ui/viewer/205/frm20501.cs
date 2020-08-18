@@ -33,6 +33,11 @@ namespace Hms.Ui
         {
             frmPopup2050103 frm = new frmPopup2050103();
             frm.ShowDialog();
+
+            if(frm.isRefresh)
+            {
+                Init();
+            }
         }
         /// <summary>
         /// 添加计划
@@ -47,19 +52,46 @@ namespace Hms.Ui
         /// </summary>
         public override void Remind()
         {
-            if (this.gridView1.SelectedRowsCount > 0)
+            EnumGxytab gxyTab = EnumGxytab.gxyRecord;
+            if (tabGxy.SelectedTabPageIndex == 0)
+                gxyTab = EnumGxytab.gxyRecord;
+            else if(tabGxy.SelectedTabPageIndex == 1)
+                gxyTab = EnumGxytab.gxySf;
+            else if (tabGxy.SelectedTabPageIndex == 2)
+                gxyTab = EnumGxytab.gxyPg;
+
+            if(gxyTab == EnumGxytab.gxyRecord)
             {
-                frmPopup2050101 frm = new frmPopup2050101(this.gridView1.GetRow(this.gridView1.GetSelectedRows()[0]) as EntityHmsSF);
-                frm.ShowDialog();
-                if (frm.IsRequireRefresh)
+                if (this.gvGxyRecord.SelectedRowsCount > 0)
                 {
-                    this.RefreshData();
-                    this.ScrollRow(1, frm.sfVo.sfId);
+                    frmPopup2050101 frm = new frmPopup2050101(this.gvGxyRecord.GetRow(this.gvGxyRecord.GetSelectedRows()[0]) as EntityGxyRecord);
+                    frm.ShowDialog();
+                    if (frm.IsRequireRefresh)
+                    {
+                        this.RefreshData();
+                        //this.ScrollRow(1, frm.sfVo.sfId);
+                    }
+                }
+                else
+                {
+                    DialogBox.Msg("请选择要编辑的记录.");
                 }
             }
-            else
+            else if(gxyTab == EnumGxytab.gxySf)
             {
-                DialogBox.Msg("请选择要编辑的记录.");
+                if (this.gvGxySf.SelectedRowsCount > 0)
+                {
+                    frmPopup2050101 frm = new frmPopup2050101(this.gvGxySf.GetRow(this.gvGxySf.GetSelectedRows()[0]) as EntityGxySf);
+                    frm.ShowDialog();
+                    if (frm.IsRequireRefresh)
+                    {
+                        this.RefreshData();
+                    }
+                }
+                else
+                {
+                    DialogBox.Msg("请选择要编辑的记录.");
+                }
             }
         }
         /// <summary>
@@ -67,20 +99,47 @@ namespace Hms.Ui
         /// </summary>
         public override void Capture()
         {
-            if (this.gridView2.SelectedRowsCount > 0)
+            EnumGxytab gxyTab = EnumGxytab.gxyRecord;
+            if (tabGxy.SelectedTabPageIndex == 0)
+                gxyTab = EnumGxytab.gxyRecord;
+            else if (tabGxy.SelectedTabPageIndex == 1)
+                gxyTab = EnumGxytab.gxySf;
+            else if (tabGxy.SelectedTabPageIndex == 2)
+                gxyTab = EnumGxytab.gxyPg;
+
+            if (gxyTab == EnumGxytab.gxyRecord)
             {
-                frmPopup2050102 frm = new frmPopup2050102(this.gridView2.GetRow(this.gridView2.GetSelectedRows()[0]) as EntityHmsSF);
-                frm.ShowDialog();
-                if (frm.IsRequireRefresh)
+                if (this.gvGxyRecord.SelectedRowsCount > 0)
                 {
-                    this.RefreshData();
-                    this.ScrollRow(2, frm.pgVo.pgId);
+                    frmPopup2050102 frm = new frmPopup2050102(this.gvGxyRecord.GetRow(this.gvGxyRecord.GetSelectedRows()[0]) as EntityGxyRecord);
+                    frm.ShowDialog();
+                    if (frm.IsRequireRefresh)
+                    {
+                        this.RefreshData();
+                    }
+                }
+                else
+                {
+                    DialogBox.Msg("请选择要编辑的记录.");
                 }
             }
-            else
+            else if (gxyTab == EnumGxytab.gxyPg)
             {
-                DialogBox.Msg("请选择要编辑的记录.");
+                if (this.gvGxyPg.SelectedRowsCount > 0)
+                {
+                    frmPopup2050102 frm = new frmPopup2050102(this.gvGxyPg.GetRow(this.gvGxyPg.GetSelectedRows()[0]) as EntityGxyPg);
+                    frm.ShowDialog();
+                    if (frm.IsRequireRefresh)
+                    {
+                        this.RefreshData();
+                    }
+                }
+                else
+                {
+                    DialogBox.Msg("请选择要编辑的记录.");
+                }
             }
+
         }
         /// <summary>
         /// 编辑
@@ -108,7 +167,32 @@ namespace Hms.Ui
         /// </summary>
         public override void RefreshData()
         {
+            try
+            {
+                this.dteStart.Text = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd");
+                this.dteEnd.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                List<EntityParm> lstParams = new List<EntityParm>();
+                EntityParm vo = new EntityParm();
+                vo.key = "queryDate";
+                vo.value = this.dteStart.Text + "|" + this.dteEnd.Text;
+                lstParams.Add(vo);
 
+                uiHelper.BeginLoading(this);
+                using (ProxyHms proxy = new ProxyHms())
+                {
+                    this.gcGxyRecord.DataSource = proxy.Service.GetGxyPatients(lstParams);
+                    this.gcGxySf.DataSource = proxy.Service.GetGxySfRecords(null);
+                    this.gcGxyPg.DataSource = proxy.Service.GetGxyPgRecords(null);
+                    this.gcGxyRecord.RefreshDataSource();
+                    this.gcGxySf.RefreshDataSource();
+                    this.gcGxyPg.RefreshDataSource();
+                }
+
+            }
+            finally
+            {
+                uiHelper.CloseLoading(this);
+            }
         }
         /// <summary>
         /// 打印
@@ -142,11 +226,11 @@ namespace Hms.Ui
         /// <param name="id"></param>
         void ScrollRow(int flagId, string id)
         {
-            for (int i = 0; i < this.gridView.RowCount; i++)
+            for (int i = 0; i < this.gvGxyRecord.RowCount; i++)
             {
-                this.gridView.UnselectRow(i);
+                this.gvGxyRecord.UnselectRow(i);
             }
-            for (int i = 0; i < this.gridView.RowCount; i++)
+            for (int i = 0; i < this.gvGxyRecord.RowCount; i++)
             {
                 //if ((this.gridView.GetRow(i) as EntityDicSportItem).sId == sId)
                 //{
@@ -166,12 +250,20 @@ namespace Hms.Ui
         {
             try
             {
+                this.dteStart.Text = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd");
+                this.dteEnd.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                List<EntityParm> lstParams = new List<EntityParm>();
+                EntityParm vo = new EntityParm();
+                vo.key = "queryDate";
+                vo.value = this.dteStart.Text + "|" + this.dteEnd.Text;
+                lstParams.Add(vo);
+
                 uiHelper.BeginLoading(this);
                 using (ProxyHms proxy = new ProxyHms())
                 {
-                    this.gridControl.DataSource = proxy.Service.GetGxyPatients(null);
-                    this.gridControl1.DataSource = proxy.Service.GetGxySfRecords(null);
-                    this.gridControl2.DataSource = proxy.Service.GetGxyPgRecords(null);
+                    this.gcGxyRecord.DataSource = proxy.Service.GetGxyPatients(lstParams);
+                    this.gcGxySf.DataSource = proxy.Service.GetGxySfRecords(null);
+                    this.gcGxyPg.DataSource = proxy.Service.GetGxyPgRecords(null);
                 }
 
             }

@@ -159,7 +159,7 @@
             // 
             this.pcBackGround.Controls.Add(this.xtraScrollableControl);
             this.pcBackGround.Location = new System.Drawing.Point(0, 60);
-            this.pcBackGround.Size = new System.Drawing.Size(874, 738);
+            this.pcBackGround.Size = new System.Drawing.Size(874, 777);
             // 
             // defaultLookAndFeel
             // 
@@ -242,7 +242,7 @@
             // 
             this.barDockControlBottom.CausesValidation = false;
             this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barDockControlBottom.Location = new System.Drawing.Point(0, 798);
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 837);
             this.barDockControlBottom.Manager = this.barManager;
             this.barDockControlBottom.Size = new System.Drawing.Size(874, 0);
             // 
@@ -252,7 +252,7 @@
             this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.barDockControlLeft.Location = new System.Drawing.Point(0, 60);
             this.barDockControlLeft.Manager = this.barManager;
-            this.barDockControlLeft.Size = new System.Drawing.Size(0, 738);
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 777);
             // 
             // barDockControlRight
             // 
@@ -260,7 +260,7 @@
             this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.barDockControlRight.Location = new System.Drawing.Point(874, 60);
             this.barDockControlRight.Manager = this.barManager;
-            this.barDockControlRight.Size = new System.Drawing.Size(0, 738);
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 777);
             // 
             // xtraScrollableControl
             // 
@@ -270,7 +270,7 @@
             this.xtraScrollableControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.xtraScrollableControl.Location = new System.Drawing.Point(2, 2);
             this.xtraScrollableControl.Name = "xtraScrollableControl";
-            this.xtraScrollableControl.Size = new System.Drawing.Size(870, 734);
+            this.xtraScrollableControl.Size = new System.Drawing.Size(870, 773);
             this.xtraScrollableControl.TabIndex = 1;
             // 
             // plContent
@@ -592,7 +592,7 @@
             this.dteRecord.MenuManager = this.barManager;
             this.dteRecord.Name = "dteRecord";
             this.dteRecord.Properties.AccessibleName = "RecordDate";
-            this.dteRecord.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dteRecord.Properties.Appearance.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dteRecord.Properties.Appearance.ForeColor = System.Drawing.Color.Crimson;
             this.dteRecord.Properties.Appearance.Options.UseFont = true;
             this.dteRecord.Properties.Appearance.Options.UseForeColor = true;
@@ -604,7 +604,7 @@
             this.dteRecord.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
             this.dteRecord.Properties.Mask.EditMask = "yyyy-MM-dd HH:mm";
             this.dteRecord.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.dteRecord.Size = new System.Drawing.Size(124, 20);
+            this.dteRecord.Size = new System.Drawing.Size(124, 22);
             this.dteRecord.TabIndex = 77;
             // 
             // dteEnaDate
@@ -615,7 +615,7 @@
             this.dteEnaDate.MenuManager = this.barManager;
             this.dteEnaDate.Name = "dteEnaDate";
             this.dteEnaDate.Properties.AccessibleName = "EnaDate";
-            this.dteEnaDate.Properties.Appearance.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dteEnaDate.Properties.Appearance.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dteEnaDate.Properties.Appearance.ForeColor = System.Drawing.Color.Crimson;
             this.dteEnaDate.Properties.Appearance.Options.UseFont = true;
             this.dteEnaDate.Properties.Appearance.Options.UseForeColor = true;
@@ -627,7 +627,7 @@
             this.dteEnaDate.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
             this.dteEnaDate.Properties.Mask.EditMask = "yyyy-MM-dd";
             this.dteEnaDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.dteEnaDate.Size = new System.Drawing.Size(124, 20);
+            this.dteEnaDate.Size = new System.Drawing.Size(124, 22);
             this.dteEnaDate.TabIndex = 75;
             // 
             // txtPatName
@@ -1307,7 +1307,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(874, 798);
+            this.ClientSize = new System.Drawing.Size(874, 837);
             this.Controls.Add(this.barDockControlLeft);
             this.Controls.Add(this.barDockControlRight);
             this.Controls.Add(this.barDockControlBottom);
