@@ -17,14 +17,18 @@ namespace Hms.Ui
             InitializeComponent();
         }
 
+        public frm20401(List<EntityClientInfo> _lstSelectClient)
+        {
+            InitializeComponent();
+            lstSelectClient = _lstSelectClient;
+        }
+
         #region var/property
         List<EntityClientInfo> lstClientInfo { get; set; }
         List<EntityClientInfo> lstSelectClient { get; set; }
         List<EntityPromotionTemplate> lstPromotionTemplate { get; set; }
         List<EntityPromotionTemplateConfig> lstPromotionTemplateConfig { get; set; }
         List<EntityPromotionTemplateConfig> lstPromotionSelect { get; set; }
-
-
         List<EntityPromotionContentConfig> dicPromotionContentConfig { get; set; }
         List<EntityPromotionWayConfig> dicPromotionWayConfig { get; set; }
         #endregion
@@ -96,13 +100,13 @@ namespace Hms.Ui
                 DialogBox.Msg("请选择客户！");
                 return;
             }
-                
+
             if (lstPromotionSelect.Count <= 0)
             {
                 DialogBox.Msg("请选择干预模板");
                 return;
             }
-               
+
             foreach (var client in lstSelectClient)
             {
                 if (lstPromotionSelect.Count > 0)
@@ -112,17 +116,17 @@ namespace Hms.Ui
                         EntityPromotionPlan plan = new EntityPromotionPlan();
                         plan.clientId = client.clientNo;
                         plan.planType = "4";
-                        plan.planDate = Function.Datetime(promotion.planPeriod) ;
-                        plan.planState = "2";                       
+                        plan.planDate = Function.Datetime(promotion.planPeriod);
+                        plan.planState = "2";
                         plan.auditState = chkConfirm.Checked ? "3" : "1";
-                        string planWay = dicPromotionWayConfig.Find(r=>r.planWay == promotion.planWay).id;
-                        string planContent = dicPromotionContentConfig.Find(r=>r.planContent == promotion.planContent).id;
+                        string planWay = dicPromotionWayConfig.Find(r => r.planWay == promotion.planWay).id;
+                        string planContent = dicPromotionContentConfig.Find(r => r.planContent == promotion.planContent).id;
                         plan.planWay = planWay;
                         plan.planContent = planContent;
                         plan.planRemind = promotion.planRemind;
                         plan.ignorPlan = "2";
                         plan.planState = "2";
-                        if(chkConfirm.Checked == true)
+                        if (chkConfirm.Checked == true)
                         {
                             plan.auditState = "3";
                         }
@@ -147,7 +151,7 @@ namespace Hms.Ui
             {
                 Init();
                 DialogBox.Msg("保存成功！");
-            } 
+            }
             else
                 DialogBox.Msg("保存失败！");
         }
@@ -160,18 +164,24 @@ namespace Hms.Ui
         {
             try
             {
+                timer.Enabled = false;
                 uiHelper.BeginLoading(this);
                 LoadQnDataSource();
                 lstPromotionSelect = new List<EntityPromotionTemplateConfig>();
-                lstSelectClient = new List<EntityClientInfo>();
-
-                gridControl.DataSource = lstSelectClient;
-                gridControl.RefreshDataSource();
+                if (lstSelectClient == null)
+                    lstSelectClient = new List<EntityClientInfo>();
+                else
+                {
+                    gcClient.DataSource = lstSelectClient;
+                    gcClient.RefreshDataSource();
+                    gvClient.SelectRow(0);
+                }
                 gcPlan.DataSource = lstPromotionSelect;
                 gcPlan.RefreshDataSource();
             }
             finally
             {
+                timer.Enabled = true ;
                 uiHelper.CloseLoading(this);
             }
         }
@@ -191,7 +201,7 @@ namespace Hms.Ui
                 dicParm.Add(Function.GetParm("dw", dw));
             }
 
-            if(string.IsNullOrEmpty(name) && string.IsNullOrEmpty(dw))
+            if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(dw))
                 return;
 
             using (ProxyHms proxy = new ProxyHms())
@@ -208,8 +218,6 @@ namespace Hms.Ui
         /// </summary>
         void LoadQnDataSource()
         {
-            lstClientInfo = null;
-
             List<EntityParm> dicParm = new List<EntityParm>();
             string beginDate = DateTime.Now.AddDays(-7).ToString("yyyy.MM.dd");
             string endDate = DateTime.Now.ToString("yyyy.MM.dd");
@@ -223,7 +231,6 @@ namespace Hms.Ui
                 lstClientInfo = proxy.Service.GetClientInfoAndRpt(dicParm);
                 gcClient.DataSource = lstClientInfo;
                 gcClient.RefreshDataSource();
-
                 lstPromotionTemplate = proxy.Service.GetPromotionTemplates(null);
                 gcPromotionTemplate.DataSource = lstPromotionTemplate;
                 gcPromotionTemplate.RefreshDataSource();
@@ -235,8 +242,8 @@ namespace Hms.Ui
                     gcPromotionTemplateConfig.DataSource = lstPromotionTemplateConfig.FindAll(r => r.templateId == vo.id);
                     gcPromotionTemplateConfig.RefreshDataSource();
                 }
-                
-                dicPromotionWayConfig= proxy.Service.GetPromotionWayConfigs();
+
+                dicPromotionWayConfig = proxy.Service.GetPromotionWayConfigs();
                 dicPromotionContentConfig = proxy.Service.GetPromotionContentConfigs();
             }
         }
@@ -253,7 +260,6 @@ namespace Hms.Ui
             return this.gvClient.GetRow(this.gvClient.FocusedRowHandle) as EntityClientInfo;
         }
         #endregion
-
 
         #region
         List<EntityClientInfo> GetSelectData()
@@ -283,7 +289,6 @@ namespace Hms.Ui
             return this.gvPromotionTemplate.GetRow(this.gvPromotionTemplate.FocusedRowHandle) as EntityPromotionTemplate;
         }
         #endregion
-
 
         #region GetRowObject
         /// <summary>
@@ -331,8 +336,8 @@ namespace Hms.Ui
         private void timer_Tick(object sender, EventArgs e)
         {
             lstSelectClient = GetSelectData();
-            this.gridControl.DataSource = lstSelectClient;
-            this.gridControl.RefreshDataSource();
+            this.gcSelectClient.DataSource = lstSelectClient;
+            this.gcSelectClient.RefreshDataSource();
             lblSelect.Text = "共 " + lstSelectClient.Count.ToString() + " 人";
         }
 

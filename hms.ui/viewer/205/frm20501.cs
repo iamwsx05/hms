@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 using Hms.Entity;
+using weCare.Core.Utils;
 
 namespace Hms.Ui
 {
@@ -24,6 +25,10 @@ namespace Hms.Ui
         }
         #endregion
 
+        #region var 
+        EnumMbgltab mbglTab = EnumMbgltab.record;
+        #endregion
+
         #region override
 
         /// <summary>
@@ -34,7 +39,7 @@ namespace Hms.Ui
             frmPopup2050103 frm = new frmPopup2050103();
             frm.ShowDialog();
 
-            if(frm.isRefresh)
+            if (frm.isRefresh)
             {
                 Init();
             }
@@ -44,23 +49,32 @@ namespace Hms.Ui
         /// </summary>
         public override void Copy()
         {
-            frmPopup2050104 frm = new frmPopup2050104();
-            frm.ShowDialog();
+            if (mbglTab == EnumMbgltab.record)
+            {
+                if (this.gvGxyRecord.SelectedRowsCount > 0)
+                {
+                    EntityGxyRecord gxyRecord = this.gvGxyRecord.GetRow(this.gvGxyRecord.GetSelectedRows()[0]) as EntityGxyRecord;
+                    EntityClientInfo client = new EntityClientInfo();
+                    client = Function.MapperToModel(client, gxyRecord);
+                    List<EntityClientInfo> lstClientInfo = new List<EntityClientInfo>();
+                    lstClientInfo.Add(client);
+                    //frm20401 frm = new frm20401(lstClientInfo);
+                    //frm.ShowDialog();
+
+                    object[] parm = new object[2];
+                    parm[0] = GlobalParm.dicSysMenu["创建计划"];
+                    Form frmMain = this.MdiParent;
+                    System.Reflection.MethodInfo objMth = frmMain.GetType().GetMethod("ReflectionByAccVo");
+                    objMth.Invoke(frmMain, parm);
+                }
+            }
         }
         /// <summary>
         /// 随访
         /// </summary>
         public override void Remind()
         {
-            EnumGxytab gxyTab = EnumGxytab.gxyRecord;
-            if (tabGxy.SelectedTabPageIndex == 0)
-                gxyTab = EnumGxytab.gxyRecord;
-            else if(tabGxy.SelectedTabPageIndex == 1)
-                gxyTab = EnumGxytab.gxySf;
-            else if (tabGxy.SelectedTabPageIndex == 2)
-                gxyTab = EnumGxytab.gxyPg;
-
-            if(gxyTab == EnumGxytab.gxyRecord)
+            if (mbglTab == EnumMbgltab.record)
             {
                 if (this.gvGxyRecord.SelectedRowsCount > 0)
                 {
@@ -77,7 +91,7 @@ namespace Hms.Ui
                     DialogBox.Msg("请选择要编辑的记录.");
                 }
             }
-            else if(gxyTab == EnumGxytab.gxySf)
+            else if (mbglTab == EnumMbgltab.sf)
             {
                 if (this.gvGxySf.SelectedRowsCount > 0)
                 {
@@ -99,15 +113,7 @@ namespace Hms.Ui
         /// </summary>
         public override void Capture()
         {
-            EnumGxytab gxyTab = EnumGxytab.gxyRecord;
-            if (tabGxy.SelectedTabPageIndex == 0)
-                gxyTab = EnumGxytab.gxyRecord;
-            else if (tabGxy.SelectedTabPageIndex == 1)
-                gxyTab = EnumGxytab.gxySf;
-            else if (tabGxy.SelectedTabPageIndex == 2)
-                gxyTab = EnumGxytab.gxyPg;
-
-            if (gxyTab == EnumGxytab.gxyRecord)
+            if (mbglTab == EnumMbgltab.record)
             {
                 if (this.gvGxyRecord.SelectedRowsCount > 0)
                 {
@@ -123,7 +129,7 @@ namespace Hms.Ui
                     DialogBox.Msg("请选择要编辑的记录.");
                 }
             }
-            else if (gxyTab == EnumGxytab.gxyPg)
+            else if (mbglTab == EnumMbgltab.pg)
             {
                 if (this.gvGxyPg.SelectedRowsCount > 0)
                 {
@@ -326,6 +332,16 @@ namespace Hms.Ui
         private void gridView2_DoubleClick(object sender, EventArgs e)
         {
             this.Capture();
+        }
+
+        private void tabGxy_SelectedPageChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e)
+        {
+            if (tabGxy.SelectedTabPageIndex == 0)
+                mbglTab = EnumMbgltab.record;
+            else if (tabGxy.SelectedTabPageIndex == 1)
+                mbglTab = EnumMbgltab.sf;
+            else if (tabGxy.SelectedTabPageIndex == 2)
+                mbglTab = EnumMbgltab.pg;
         }
 
         #endregion

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Hms.Entity;
 using System.Data;
+using System.Xml;
 
 namespace Hms.Ui
 {
@@ -20,7 +21,7 @@ namespace Hms.Ui
         /// <summary>
         /// ctor
         /// </summary>
-        public frmPopup2050201(EntityHmsSF _sfVo)
+        public frmPopup2050201(EntityTnbSf _sfVo)
         {
             InitializeComponent();
             this.Height = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
@@ -30,7 +31,21 @@ namespace Hms.Ui
                 this.lueSfOper.LookAndFeel.SkinName = "Black";
                 this.lueSfRecorder.LookAndFeel.UseDefaultLookAndFeel = false;
                 this.lueSfRecorder.LookAndFeel.SkinName = "Black";
-                this.sfVo = _sfVo;
+                this.tnbSf = _sfVo;
+            }
+        }
+
+        public frmPopup2050201(EntityTnbRecord _tnbRecord)
+        {
+            InitializeComponent();
+            this.Height = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
+            if (!DesignMode)
+            {
+                this.lueSfOper.LookAndFeel.UseDefaultLookAndFeel = false;
+                this.lueSfOper.LookAndFeel.SkinName = "Black";
+                this.lueSfRecorder.LookAndFeel.UseDefaultLookAndFeel = false;
+                this.lueSfRecorder.LookAndFeel.SkinName = "Black";
+                tnbRecord = _tnbRecord;
             }
         }
         #endregion
@@ -48,6 +63,8 @@ namespace Hms.Ui
         List<List<DevExpress.XtraEditors.CheckEdit>> lstMultiCheck { get; set; }
 
         public EntityHmsSF sfVo { get; set; }
+        EntityTnbSf tnbSf { get; set; }
+        EntityTnbRecord tnbRecord { get; set; }
 
         public bool IsRequireRefresh { get; set; } 
 
@@ -129,6 +146,30 @@ namespace Hms.Ui
             lstMultiCheck.Add(new List<DevExpress.XtraEditors.CheckEdit>() { chkZz01, chkZz02, chkZz03, chkZz04, chkZz05, chkZz06, chkZz07, chkZz08, chkZzqt });
 
             SetCheckedChanged();
+
+            if (this.tnbRecord != null)
+            {
+                this.txtPatName.Text = this.tnbRecord.clientName;
+                this.txtClientNo.Text = this.tnbRecord.clientNo;
+                this.txtSex.Text = this.tnbRecord.sex;
+                this.txtAge.Text = this.tnbRecord.age;
+
+                //查询体检项目结果
+            }
+
+            if (this.tnbSf != null)
+            {
+                this.dteSfDate.Text = tnbSf.sfDate.ToString("yyyy-MM-dd HH:mm");
+                this.txtPatName.Text = this.tnbSf.clientName;
+                this.txtClientNo.Text = this.tnbSf.clientNo;
+                this.txtSex.Text = this.tnbSf.sex;
+                this.txtAge.Text = this.tnbSf.age;
+                this.SetData(tnbSf.sfData);
+            }
+            else
+            {
+                this.dteSfDate.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+            }
         }
         #endregion
 
@@ -222,6 +263,12 @@ namespace Hms.Ui
             {
                 xmlData.AppendLine(string.Format("<{0}>{1}</{2}>", item.FieldName, item.Value, item.FieldName));
             }
+
+            string medXml =  GetDataTable();
+            if( !string.IsNullOrEmpty(medXml))
+            {
+                xmlData.AppendLine(medXml) ;
+            }
             xmlData.AppendLine("</FormData>");
 
             return xmlData.ToString();
@@ -242,7 +289,7 @@ namespace Hms.Ui
             if (data != null && data.Count > 0)
             {
                 string fieldName = string.Empty;
-                xmlData.AppendLine("<FormData>");
+                //xmlData.AppendLine("<FormData>");
                 foreach (EntityTNBUseMed item in data)
                 {
                     xmlData.AppendLine("<Row>");
@@ -251,9 +298,9 @@ namespace Hms.Ui
                     fieldName = "fEndDate"; xmlData.AppendLine(string.Format("<{0}>{1}</{2}>", fieldName, string.IsNullOrEmpty(item.fEndDate) ? "" : Function.Datetime(item.fEndDate).ToString("yyyy-MM-dd"), fieldName));
                     fieldName = "fTimesOfDay"; xmlData.AppendLine(string.Format("<{0}>{1}</{2}>", fieldName, item.fTimesOfDay, fieldName));
                     fieldName = "fAmount"; xmlData.AppendLine(string.Format("<{0}>{1}</{2}>", fieldName, item.fAmount, fieldName));
-                    xmlData.AppendLine("<Row>");
+                    xmlData.AppendLine("</Row>");
                 }
-                xmlData.AppendLine("</FormData>");
+                //xmlData.AppendLine("</FormData>");
             }
             return xmlData.ToString();
         }
@@ -306,6 +353,30 @@ namespace Hms.Ui
                         }
                     }
                 }
+
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(xmlData);
+                XmlNodeList xnl = doc.SelectSingleNode("FormData").ChildNodes;
+                if(xnl != null)
+                {
+                    List<EntityTNBUseMed> dataMed = new List<EntityTNBUseMed>();
+                    foreach (XmlNode xn in xnl)
+                    {
+                        string outXml = xn.OuterXml;
+                        Dictionary<string, string> dicXml = Function.ReadXmlNodes(outXml, "Row");
+                        if (dicXml != null && dicXml.Count > 0)
+                        {
+                            EntityTNBUseMed item = new EntityTNBUseMed();
+                            item.fMedName = dicXml["fMedName"];
+                            item.fBeginDate = dicXml["fBeginDate"];
+                            item.fEndDate = dicXml["fEndDate"];
+                            item.fTimesOfDay = dicXml["fTimesOfDay"];
+                            item.fAmount = dicXml["fAmount"];
+                            dataMed.Add(item);
+                        }
+                    }
+                    this.bindingSource.DataSource = dataMed;
+                } 
             }
         }
         #endregion
@@ -317,20 +388,82 @@ namespace Hms.Ui
         /// <returns></returns>
         void SaveData()
         {
+            if (tnbSf == null)
+            {
+                tnbSf = new EntityTnbSf();
+                tnbSf.recId = tnbRecord.recId;
+            }
+
+            if (tnbRecord == null)
+            {
+                tnbRecord = new EntityTnbRecord();
+                tnbRecord.recId = tnbSf.recId;
+            }
+
+            tnbSf.sfDate = Function.Datetime(dteSfDate.Text);
+            tnbSf.sfMethod = string.Empty;
+            tnbSf.sfClass = string.Empty;
+            tnbRecord.manageLevel = string.Empty;
+            if (chkSffs01.Checked == true)
+                tnbSf.sfMethod = "1";
+            if (chkSffs02.Checked == true)
+                tnbSf.sfMethod = "2";
+            if (chkSffs03.Checked == true)
+                tnbSf.sfClass = "3";
+            if (chkSfClass01.Checked == true)
+                tnbSf.sfClass = "1";
+            if (chkSfClass02.Checked == true)
+                tnbSf.sfClass = "2";
+            if (chkSfClass03.Checked == true)
+                tnbSf.sfClass = "3";
+            if (chkSfClass04.Checked == true)
+                tnbSf.sfClass = "4";
+            if (chkManageLevel01.Checked == true)
+                tnbRecord.manageLevel = "1";
+            if (chkManageLevel02.Checked == true)
+                tnbRecord.manageLevel = "2";
+            if (chkManageLevel03.Checked == true)
+                tnbRecord.manageLevel = "3";
+            if (string.IsNullOrEmpty(tnbSf.sfMethod))
+            {
+                DialogBox.Msg("随访形式必选 ！");
+                return;
+            }
+            if (string.IsNullOrEmpty(tnbSf.sfClass))
+            {
+                DialogBox.Msg("随访分类必选 ！");
+                return;
+            }
+            if (string.IsNullOrEmpty(tnbRecord.manageLevel))
+            {
+                DialogBox.Msg("管理等级必选 ！");
+                return;
+            }
+
+            tnbSf.sfRecorder = this.lueSfRecorder.EditValue.ToString();
+            tnbSf.sfStatus = 1;
+            if (this.sfData == null)
+                this.sfData = new EntityTnbSfData();
+            this.sfData.sfId = tnbSf.sfId;
+            this.sfData.xmlData = this.GetData();
+
+            if (!string.IsNullOrEmpty(dteNextSfDate.Text))
+                tnbRecord.nextSfDate = Function.Datetime(dteNextSfDate.Text);
+
+            decimal sfId = 0;
+            bool isNew = this.sfData.sfId <= 0 ? true : false;
             using (ProxyHms proxy = new ProxyHms())
             {
-                if (this.sfData == null)
-                    this.sfData = new EntityTnbSfData();
-                if (this.sfVo != null)
-                    this.sfData.sfId = Function.Dec(this.sfVo.sfId);                
-                this.sfData.xmlData = this.GetData();
-                decimal sfId = 0;
-                bool isNew = this.sfData.sfId <= 0 ? true : false;
-                if (proxy.Service.SaveTnbSfRecord(this.sfData, out sfId) > 0)
+                if (proxy.Service.SaveTnbSfRecord(this.tnbRecord, this.tnbSf, this.sfData, out sfId) > 0)
                 {
                     this.IsRequireRefresh = true;
                     if (isNew)
+                    {
+                        this.tnbSf.sfId = sfId;
                         this.sfData.sfId = sfId;
+                        this.tnbRecord.sfId = sfId;
+                    }
+
                     DialogBox.Msg("保存成功！");
                 }
                 else

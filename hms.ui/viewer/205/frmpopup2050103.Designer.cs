@@ -58,6 +58,7 @@
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
             this.gcData = new DevExpress.XtraGrid.GridControl();
             this.gvData = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.itemName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.sex = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -69,7 +70,6 @@
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemMemoEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pcBackGround)).BeginInit();
             this.pcBackGround.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.marqueeProgressBarControl.Properties)).BeginInit();
@@ -495,6 +495,23 @@
             this.gvData.OptionsView.ShowGroupPanel = false;
             this.gvData.RowHeight = 27;
             // 
+            // gridColumn4
+            // 
+            this.gridColumn4.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn4.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn4.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn4.Caption = "体检编号";
+            this.gridColumn4.FieldName = "regNo";
+            this.gridColumn4.Name = "gridColumn4";
+            this.gridColumn4.OptionsColumn.AllowEdit = false;
+            this.gridColumn4.OptionsColumn.AllowFocus = false;
+            this.gridColumn4.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn4.OptionsFilter.AllowFilter = false;
+            this.gridColumn4.Visible = true;
+            this.gridColumn4.VisibleIndex = 0;
+            this.gridColumn4.Width = 100;
+            // 
             // gridColumn1
             // 
             this.gridColumn1.AppearanceHeader.Font = new System.Drawing.Font("宋体", 9F);
@@ -509,7 +526,7 @@
             this.gridColumn1.OptionsFilter.AllowAutoFilter = false;
             this.gridColumn1.OptionsFilter.AllowFilter = false;
             this.gridColumn1.Visible = true;
-            this.gridColumn1.VisibleIndex = 0;
+            this.gridColumn1.VisibleIndex = 1;
             this.gridColumn1.Width = 101;
             // 
             // itemName
@@ -526,7 +543,7 @@
             this.itemName.OptionsFilter.AllowAutoFilter = false;
             this.itemName.OptionsFilter.AllowFilter = false;
             this.itemName.Visible = true;
-            this.itemName.VisibleIndex = 1;
+            this.itemName.VisibleIndex = 2;
             this.itemName.Width = 61;
             // 
             // sex
@@ -546,7 +563,7 @@
             this.sex.OptionsFilter.AllowAutoFilter = false;
             this.sex.OptionsFilter.AllowFilter = false;
             this.sex.Visible = true;
-            this.sex.VisibleIndex = 2;
+            this.sex.VisibleIndex = 3;
             this.sex.Width = 40;
             // 
             // deptName
@@ -566,7 +583,7 @@
             this.deptName.OptionsFilter.AllowAutoFilter = false;
             this.deptName.OptionsFilter.AllowFilter = false;
             this.deptName.Visible = true;
-            this.deptName.VisibleIndex = 3;
+            this.deptName.VisibleIndex = 4;
             this.deptName.Width = 65;
             // 
             // isCompareName
@@ -586,7 +603,7 @@
             this.isCompareName.OptionsFilter.AllowAutoFilter = false;
             this.isCompareName.OptionsFilter.AllowFilter = false;
             this.isCompareName.Visible = true;
-            this.isCompareName.VisibleIndex = 5;
+            this.isCompareName.VisibleIndex = 6;
             this.isCompareName.Width = 172;
             // 
             // refRange
@@ -606,7 +623,7 @@
             this.refRange.OptionsFilter.AllowAutoFilter = false;
             this.refRange.OptionsFilter.AllowFilter = false;
             this.refRange.Visible = true;
-            this.refRange.VisibleIndex = 4;
+            this.refRange.VisibleIndex = 5;
             this.refRange.Width = 87;
             // 
             // isMainName
@@ -626,7 +643,7 @@
             this.isMainName.OptionsFilter.AllowAutoFilter = false;
             this.isMainName.OptionsFilter.AllowFilter = false;
             this.isMainName.Visible = true;
-            this.isMainName.VisibleIndex = 6;
+            this.isMainName.VisibleIndex = 7;
             this.isMainName.Width = 100;
             // 
             // gridColumn2
@@ -644,7 +661,7 @@
             this.gridColumn2.OptionsFilter.AllowAutoFilter = false;
             this.gridColumn2.OptionsFilter.AllowFilter = false;
             this.gridColumn2.Visible = true;
-            this.gridColumn2.VisibleIndex = 7;
+            this.gridColumn2.VisibleIndex = 8;
             this.gridColumn2.Width = 101;
             // 
             // gridColumn3
@@ -662,7 +679,7 @@
             this.gridColumn3.OptionsFilter.AllowAutoFilter = false;
             this.gridColumn3.OptionsFilter.AllowFilter = false;
             this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 8;
+            this.gridColumn3.VisibleIndex = 9;
             this.gridColumn3.Width = 55;
             // 
             // repositoryItemMemoEdit1
@@ -675,23 +692,6 @@
             this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
             this.repositoryItemCheckEdit1.ValueChecked = 1;
             this.repositoryItemCheckEdit1.ValueUnchecked = 0;
-            // 
-            // gridColumn4
-            // 
-            this.gridColumn4.AppearanceCell.Options.UseTextOptions = true;
-            this.gridColumn4.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn4.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColumn4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn4.Caption = "体检编号";
-            this.gridColumn4.FieldName = "regNo";
-            this.gridColumn4.Name = "gridColumn4";
-            this.gridColumn4.OptionsColumn.AllowEdit = false;
-            this.gridColumn4.OptionsColumn.AllowFocus = false;
-            this.gridColumn4.OptionsFilter.AllowAutoFilter = false;
-            this.gridColumn4.OptionsFilter.AllowFilter = false;
-            this.gridColumn4.Visible = true;
-            this.gridColumn4.VisibleIndex = 0;
-            this.gridColumn4.Width = 100;
             // 
             // frmPopup2050103
             // 

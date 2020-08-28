@@ -67,8 +67,8 @@
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.splitterControl1 = new DevExpress.XtraEditors.SplitterControl();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.gridControl = new DevExpress.XtraGrid.GridControl();
-            this.cardView = new DevExpress.XtraGrid.Views.Card.CardView();
+            this.gcSelectClient = new DevExpress.XtraGrid.GridControl();
+            this.cvSelectClient = new DevExpress.XtraGrid.Views.Card.CardView();
             this.gridColumn14 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panel2 = new System.Windows.Forms.Panel();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
@@ -114,8 +114,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cardView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gcSelectClient)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cvSelectClient)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).BeginInit();
             this.panelControl3.SuspendLayout();
@@ -668,7 +668,7 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.gridControl);
+            this.panel1.Controls.Add(this.gcSelectClient);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(2, 2);
@@ -676,34 +676,34 @@
             this.panel1.Size = new System.Drawing.Size(338, 178);
             this.panel1.TabIndex = 0;
             // 
-            // gridControl
+            // gcSelectClient
             // 
-            this.gridControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl.Location = new System.Drawing.Point(0, 28);
-            this.gridControl.MainView = this.cardView;
-            this.gridControl.Name = "gridControl";
-            this.gridControl.Size = new System.Drawing.Size(338, 150);
-            this.gridControl.TabIndex = 3;
-            this.gridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.cardView});
+            this.gcSelectClient.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gcSelectClient.Location = new System.Drawing.Point(0, 28);
+            this.gcSelectClient.MainView = this.cvSelectClient;
+            this.gcSelectClient.Name = "gcSelectClient";
+            this.gcSelectClient.Size = new System.Drawing.Size(338, 150);
+            this.gcSelectClient.TabIndex = 3;
+            this.gcSelectClient.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.cvSelectClient});
             // 
-            // cardView
+            // cvSelectClient
             // 
-            this.cardView.CardInterval = 20;
-            this.cardView.CardWidth = 80;
-            this.cardView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.cvSelectClient.CardInterval = 20;
+            this.cvSelectClient.CardWidth = 80;
+            this.cvSelectClient.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn14});
-            this.cardView.FocusedCardTopFieldIndex = 0;
-            this.cardView.GridControl = this.gridControl;
-            this.cardView.Name = "cardView";
-            this.cardView.OptionsBehavior.FieldAutoHeight = true;
-            this.cardView.OptionsView.AnimationType = DevExpress.XtraGrid.Views.Base.GridAnimationType.AnimateAllContent;
-            this.cardView.OptionsView.ShowCardCaption = false;
-            this.cardView.OptionsView.ShowFieldCaptions = false;
-            this.cardView.OptionsView.ShowFieldHints = false;
-            this.cardView.OptionsView.ShowLines = false;
-            this.cardView.OptionsView.ShowQuickCustomizeButton = false;
-            this.cardView.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Auto;
+            this.cvSelectClient.FocusedCardTopFieldIndex = 0;
+            this.cvSelectClient.GridControl = this.gcSelectClient;
+            this.cvSelectClient.Name = "cvSelectClient";
+            this.cvSelectClient.OptionsBehavior.FieldAutoHeight = true;
+            this.cvSelectClient.OptionsView.AnimationType = DevExpress.XtraGrid.Views.Base.GridAnimationType.AnimateAllContent;
+            this.cvSelectClient.OptionsView.ShowCardCaption = false;
+            this.cvSelectClient.OptionsView.ShowFieldCaptions = false;
+            this.cvSelectClient.OptionsView.ShowFieldHints = false;
+            this.cvSelectClient.OptionsView.ShowLines = false;
+            this.cvSelectClient.OptionsView.ShowQuickCustomizeButton = false;
+            this.cvSelectClient.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Auto;
             // 
             // gridColumn14
             // 
@@ -772,7 +772,6 @@
             // 
             // timer
             // 
-            this.timer.Enabled = true;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // panelControl3
@@ -976,8 +975,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cardView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gcSelectClient)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cvSelectClient)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).EndInit();
@@ -1022,8 +1021,8 @@
         private DevExpress.XtraEditors.TextEdit txtQnName;
         private DevExpress.XtraEditors.LabelControl labelControl3;
         private DevExpress.XtraEditors.SimpleButton btnAddPerson;
-        private DevExpress.XtraGrid.GridControl gridControl;
-        private DevExpress.XtraGrid.Views.Card.CardView cardView;
+        private DevExpress.XtraGrid.GridControl gcSelectClient;
+        private DevExpress.XtraGrid.Views.Card.CardView cvSelectClient;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn14;
         private System.Windows.Forms.Timer timer;
         private DevExpress.XtraGrid.GridControl gcPromotionTemplateConfig;

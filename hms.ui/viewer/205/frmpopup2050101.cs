@@ -50,7 +50,6 @@ namespace Hms.Ui
         #endregion
 
         #region var/property
-        EnumGxytab gxyTab { get; set; }
         public EntityHmsSF sfVo { get; set; }
         public EntityGxySf gxySf { get; set; }
         EntityGxySfData sfData { get; set; }
@@ -333,11 +332,14 @@ namespace Hms.Ui
             }
 
             gxySf.sfDate = Function.Datetime(dteSfDate.Text);
+            gxySf.sfMethod = string.Empty;
+            gxySf.sfClass = string.Empty;
+            gxyRecord.manageLevel = string.Empty;
             if (chkSffs01.Checked == true)
                 gxySf.sfMethod = "1";
-            if (chkSffs01.Checked == true)
+            if (chkSffs02.Checked == true)
                 gxySf.sfMethod = "2";
-            if (chkSffs01.Checked == true)
+            if (chkSffs03.Checked == true)
                 gxySf.sfClass = "3";
             if (chkSfClass01.Checked == true)
                 gxySf.sfClass = "1";
@@ -347,6 +349,28 @@ namespace Hms.Ui
                 gxySf.sfClass = "3";
             if (chkSfClass04.Checked == true)
                 gxySf.sfClass = "4";
+            if (chkManageLevel01.Checked == true)
+                gxyRecord.manageLevel = "1";
+            if (chkManageLevel02.Checked == true)
+                gxyRecord.manageLevel = "2";
+            if (chkManageLevel03.Checked == true)
+                gxyRecord.manageLevel = "3";
+            if (string.IsNullOrEmpty(gxySf.sfMethod))
+            {
+                DialogBox.Msg("随访形式必选 ！");
+                return;
+            }
+            if (string.IsNullOrEmpty(gxySf.sfClass))
+            {
+                DialogBox.Msg("随访分类必选 ！");
+                return;
+            }
+            if (string.IsNullOrEmpty(gxyRecord.manageLevel))
+            {
+                DialogBox.Msg("管理等级必选 ！");
+                return;
+            }
+
             gxySf.sfRecorder = this.lueSfRecorder.EditValue.ToString();
             gxySf.sfStatus = 1;
             if (this.sfData == null)
@@ -356,12 +380,7 @@ namespace Hms.Ui
 
             if (!string.IsNullOrEmpty(dteNextSfDate.Text))
                 gxyRecord.nextSfDate = Function.Datetime(dteNextSfDate.Text);
-            if (chkManageLevel01.Checked == true)
-                gxyRecord.manageLevel = "1";
-            if (chkManageLevel01.Checked == true)
-                gxyRecord.manageLevel = "2";
-            if (chkManageLevel01.Checked == true)
-                gxyRecord.manageLevel = "3";
+           
             decimal sfId = 0;
             bool isNew = this.sfData.sfId <= 0 ? true : false;
             using (ProxyHms proxy = new ProxyHms())

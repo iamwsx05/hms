@@ -31,8 +31,13 @@ namespace Hms.Ui
         /// </summary>
         public override void New()
         {
-            frmPopup2050103 frm = new frmPopup2050103();
+            frmPopup2050203 frm = new frmPopup2050203();
             frm.ShowDialog();
+
+            if (frm.isRefresh)
+            {
+                Init();
+            }
         }
         /// <summary>
         /// 添加计划
@@ -46,24 +51,36 @@ namespace Hms.Ui
         /// </summary>
         public override void Remind()
         {
-            if (this.gridView1.SelectedRowsCount > 0)
+            if (mbglTab == EnumMbgltab.record)
             {
-                frmPopup2050201 frm = new frmPopup2050201(this.gridView1.GetRow(this.gridView1.GetSelectedRows()[0]) as EntityHmsSF);
-                frm.ShowDialog();
-                if (frm.IsRequireRefresh)
+                if (this.gvTnbRecord.SelectedRowsCount > 0)
                 {
-                    this.RefreshData();
-                    this.ScrollRow(1, frm.sfVo.sfId);
+                    frmPopup2050201 frm = new frmPopup2050201(this.gvTnbRecord.GetRow(this.gvTnbRecord.GetSelectedRows()[0]) as EntityTnbRecord);
+                    frm.ShowDialog();
+                    if (frm.IsRequireRefresh)
+                    {
+                        this.RefreshData();
+                    }
+                }
+                else
+                {
+                    DialogBox.Msg("请选择要编辑的记录.");
                 }
             }
-            else
+            else if (mbglTab == EnumMbgltab.sf)
             {
-                frmPopup2050201 frm = new frmPopup2050201(null);
-                frm.ShowDialog();
-                if (frm.IsRequireRefresh)
+                if (this.gvTnbSf.SelectedRowsCount > 0)
                 {
-                    this.RefreshData();
-                    this.ScrollRow(1, frm.sfVo.sfId);
+                    frmPopup2050201 frm = new frmPopup2050201(this.gvTnbSf.GetRow(this.gvTnbSf.GetSelectedRows()[0]) as EntityTnbSf);
+                    frm.ShowDialog();
+                    if (frm.IsRequireRefresh)
+                    {
+                        this.RefreshData();
+                    }
+                }
+                else
+                {
+                    DialogBox.Msg("请选择要编辑的记录.");
                 }
             }
         }
@@ -72,24 +89,36 @@ namespace Hms.Ui
         /// </summary>
         public override void Capture()
         {
-            if (this.gridView2.SelectedRowsCount > 0)
+            if (mbglTab == EnumMbgltab.record)
             {
-                frmPopup2050202 frm = new frmPopup2050202(this.gridView2.GetRow(this.gridView2.GetSelectedRows()[0]) as EntityHmsSF);
-                frm.ShowDialog();
-                if (frm.IsRequireRefresh)
+                if (this.gvTnbRecord.SelectedRowsCount > 0)
                 {
-                    this.RefreshData();
-                    this.ScrollRow(2, frm.pgVo.pgId);
+                    frmPopup2050202 frm = new frmPopup2050202(this.gvTnbRecord.GetRow(this.gvTnbRecord.GetSelectedRows()[0]) as EntityTnbRecord);
+                    frm.ShowDialog();
+                    if (frm.IsRequireRefresh)
+                    {
+                        this.RefreshData();
+                    }
+                }
+                else
+                {
+                    DialogBox.Msg("请选择要编辑的记录.");
                 }
             }
-            else
+            else if (mbglTab == EnumMbgltab.pg)
             {
-                frmPopup2050202 frm = new frmPopup2050202(null);
-                frm.ShowDialog();
-                if (frm.IsRequireRefresh)
+                if (this.gvTnbPg.SelectedRowsCount > 0)
                 {
-                    this.RefreshData();
-                    this.ScrollRow(2, frm.pgVo.pgId);
+                    frmPopup2050202 frm = new frmPopup2050202(this.gvTnbPg.GetRow(this.gvTnbPg.GetSelectedRows()[0]) as EntityTnbPg);
+                    frm.ShowDialog();
+                    if (frm.IsRequireRefresh)
+                    {
+                        this.RefreshData();
+                    }
+                }
+                else
+                {
+                    DialogBox.Msg("请选择要编辑的记录.");
                 }
             }
         }
@@ -119,7 +148,12 @@ namespace Hms.Ui
         /// </summary>
         public override void RefreshData()
         {
-
+            using (ProxyHms proxy = new ProxyHms())
+            {
+                this.gcTnbRecord.DataSource = proxy.Service.GetTnbPatients(null);
+                this.gcTnbSf.DataSource = proxy.Service.GetTnbSfRecords(null);
+                this.gcTnbPg.DataSource = proxy.Service.GetTnbPgRecords(null);
+            }
         }
         /// <summary>
         /// 打印
@@ -139,8 +173,7 @@ namespace Hms.Ui
         #endregion
 
         #region var/property
-
-
+        EnumMbgltab mbglTab;
         #endregion
 
         #region method
@@ -149,23 +182,11 @@ namespace Hms.Ui
         /// <summary>
         /// ScrollRow
         /// </summary>
-        /// <param name="flagId"></param>
+        /// <param name="flagId"></param> 
         /// <param name="id"></param>
         void ScrollRow(int flagId, string id)
         {
-            for (int i = 0; i < this.gridView.RowCount; i++)
-            {
-                this.gridView.UnselectRow(i);
-            }
-            for (int i = 0; i < this.gridView.RowCount; i++)
-            {
-                //if ((this.gridView.GetRow(i) as EntityDicSportItem).sId == sId)
-                //{
-                //    this.gridView.FocusedRowHandle = i;
-                //    this.gridView.SelectRow(i);
-                //    break;
-                //}
-            }
+
         }
         #endregion
 
@@ -180,9 +201,9 @@ namespace Hms.Ui
                 uiHelper.BeginLoading(this);
                 using (ProxyHms proxy = new ProxyHms())
                 {
-                    this.gridControl.DataSource = proxy.Service.GetTnbPatients(null);
-                    this.gridControl1.DataSource = proxy.Service.GetTnbSfRecords(null);
-                    this.gridControl2.DataSource = proxy.Service.GetTnbPgRecords(null);
+                    this.gcTnbRecord.DataSource = proxy.Service.GetTnbPatients(null);
+                    this.gcTnbSf.DataSource = proxy.Service.GetTnbSfRecords(null);
+                    this.gcTnbPg.DataSource = proxy.Service.GetTnbPgRecords(null);
                 }
 
             }
@@ -249,5 +270,14 @@ namespace Hms.Ui
 
         #endregion
 
+        private void tabTnb_SelectedPageChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e)
+        {
+            if (tabTnb.SelectedTabPageIndex == 0)
+                mbglTab = EnumMbgltab.record;
+            else if (tabTnb.SelectedTabPageIndex == 1)
+                mbglTab = EnumMbgltab.sf;
+            else if (tabTnb.SelectedTabPageIndex == 2)
+                mbglTab = EnumMbgltab.pg;
+        }
     }
 }

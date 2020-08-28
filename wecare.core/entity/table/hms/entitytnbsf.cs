@@ -59,7 +59,34 @@ namespace weCare.Core.Entity
         /// </summary>
         [DataMember]
         [EntityAttribute(FieldName = "sfStatus", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 7)]
-        public System.Int32 sfStatus { get; set; }
+        public System.Decimal sfStatus { get; set; }
+
+        /// <summary>
+        /// recordDate
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "recordDate", DbType = DbType.DateTime, IsPK = false, IsSeq = false, SerNo = 8)]
+        public System.DateTime? recordDate { get; set; }
+
+        [DataMember]
+        public string clientName { get; set; }
+        [DataMember]
+        public string clientNo { get; set; }
+        [DataMember]
+        public string sex { get; set; }
+        [DataMember]
+        public string age { get; set; }
+        [DataMember]
+        public string company { get; set; }
+        [DataMember]
+        public string birthday { get; set; }
+        [DataMember]
+        public string gradeName { get; set; }
+        [DataMember]
+        public string sfDateStr { get; set; }
+        [DataMember]
+        public string sfData { get; set; }
+
 
         /// <summary>
         /// Columns
@@ -72,12 +99,13 @@ namespace weCare.Core.Entity
         public class EnumCols
         {
             public string sfId = "sfId";
-            public string patId = "patId";
+            public string recId = "recId";
             public string sfMethod = "sfMethod";
             public string sfClass = "sfClass";
             public string sfDate = "sfDate";
             public string sfRecorder = "sfRecorder";
             public string sfStatus = "sfStatus";
+            public string recordDate = "recordDate";
         }
     }
 }

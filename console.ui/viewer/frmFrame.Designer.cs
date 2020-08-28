@@ -167,7 +167,7 @@
             this.ribbonControl.ShowToolbarCustomizeItem = false;
             this.ribbonControl.Size = new System.Drawing.Size(863, 93);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
-            this.ribbonControl.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Hidden;
+            this.ribbonControl.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Below;
             this.ribbonControl.TransparentEditors = true;
             this.ribbonControl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ribbonControl_MouseDown);
             // 
@@ -976,8 +976,7 @@
             // 
             // frmFrame
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(863, 516);
             this.Controls.Add(this.btnMin);

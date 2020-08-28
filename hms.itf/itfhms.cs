@@ -346,7 +346,7 @@ namespace Hms.Itf
         /// <param name="pgId"></param>
         /// <returns></returns>
         [OperationContract(Name = "SaveGxyPgRecord")]
-        int SaveGxyPgRecord(EntityGxyPg gxyPg, EntityGxyPgData pgData, out decimal pgId);
+        int SaveGxyPgRecord(EntityGxyRecord gxyRecord, EntityGxyPg gxyPg, EntityGxyPgData pgData, out decimal pgId);
 
         /// <summary>
         /// 体检结果 血压
@@ -355,6 +355,13 @@ namespace Hms.Itf
         /// <returns></returns>
         [OperationContract(Name = "GetClientGxyResults")]
         List<EntityClientGxyResult> GetClientGxyResults(string clientNoStr);
+
+        /// <summary>
+        /// 体检结果 血糖
+        /// </summary>
+        /// <param name="clientNoStr"></param>
+        /// <returns></returns>
+        List<EntityClientTnbResult> GetClientTnbResults(string clientNoStr);
 
         #endregion
 
@@ -366,7 +373,16 @@ namespace Hms.Itf
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetTnbPatients")]
-        List<EntityHmsSF> GetTnbPatients(List<EntityParm> parms);
+        List<EntityTnbRecord> GetTnbPatients(List<EntityParm> parms);
+
+        /// <summary>
+        /// 添加人员记录
+        /// </summary>
+        /// <param name="gxyRecord"></param>
+        /// <param name="recId"></param>
+        /// <returns></returns>
+        [OperationContract(Name = "SaveTnbRecord")]
+        int SaveTnbRecord(EntityTnbRecord gxyRecord, out decimal recId);
 
         /// <summary>
         /// 随访记录-获取
@@ -374,7 +390,7 @@ namespace Hms.Itf
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetTnbSfRecords")]
-        List<EntityHmsSF> GetTnbSfRecords(List<EntityParm> parms);
+        List<EntityTnbSf> GetTnbSfRecords(List<EntityParm> parms);
 
         /// <summary>
         /// 随访记录-保存
@@ -383,7 +399,7 @@ namespace Hms.Itf
         /// <param name="sfId"></param>
         /// <returns></returns>
         [OperationContract(Name = "SaveTnbSfRecord")]
-        int SaveTnbSfRecord(EntityTnbSfData sfData, out decimal sfId);
+        int SaveTnbSfRecord(EntityTnbRecord tnbRecord, EntityTnbSf tnbSf, EntityTnbSfData sfData, out decimal sfId);
 
         /// <summary>
         /// 评估记录-获取
@@ -391,7 +407,7 @@ namespace Hms.Itf
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetTnbPgRecords")]
-        List<EntityHmsSF> GetTnbPgRecords(List<EntityParm> parms);
+        List<EntityTnbPg> GetTnbPgRecords(List<EntityParm> parms);
 
         /// <summary>
         /// 评估记录-保存
@@ -400,7 +416,7 @@ namespace Hms.Itf
         /// <param name="pgId"></param>
         /// <returns></returns>
         [OperationContract(Name = "SaveTnbPgRecord")]
-        int SaveTnbPgRecord(EntityTnbPgData pgData, out decimal pgId);
+        int SaveTnbPgRecord(EntityTnbRecord tnbRecord, EntityTnbPg tnbPg, EntityTnbPgData pgData, out decimal pgId);
 
         #endregion
 

@@ -600,11 +600,11 @@
     <Compile Include="viewer\205\frmpopup2050103.Designer.cs">
       <DependentUpon>frmpopup2050103.cs</DependentUpon>
     </Compile>
-    <Compile Include="viewer\205\frmpopup2050104.cs">
+    <Compile Include="viewer\205\frmpopup2050203.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="viewer\205\frmpopup2050104.Designer.cs">
-      <DependentUpon>frmpopup2050104.cs</DependentUpon>
+    <Compile Include="viewer\205\frmpopup2050203.Designer.cs">
+      <DependentUpon>frmpopup2050203.cs</DependentUpon>
     </Compile>
     <Compile Include="viewer\205\frmpopup2050201.cs">
       <SubType>Form</SubType>
@@ -1220,8 +1220,8 @@
     <EmbeddedResource Include="viewer\205\frmpopup2050103.resx">
       <DependentUpon>frmpopup2050103.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="viewer\205\frmpopup2050104.resx">
-      <DependentUpon>frmpopup2050104.cs</DependentUpon>
+    <EmbeddedResource Include="viewer\205\frmpopup2050203.resx">
+      <DependentUpon>frmpopup2050203.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="viewer\205\frmpopup2050201.resx">
       <DependentUpon>frmpopup2050201.cs</DependentUpon>

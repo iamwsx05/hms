@@ -348,7 +348,7 @@ namespace Hms.Ui
             bool isNew = this.pgVo.pgId <= 0 ? true : false;
             using (ProxyHms proxy = new ProxyHms())
             {
-                if (proxy.Service.SaveGxyPgRecord(this.pgVo, this.pgData, out pgId) > 0)
+                if (proxy.Service.SaveGxyPgRecord(this.gxyRecord,this.pgVo, this.pgData, out pgId) > 0)
                 {
                     this.IsRequireRefresh = true;
                     if (isNew)

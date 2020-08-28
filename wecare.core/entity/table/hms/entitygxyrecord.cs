@@ -88,7 +88,19 @@ namespace weCare.Core.Entity
         [DataMember]
         [EntityAttribute(FieldName = "sfId", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 11)]
         public decimal sfId { get; set; }
+        /// <summary>
+        /// sfTimes
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "sfTimes", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 12)]
+        public System.Decimal? sfTimes { get; set; }
 
+        /// <summary>
+        /// pgTimes
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "pgTimes", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 13)]
+        public System.Decimal? pgTimes { get; set; }
 
         [DataMember]
         public string clientName { get; set; }
@@ -104,7 +116,6 @@ namespace weCare.Core.Entity
         public string sfNextDateStr { get; set; }
         [DataMember]
         public string company { get; set; }
-
         /// <summary>
         /// Columns
         /// </summary>
@@ -126,6 +137,9 @@ namespace weCare.Core.Entity
             public string recordDate = "recordDate";
             public string status = "status";
             public string sfId = "sfId";
+            public string sfTimes = "sfTimes";
+            public string pgTimes = "pgTimes";
         }
+
     }
 }

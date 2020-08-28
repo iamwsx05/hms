@@ -76,26 +76,22 @@ namespace Hms.Ui
                 {
                     lstGxyResult = proxy.Service.GetClientGxyResults(clientNoStr);
                 }
-
-                if(lstGxyResult != null)
+                foreach (var clientVo in lstClient)
                 {
-                    for (int i = 0;i<lstGxyResult.Count;i++)
+                    EntityClientGxyResult gxyResult = null;
+                    if (lstGxyResult != null)
+                        gxyResult = lstGxyResult.Find(r => r.clientNo == clientVo.clientNo && r.regTimes == clientVo.regTimes);
+                    else
+                        lstGxyResult = new List<EntityClientGxyResult>();
+                    if (gxyResult == null)
                     {
-                        EntityClientGxyResult gxyResult = lstGxyResult[i];
-                        EntityClientInfo clientVo = lstClient.Find(r => r.clientNo == gxyResult.clientNo && r.regTimes == gxyResult.regTimes);
-
-                        if (clientVo == null)
-                            continue;
-                        gxyResult = Function.MapperToModel(gxyResult, clientVo);
-                        if(!string.IsNullOrEmpty(gxyResult.gxy))
-                        {
-                            gxyResult.gxy += " mmHg";
-                        }
+                        gxyResult = new EntityClientGxyResult();
+                        lstGxyResult.Add(gxyResult);
                     }
-
-                    this.gcData.DataSource = lstGxyResult;
-                    this.gcData.RefreshDataSource();
+                    gxyResult = Function.MapperToModel(gxyResult, clientVo);
                 }
+                this.gcData.DataSource = lstGxyResult;
+                this.gcData.RefreshDataSource();
             }
         }
         #endregion

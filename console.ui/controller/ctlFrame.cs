@@ -876,6 +876,7 @@ namespace Console.Ui
                 this.IsLoadform = false;
             }
         }
+        #endregion
 
         internal bool FormExisted(Type objType, string operName)
         {
@@ -1209,8 +1210,6 @@ namespace Console.Ui
             //    SendKeys.Send("%{Tab}"); 
             //}
         }
-
-        #endregion
 
         #endregion
 

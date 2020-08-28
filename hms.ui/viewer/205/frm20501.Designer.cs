@@ -313,7 +313,7 @@
             this.isCompareName.AppearanceHeader.Options.UseTextOptions = true;
             this.isCompareName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.isCompareName.Caption = "开始管理日期";
-            this.isCompareName.FieldName = "beginDataStr";
+            this.isCompareName.FieldName = "beginDateStr";
             this.isCompareName.Name = "isCompareName";
             this.isCompareName.OptionsColumn.AllowEdit = false;
             this.isCompareName.OptionsColumn.AllowFocus = false;
@@ -369,7 +369,7 @@
             this.gridColumn3.AppearanceHeader.Options.UseTextOptions = true;
             this.gridColumn3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn3.Caption = "评估次数";
-            this.gridColumn3.FieldName = "evaTimes";
+            this.gridColumn3.FieldName = "pgTimes";
             this.gridColumn3.Name = "gridColumn3";
             this.gridColumn3.OptionsColumn.AllowEdit = false;
             this.gridColumn3.OptionsColumn.AllowFocus = false;
@@ -387,7 +387,7 @@
             this.gridColumn4.AppearanceHeader.Options.UseTextOptions = true;
             this.gridColumn4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn4.Caption = "下次随访日期";
-            this.gridColumn4.FieldName = "sfNextDate";
+            this.gridColumn4.FieldName = "sfNextDateStr";
             this.gridColumn4.Name = "gridColumn4";
             this.gridColumn4.OptionsColumn.AllowEdit = false;
             this.gridColumn4.OptionsColumn.AllowFocus = false;
@@ -554,6 +554,7 @@
             this.xtraTabPage1,
             this.xtraTabPage2,
             this.xtraTabPage3});
+            this.tabGxy.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.tabGxy_SelectedPageChanged);
             // 
             // imageList
             // 

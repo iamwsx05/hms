@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Hms.Entity
 {
-    public enum EnumGxytab
+    public enum EnumMbgltab
     {
-        gxyRecord,
-        gxySf,
-        gxyPg
+        record,
+        sf,
+        pg
     }
 }

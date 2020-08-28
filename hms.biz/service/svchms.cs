@@ -558,11 +558,11 @@ namespace Hms.Svc
         /// <param name="pgData"></param>
         /// <param name="pgId"></param>
         /// <returns></returns>
-        public int SaveGxyPgRecord(EntityGxyPg gxyPg, EntityGxyPgData pgData, out decimal pgId)
+        public int SaveGxyPgRecord(EntityGxyRecord gxyRecord, EntityGxyPg gxyPg, EntityGxyPgData pgData, out decimal pgId)
         {
             using (Biz205 biz = new Biz205())
             {
-                return biz.SaveGxyPgRecord(gxyPg, pgData, out pgId);
+                return biz.SaveGxyPgRecord(gxyRecord, gxyPg, pgData, out pgId);
             }
         }
         #endregion
@@ -592,11 +592,27 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityHmsSF> GetTnbPatients(List<EntityParm> parms)
+        public List<EntityTnbRecord> GetTnbPatients(List<EntityParm> parms)
         {
             using (Biz205 biz = new Biz205())
             {
                 return biz.GetTnbPatients(parms);
+            }
+        }
+        #endregion
+
+        #region 添加人员
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tnbRecord"></param>
+        /// <param name="recId"></param>
+        /// <returns></returns>
+        public int SaveTnbRecord(EntityTnbRecord tnbRecord, out decimal recId)
+        {
+            using (Biz205 biz = new Biz205())
+            {
+                return biz.SaveTnbRecord(tnbRecord,out recId);
             }
         }
         #endregion
@@ -607,24 +623,27 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityHmsSF> GetTnbSfRecords(List<EntityParm> parms)
+        public List<EntityTnbSf> GetTnbSfRecords(List<EntityParm> parms)
         {
             using (Biz205 biz = new Biz205())
             {
                 return biz.GetTnbSfRecords(parms);
             }
         }
+
         /// <summary>
         /// 随访记录-保存
         /// </summary>
+        /// <param name="tnbRecord"></param>
+        /// <param name="tnbSf"></param>
         /// <param name="sfData"></param>
         /// <param name="sfId"></param>
         /// <returns></returns>
-        public int SaveTnbSfRecord(EntityTnbSfData sfData, out decimal sfId)
+        public int SaveTnbSfRecord(EntityTnbRecord tnbRecord, EntityTnbSf tnbSf, EntityTnbSfData sfData, out decimal sfId)
         {
             using (Biz205 biz = new Biz205())
             {
-                return biz.SaveTnbSfRecord(sfData, out sfId);
+                return biz.SaveTnbSfRecord(tnbRecord, tnbSf, sfData, out sfId);
             }
         }
         #endregion
@@ -635,7 +654,7 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityHmsSF> GetTnbPgRecords(List<EntityParm> parms)
+        public List<EntityTnbPg> GetTnbPgRecords(List<EntityParm> parms)
         {
             using (Biz205 biz = new Biz205())
             {
@@ -648,11 +667,26 @@ namespace Hms.Svc
         /// <param name="pgData"></param>
         /// <param name="pgId"></param>
         /// <returns></returns>
-        public int SaveTnbPgRecord(EntityTnbPgData pgData, out decimal pgId)
+        public int SaveTnbPgRecord(EntityTnbRecord tnbRecord, EntityTnbPg tnbPg, EntityTnbPgData pgData, out decimal pgId)
         {
             using (Biz205 biz = new Biz205())
             {
-                return biz.SaveTnbPgRecord(pgData, out pgId);
+                return biz.SaveTnbPgRecord(tnbRecord, tnbPg, pgData, out pgId);
+            }
+        }
+        #endregion
+
+        #region 体检结果-血糖
+        /// <summary>
+        /// 体检结果 血糖
+        /// </summary>
+        /// <param name="clientNoStr"></param>
+        /// <returns></returns>
+        public List<EntityClientTnbResult> GetClientTnbResults(string clientNoStr)
+        {
+            using (Biz205 biz = new Biz205())
+            {
+                return biz.GetClientTnbResults(clientNoStr);
             }
         }
         #endregion

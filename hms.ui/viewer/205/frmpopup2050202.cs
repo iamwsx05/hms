@@ -19,7 +19,21 @@ namespace Hms.Ui
         /// <summary>
         /// ctor
         /// </summary>
-        public frmPopup2050202(EntityHmsSF _pgVo)
+        public frmPopup2050202(EntityTnbRecord _tnbRecord)
+        {
+            InitializeComponent();
+            this.Height = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
+            if (!DesignMode)
+            {
+                this.lueEnaOper.LookAndFeel.UseDefaultLookAndFeel = false;
+                this.lueEnaOper.LookAndFeel.SkinName = "Black";
+                this.lueRecorder.LookAndFeel.UseDefaultLookAndFeel = false;
+                this.lueRecorder.LookAndFeel.SkinName = "Black";
+                this.tnbRecord = _tnbRecord;
+            }
+        }
+
+        public frmPopup2050202(EntityTnbPg _pgVo)
         {
             InitializeComponent();
             this.Height = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
@@ -36,7 +50,9 @@ namespace Hms.Ui
 
         #region var/property
 
-        public EntityHmsSF pgVo { get; set; }
+        public EntityTnbPg pgVo { get; set; }
+        public EntityTnbRecord tnbRecord { get; set; }
+        public EntityTnbPgData pgData { get; set; }
 
         public bool IsRequireRefresh { get; set; }
 
@@ -115,6 +131,26 @@ namespace Hms.Ui
 
             lstMultiCheck = new List<List<DevExpress.XtraEditors.CheckEdit>>();
             SetCheckedChanged();
+
+            if (tnbRecord != null)
+            {
+                this.txtPatName.Text = this.tnbRecord.clientName;
+                this.txtClientNo.Text = this.tnbRecord.clientNo;
+                this.txtSex.Text = this.tnbRecord.sex;
+                this.txtAge.Text = this.tnbRecord.age;
+                this.dteEnaDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+
+            if (this.pgVo != null)
+            {
+                this.txtPatName.Text = this.pgVo.clientName;
+                this.txtClientNo.Text = this.pgVo.clientNo;
+                this.txtSex.Text = this.pgVo.sex;
+                this.txtAge.Text = this.pgVo.age;
+                this.dteEnaDate.Text = this.pgVo.evaDateStr;
+                this.SetData(pgVo.pgData);
+
+            }
         }
         #endregion
 
@@ -214,15 +250,105 @@ namespace Hms.Ui
         }
         #endregion
 
+        #region SetData
+        /// <summary>
+        /// SetData
+        /// </summary>
+        /// <param name="xmlData"></param>
+        void SetData(string xmlData)
+        {
+            if (string.IsNullOrEmpty(xmlData)) return;
+            Dictionary<string, string> dicData = Function.ReadXmlNodes(xmlData, "FormData");
+            if (dicData != null && dicData.Count > 0)
+            {
+                string fieldName = string.Empty;
+                foreach (Control ctrl in this.plContent.Controls)
+                {
+                    if (ctrl is Common.Controls.LookUpEdit)
+                    {
+                        fieldName = (ctrl as Common.Controls.LookUpEdit).Properties.AccessibleName;
+                        if (!string.IsNullOrEmpty(fieldName) && dicData.ContainsKey(fieldName))
+                        {
+                            (ctrl as Common.Controls.LookUpEdit).SetDisplayText<EntityCodeOperator>(dicData[fieldName]);
+                        }
+                    }
+                    else if (ctrl is DevExpress.XtraEditors.TextEdit)
+                    {
+                        fieldName = (ctrl as DevExpress.XtraEditors.TextEdit).Properties.AccessibleName;
+                        if (!string.IsNullOrEmpty(fieldName) && dicData.ContainsKey(fieldName))
+                        {
+                            (ctrl as DevExpress.XtraEditors.TextEdit).Text = dicData[fieldName];
+                        }
+                    }
+                    else if (ctrl is DevExpress.XtraEditors.CheckEdit)
+                    {
+                        fieldName = (ctrl as DevExpress.XtraEditors.CheckEdit).Properties.AccessibleName;
+                        if (!string.IsNullOrEmpty(fieldName) && dicData.ContainsKey(fieldName))
+                        {
+                            (ctrl as DevExpress.XtraEditors.CheckEdit).Checked = Function.Int(dicData[fieldName]) == 1 ? true : false;
+                        }
+                    }
+                    else if (ctrl is DevExpress.XtraEditors.DateEdit)
+                    {
+                        fieldName = (ctrl as DevExpress.XtraEditors.DateEdit).Properties.AccessibleName;
+                        if (!string.IsNullOrEmpty(fieldName) && dicData.ContainsKey(fieldName))
+                        {
+                            (ctrl as DevExpress.XtraEditors.DateEdit).Text = dicData[fieldName];
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
         #region SaveData
         /// <summary>
         /// SaveData
         /// </summary>
         /// <returns></returns>
-        bool SaveData()
+        void SaveData()
         {
+            if (pgVo == null)
+            {
+                pgVo = new EntityTnbPg();
+                pgVo.recId = tnbRecord.recId;
+            }
+            if (tnbRecord == null)
+            {
+                tnbRecord = new EntityTnbRecord();
+                tnbRecord.recId = pgVo.recId;
+            }
+           
+            if (chkManageLevel01.Checked == true)
+                pgVo.manageLevel = "1";
+            if (chkManageLevel02.Checked == true)
+                pgVo.manageLevel = "2";
+            if (chkManageLevel03.Checked == true)
+                pgVo.manageLevel = "3";
+            pgVo.evaluator = lueEnaOper.EditValue.ToString();
+            pgVo.evaDate = Function.Datetime(dteEnaDate.Text);
+            pgData = new EntityTnbPgData();
+            pgData.xmlData = GetData();
+            decimal pgId = 0;
+            bool isNew = this.pgVo.pgId <= 0 ? true : false;
+            using (ProxyHms proxy = new ProxyHms())
+            {
+                if (proxy.Service.SaveTnbPgRecord(this.tnbRecord, this.pgVo, this.pgData, out pgId) > 0)
+                {
+                    this.IsRequireRefresh = true;
+                    if (isNew)
+                    {
+                        this.pgVo.pgId = pgId;
+                        this.pgData.pgId = pgId;
+                    }
 
-            return true;
+                    DialogBox.Msg("保存成功！");
+                }
+                else
+                {
+                    DialogBox.Msg("保存失败。");
+                }
+            }
         }
         #endregion
 
