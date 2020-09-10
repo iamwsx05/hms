@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="entityadpeitem.cs" />
+    <Compile Include="entitycaidiet.cs" />
     <Compile Include="entityclienttnbresult.cs" />
     <Compile Include="entityclientgxyresult.cs" />
     <Compile Include="entityclientinfo.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="entitydicingredientconfig.cs" />
     <Compile Include="entitydicqnctllocation .cs" />
     <Compile Include="entitydietprinciple.cs" />
+    <Compile Include="entitydietrecord.cs" />
     <Compile Include="entitydiettemplate.cs" />
     <Compile Include="entitydiettemplatetype.cs" />
     <Compile Include="entitydiettreatment.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="entityunnormalcombin.cs" />
     <Compile Include="entityusergrade.cs" />
     <Compile Include="enummbgltab.cs" />
+    <Compile Include="enumMeals.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

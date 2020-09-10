@@ -16,6 +16,8 @@ namespace Hms.Entity
         [DataMember]
         public string gradeId { get; set; }
         [DataMember]
+        public string regNo { get; set; }
+        [DataMember]
         public string clientNo { get; set; }
         [DataMember]
         public string clientName { get; set; }

@@ -61,6 +61,9 @@ namespace Hms.Entity
         [DataMember]
         [Entity(FieldName = "createName", DbType = DbType.String, IsPK = false, IsSeq = false, SerNo = 16)]
         public string createName { get; set; }
+        [DataMember]
+        [Entity(FieldName = "regTimes", DbType = DbType.String, IsPK = false, IsSeq = false, SerNo = 17)]
+        public int regTimes { get; set; }
 
         public static EnumCols Columns = new EnumCols();
 
@@ -82,6 +85,7 @@ namespace Hms.Entity
             public string createDate = "createDate";
             public string creator = "creator";
             public string createName = "createName";
+            public string regTimes = "regTimes";
 
         }
     }

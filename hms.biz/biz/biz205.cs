@@ -276,6 +276,7 @@ namespace Hms.Biz
                 }
                 else
                 {
+                    id = gxySf.sfId;
                     lstParm.Add(svc.GetUpdateParm(gxySf,
                       new List<string> { EntityGxySf.Columns.sfMethod,
                           EntityGxySf.Columns.sfClass,
@@ -446,6 +447,7 @@ namespace Hms.Biz
                 }
                 else
                 {
+                    id = gxyPg.pgId;
                     lstParm.Add(svc.GetUpdateParm(gxyPg,
                       new List<string> { EntityGxyPg.Columns.bloodPressLevel,
                           EntityGxyPg.Columns.dangerLevel,
@@ -837,6 +839,7 @@ namespace Hms.Biz
                 }
                 else
                 {
+                    id = tnbSf.sfId;
                     lstParm.Add(svc.GetUpdateParm(tnbSf,
                       new List<string> { EntityTnbSf.Columns.sfMethod,
                           EntityTnbSf.Columns.sfClass,
@@ -948,6 +951,7 @@ namespace Hms.Biz
                     if (vo.manageLevel == "3")
                         vo.manageLevel = "三级管理";
                     vo.evaluator = dr["pgRecorder"].ToString();
+                    vo.evaDateStr = Function.Datetime(dr["evaDate"]).ToString("yyyy-MM-dd");
                     vo.pgData = dr["xmlData"].ToString();
                     data.Add(vo);
                 }
@@ -993,6 +997,7 @@ namespace Hms.Biz
                 }
                 else
                 {
+                    id = tnbPg.pgId;
                     lstParm.Add(svc.GetUpdateParm(tnbPg,
                       new List<string> { 
                           EntityTnbPg.Columns.dangerLevel,

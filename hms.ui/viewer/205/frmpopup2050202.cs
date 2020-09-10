@@ -325,6 +325,7 @@ namespace Hms.Ui
                 pgVo.manageLevel = "2";
             if (chkManageLevel03.Checked == true)
                 pgVo.manageLevel = "3";
+            
             pgVo.evaluator = lueEnaOper.EditValue.ToString();
             pgVo.evaDate = Function.Datetime(dteEnaDate.Text);
             pgData = new EntityTnbPgData();
@@ -410,7 +411,8 @@ namespace Hms.Ui
 
         private void blbiSave_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            MessageBox.Show(this.GetData());
+            //MessageBox.Show(this.GetData());
+            SaveData();
         }
 
         private void blbiClose_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)

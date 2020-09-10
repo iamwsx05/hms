@@ -29,6 +29,7 @@ namespace Hms.Biz
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
             string Sql = string.Empty;
             Sql = @"select distinct
+                            b.reportId,
                             a.clientNo,
                             a.clientName,
                             a.gender,
@@ -40,7 +41,10 @@ namespace Hms.Biz
                             a.address,
                             a.regTimes,
                             a.createDate
-                            from V_ClientInfo a where (a.clientNo is not null or a.clientNo <> '')";
+                            from V_ClientInfo a
+                            left join V_RportRecord b
+                            on a.clientNo = b.clientNo and a.regTimes = b.regTimes
+                             where (a.clientNo is not null or a.clientNo <> '')";
             List<IDataParameter> lstParm = new List<IDataParameter>();
             string strSub = string.Empty;
             if (parms != null)
@@ -118,40 +122,45 @@ namespace Hms.Biz
                     //vo.modifyDate = Function.Datetime(dr["modifyDate"]);
                     //vo.modifyId = dr["modifyId"].ToString();
                     //vo.modifyName = dr["modifyName"].ToString();
-
+                    vo.regNo = dr["reportId"].ToString();
                     vo.regTimes = Function.Int(dr["regTimes"]);
+                    vo.reportCount = Function.Int(dr["regTimes"]);
 
-                    strClinetNo += "'" + vo.clientNo + "',";
+                    //strClinetNo += "'" + vo.clientNo + "',";
                     data.Add(vo);
                 }
             }
 
-            if (string.IsNullOrEmpty(strClinetNo))
-                return data;
+            //if (string.IsNullOrEmpty(strClinetNo))
+            //    return data;
 
-            strClinetNo = "(" + strClinetNo.TrimEnd(',') + ")";
+            //strClinetNo = "(" + strClinetNo.TrimEnd(',') + ")";
 
-            Sql = @"select  reportId,
-                             clientNo
-	                        from V_RportRecord a  where a.clientNo in " + strClinetNo;
-            DataTable dtReport = svc.GetDataTable(Sql);
-            if (dtReport != null && dtReport.Rows.Count > 0)
-            {
-                lstReportRecord = new List<EntityReportRecorde>();
-                EntityReportRecorde vo = null;
-                foreach (DataRow dr in dtReport.Rows)
-                {
-                    vo = new EntityReportRecorde();
-                    vo.clientId = dr["clientNo"].ToString();
-                    vo.reportId = dr["reportId"].ToString();
-                    lstReportRecord.Add(vo);
-                }
-            }
-
-            foreach(var vo in data )
-            {
-                vo.reportCount = lstReportRecord.FindAll(r => r.clientId == vo.clientNo).Count;
-            }
+            //Sql = @"select  reportId,
+            //                 regTimes,
+            //                 clientNo
+	           //             from V_RportRecord a  where a.clientNo in " + strClinetNo;
+            //DataTable dtReport = svc.GetDataTable(Sql);
+            //if (dtReport != null && dtReport.Rows.Count > 0)
+            //{
+            //    lstReportRecord = new List<EntityReportRecorde>();
+            //    EntityReportRecorde vo = null;
+            //    foreach (DataRow dr in dtReport.Rows)
+            //    {
+            //        vo = new EntityReportRecorde();
+            //        vo.clientId = dr["clientNo"].ToString();
+            //        vo.reportId = dr["reportId"].ToString();
+            //        lstReportRecord.Add(vo);
+            //    }
+            //}
+            //if(lstReportRecord != null)
+            //{
+            //    foreach (var vo in data)
+            //    {
+            //        vo.reportCount = lstReportRecord.FindAll(r => r.clientId == vo.clientNo).Count;
+                    
+            //    }
+            //}
             
             return data;
         }
