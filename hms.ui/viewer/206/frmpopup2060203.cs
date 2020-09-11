@@ -13,25 +13,32 @@ namespace Hms.Ui
 {
     public partial class frmpopup2060203 : frmBasePopup
     {
-        public frmpopup2060203(EnumMeals _enumMeals)
+        public frmpopup2060203(EnumMeals _enumMeals, int _day)
         {
             InitializeComponent();
             enumMeals = _enumMeals;
+            day = _day;
         }
 
         #region var/propery
         public List<EntityDisplayDicCaiRecipe> lstCaiRecipe { get; set; }
         public List<EntityDicCai> lstCai { get; set; }
         public List<EntityDicCaiIngredient> lstCaiIngredient { get; set; }
+
+        public List<EntityDietDetails> lstCaiDiet { get; set; }
+        public bool isSave { get; set; }
+
         List<DevExpress.XtraEditors.CheckEdit> lstSingleCheck { get; set; }
         public EnumMeals enumMeals { get; set; }
+        public int day { get; set; }
         #endregion
 
         #region methods
         void Init()
         {
             uiHelper.BeginLoading(this);
-            if(enumMeals == EnumMeals.breakfast)
+            isSave = false;
+            if (enumMeals == EnumMeals.breakfast)
             {
                 this.Text += "--早餐";
             }
@@ -89,7 +96,6 @@ namespace Hms.Ui
         #endregion
 
         
-
         private void gvCaiRecipe_RowCellClick(object sender, DevExpress.XtraGrid.Views.Grid.RowCellClickEventArgs e)
         {
             EntityDisplayDicCaiRecipe caiRecipe = GetRowObject();
@@ -191,6 +197,66 @@ namespace Hms.Ui
             }
         }
 
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            if (lstCaiDiet == null)
+                lstCaiDiet = new List<EntityDietDetails>();
+            if (gvData.RowCount > 0)
+            {
+                for (int i = 0; i < this.gvData.RowCount; i++)
+                {
+                    if (this.gvData.IsRowSelected(i))
+                    {
+                        EntityDicCai vo = this.gvData.GetRow(i) as EntityDicCai;
+
+                        if (vo != null)
+                        {
+                            using (ProxyHms proxy = new ProxyHms())
+                            {
+                                lstCaiIngredient = proxy.Service.GetCaiIngredient(vo.id);
+                            }    
+
+                            if(lstCaiIngredient != null)
+                            {
+                                foreach(var ingreDiet in lstCaiIngredient)
+                                {
+                                    EntityDietDetails caiDiet = new EntityDietDetails();
+                                    if (enumMeals == EnumMeals.breakfast)
+                                    {
+                                        caiDiet.mealId = 1;
+                                        caiDiet.mealType = "早餐";
+                                    }
+                                        
+                                    if (enumMeals == EnumMeals.lunch)
+                                    {
+                                        caiDiet.mealId = 2;
+                                        caiDiet.mealType = "午餐";
+                                    }
+                                        
+                                    if (enumMeals == EnumMeals.diner)
+                                    {
+                                        caiDiet.mealId = 3;
+                                        caiDiet.mealType = "晚餐";
+                                    }
+                                        
+                                    caiDiet.caiId = vo.id;
+                                    caiDiet.caiName = vo.names;
+                                    caiDiet.caiIngredietId = ingreDiet.ingredietId;
+                                    caiDiet.caiIngrediet = ingreDiet.ingredietName;
+                                    caiDiet.weihgt = ingreDiet.weight;
+                                    caiDiet.day = day;
+
+                                    if (!lstCaiDiet.Any(r => r.caiId == caiDiet.caiId && r.caiIngredietId == caiDiet.caiIngredietId))
+                                        lstCaiDiet.Add(caiDiet);
+                                }
+                            }
+
+                            isSave = true;
+                        }
+                    }
+                }
+            }
+        }
         #endregion
     }
 }

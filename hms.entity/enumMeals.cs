@@ -7,8 +7,8 @@ namespace Hms.Entity
 {
     public enum EnumMeals
     {
-        breakfast,
-        lunch,
-        diner
+        breakfast = 1,
+        lunch = 2,
+        diner = 3
     }
 }

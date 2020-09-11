@@ -21,6 +21,11 @@ namespace Hms.Ui
         #region var
         List<EntityClientInfo> lstClient { get; set; }
         List<EntityDietRecord> lstDietRecord { get; set; }
+        List<EntityDietDetails> lstDietDetails { get; set; }
+        //膳食方案记录
+        EntityDietRecord dietRecord { get; set; }
+
+        //Dictionary<string, int> dicDayIndex = new Dictionary<string, int>() { { "第一天", 1 }, { "第二天", 1 } };
         #endregion
 
         #region methods
@@ -28,29 +33,7 @@ namespace Hms.Ui
         {
             this.chkDay1.Checked = true;
             this.chkDay2.Checked = true;
-            List<EntityCaiDiet> lstCaiDiet = new List<EntityCaiDiet>();
-            EntityCaiDiet vo1 = new EntityCaiDiet();
-            vo1.mealType = "早餐";
-            vo1.caiName = "炒红薯叶";
-            vo1.caiIngrediet = "白薯叶";
-            vo1.weihgt = 60.0M;
-            lstCaiDiet.Add(vo1);
-
-            EntityCaiDiet vo2 = new EntityCaiDiet();
-            vo2.mealType = "午餐";
-            vo2.caiName = "炒红薯叶";
-            vo2.caiIngrediet = "白薯叶";
-            vo2.weihgt = 60.0M;
-            lstCaiDiet.Add(vo2);
-
-            EntityCaiDiet vo3 = new EntityCaiDiet();
-            vo3.mealType = "午餐";
-            vo3.caiName = "炒白菜";
-            vo3.caiIngrediet = "白菜";
-            vo3.weihgt = 60.0M;
-            lstCaiDiet.Add(vo3);
-
-            gridControl.DataSource = lstCaiDiet;
+            lstDietDetails = new List<EntityDietDetails>();
         }
 
 
@@ -62,18 +45,17 @@ namespace Hms.Ui
         {
             frmpopup2060202 frm = new frmpopup2060202(lstClient);
             frm.ShowDialog();
-
             lstClient = frm.lstClientSelect;
             gcSelectClient.DataSource = lstClient;
             gcSelectClient.RefreshDataSource();
         }
-        
+
         private void btnDelPerson_Click(object sender, EventArgs e)
         {
-            if(cvSelectClient.FocusedRowHandle >= 0)
+            if (cvSelectClient.FocusedRowHandle >= 0)
             {
                 EntityClientInfo vo = cvSelectClient.GetRow(cvSelectClient.FocusedRowHandle) as EntityClientInfo;
-                if(vo != null)
+                if (vo != null)
                 {
                     lstClient.Remove(vo);
                     gcSelectClient.DataSource = lstClient;
@@ -82,32 +64,147 @@ namespace Hms.Ui
             }
         }
 
-        private void btnAddDays_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnAddBreakfast_Click(object sender, EventArgs e)
         {
-            frmpopup2060203 frm = new frmpopup2060203(EnumMeals.breakfast);
+            if (string.IsNullOrEmpty(cboDays.Text))
+            {
+
+                DialogBox.Msg("请选择天数！");
+                return;
+            }
+
+            frmpopup2060203 frm = new frmpopup2060203(EnumMeals.breakfast, cboDays.SelectedIndex);
             frm.ShowDialog();
+
+            if (frm.isSave)
+            {
+                if (frm.lstCaiDiet != null)
+                {
+                    List<EntityDietDetails> lstTemp = lstDietDetails.FindAll(r => r.day == cboDays.SelectedIndex && r.mealId == (int)EnumMeals.breakfast);
+                    if (lstTemp != null)
+                    {
+                        foreach (var tmp in lstTemp)
+                            lstDietDetails.Remove(tmp);
+                    }
+
+                    lstDietDetails.AddRange(frm.lstCaiDiet);
+                }
+
+                gridControl.DataSource = lstDietDetails.FindAll(r => r.day == cboDays.SelectedIndex);
+                gridControl.RefreshDataSource();
+            }
         }
 
         private void btnAddLunch_Click(object sender, EventArgs e)
         {
-            frmpopup2060203 frm = new frmpopup2060203(EnumMeals.lunch);
+            if (string.IsNullOrEmpty(cboDays.Text))
+            {
+
+                DialogBox.Msg("请选择天数！");
+                return;
+            }
+            frmpopup2060203 frm = new frmpopup2060203(EnumMeals.lunch, cboDays.SelectedIndex);
             frm.ShowDialog();
+
+            if (frm.isSave)
+            {
+                if (frm.lstCaiDiet != null)
+                {
+                    List<EntityDietDetails> lstTemp = lstDietDetails.FindAll(r => r.day == cboDays.SelectedIndex && r.mealId == (int)EnumMeals.lunch);
+                    if (lstTemp != null)
+                    {
+                        foreach (var tmp in lstTemp)
+                            lstDietDetails.Remove(tmp);
+                    }
+
+                    lstDietDetails.AddRange(frm.lstCaiDiet);
+                }
+
+                gridControl.DataSource = lstDietDetails.FindAll(r => r.day == cboDays.SelectedIndex);
+                gridControl.RefreshDataSource();
+            }
         }
 
         private void btnAddDinner_Click(object sender, EventArgs e)
         {
-            frmpopup2060203 frm = new frmpopup2060203(EnumMeals.diner);
+            if (string.IsNullOrEmpty(cboDays.Text))
+            {
+                DialogBox.Msg("请选择天数！");
+                return;
+            }
+            frmpopup2060203 frm = new frmpopup2060203(EnumMeals.diner, cboDays.SelectedIndex);
             frm.ShowDialog();
+
+            if (frm.isSave)
+            {
+                if (frm.lstCaiDiet != null)
+                {
+                    List<EntityDietDetails> lstTemp = lstDietDetails.FindAll(r => r.day == cboDays.SelectedIndex && r.mealId == (int)EnumMeals.diner);
+                    if(lstTemp != null)
+                    {
+                        foreach (var tmp in lstTemp)
+                            lstDietDetails.Remove(tmp);
+                    }
+
+                    lstDietDetails.AddRange(frm.lstCaiDiet);
+                }
+                gridControl.DataSource = lstDietDetails.FindAll(r => r.day == cboDays.SelectedIndex);
+                gridControl.RefreshDataSource();
+            }
         }
 
         private void frmpopup2060201_Load(object sender, EventArgs e)
         {
             Init();
+        }
+
+        private void btnSaveDietCai_Click(object sender, EventArgs e)
+        {
+            if (lstClient == null)
+            {
+                DialogBox.Msg("客户为空，请选择！");
+                return;
+            }
+            if (lstDietRecord == null)
+                lstDietRecord = new List<EntityDietRecord>();
+
+            foreach (var client in lstClient)
+            {
+                if(lstDietRecord.Any(r=>r.clientNo == client.clientNo && r.regTimes == client.regTimes))
+                {
+                    
+                }
+                else
+                {
+                    EntityDietRecord dietRecord = new EntityDietRecord();
+                    dietRecord.clientNo = client.clientNo;
+                    dietRecord.regTimes = client.regTimes;
+
+                    lstDietRecord.Add(dietRecord);
+                }
+            }
+
+            if (lstDietDetails != null)
+            {
+
+            }
+        }
+
+        private void btnDelCai_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cboDays_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(!string.IsNullOrEmpty(cboDays.Text))
+            {
+                if(lstDietDetails != null)
+                {
+                    gridControl.DataSource = lstDietDetails.FindAll(r => r.day == cboDays.SelectedIndex);
+                    gridControl.RefreshDataSource();
+                }
+            }
         }
 
         #endregion

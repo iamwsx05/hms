@@ -43,31 +43,68 @@ namespace Hms.Entity
         public System.String regNo { get; set; }
 
         /// <summary>
-        /// days
+        /// day1
         /// </summary>
         [DataMember]
-        [EntityAttribute(FieldName = "days", DbType = DbType.AnsiString, IsPK = false, IsSeq = false, SerNo = 5)]
-        public System.String days { get; set; }
+        [EntityAttribute(FieldName = "day1", DbType = DbType.Int16, IsPK = false, IsSeq = false, SerNo = 5)]
+        public int day1 { get; set; }
+        /// <summary>
+        /// day2
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "day2", DbType = DbType.Int16, IsPK = false, IsSeq = false, SerNo = 6)]
+        public int day2 { get; set; }
+        /// <summary>
+        /// day3
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "day3", DbType = DbType.Int16, IsPK = false, IsSeq = false, SerNo = 7)]
+        public int day3 { get; set; }
+        /// <summary>
+        /// day4
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "day4", DbType = DbType.Int16, IsPK = false, IsSeq = false, SerNo = 8)]
+        public int day4 { get; set; }
+        /// <summary>
+        /// day5
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "day5", DbType = DbType.Int16, IsPK = false, IsSeq = false, SerNo = 9)]
+        public int day5 { get; set; }
+        /// <summary>
+        /// day6
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "day6", DbType = DbType.Int16, IsPK = false, IsSeq = false, SerNo = 10)]
+        public int day6 { get; set; }
+
+        /// <summary>
+        /// day7
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "day7", DbType = DbType.Int16, IsPK = false, IsSeq = false, SerNo = 11)]
+        public int day7 { get; set; }
 
         /// <summary>
         /// recorder
         /// </summary>
         [DataMember]
-        [EntityAttribute(FieldName = "recorder", DbType = DbType.AnsiString, IsPK = false, IsSeq = false, SerNo = 6)]
+        [EntityAttribute(FieldName = "recorder", DbType = DbType.AnsiString, IsPK = false, IsSeq = false, SerNo = 12)]
         public System.String recorder { get; set; }
 
         /// <summary>
         /// recordDate
         /// </summary>
         [DataMember]
-        [EntityAttribute(FieldName = "recordDate", DbType = DbType.DateTime, IsPK = false, IsSeq = false, SerNo = 7)]
+        [EntityAttribute(FieldName = "recordDate", DbType = DbType.DateTime, IsPK = false, IsSeq = false, SerNo = 13)]
         public System.DateTime recordDate { get; set; }
 
         /// <summary>
         /// status
         /// </summary>
         [DataMember]
-        [EntityAttribute(FieldName = "status", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 8)]
+        [EntityAttribute(FieldName = "status", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 14)]
         public System.Decimal status { get; set; }
 
         /// <summary>
@@ -84,7 +121,13 @@ namespace Hms.Entity
             public string clientNo = "clientNo";
             public string regTimes = "regTimes";
             public string regNo = "regNo";
-            public string days = "days";
+            public string day1 = "day1";
+            public string day2 = "day2";
+            public string day3 = "day3";
+            public string day4 = "day4";
+            public string day5 = "day5";
+            public string day6 = "day6";
+            public string day7 = "day7";
             public string recorder = "recorder";
             public string recordDate = "recordDate";
             public string status = "status";

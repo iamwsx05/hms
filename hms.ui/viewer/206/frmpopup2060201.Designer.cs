@@ -75,8 +75,8 @@
             this.repositoryItemMemoEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.panelControl16 = new DevExpress.XtraEditors.PanelControl();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-            this.comboBoxEdit1 = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.btnSaveDietCai = new DevExpress.XtraEditors.SimpleButton();
+            this.cboDays = new DevExpress.XtraEditors.ComboBoxEdit();
             this.btnAddDinner = new DevExpress.XtraEditors.SimpleButton();
             this.btnAddLunch = new DevExpress.XtraEditors.SimpleButton();
             this.btnDelCai = new DevExpress.XtraEditors.SimpleButton();
@@ -137,7 +137,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl16)).BeginInit();
             this.panelControl16.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cboDays.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl11)).BeginInit();
             this.panelControl11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.memoEdit1.Properties)).BeginInit();
@@ -680,6 +680,10 @@
             this.gridColumn1.Caption = "餐别";
             this.gridColumn1.FieldName = "mealType";
             this.gridColumn1.Name = "gridColumn1";
+            this.gridColumn1.OptionsColumn.AllowEdit = false;
+            this.gridColumn1.OptionsColumn.AllowFocus = false;
+            this.gridColumn1.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn1.OptionsFilter.AllowFilter = false;
             this.gridColumn1.Visible = true;
             this.gridColumn1.VisibleIndex = 0;
             this.gridColumn1.Width = 125;
@@ -689,6 +693,10 @@
             this.gridColumn2.Caption = "菜名";
             this.gridColumn2.FieldName = "caiName";
             this.gridColumn2.Name = "gridColumn2";
+            this.gridColumn2.OptionsColumn.AllowEdit = false;
+            this.gridColumn2.OptionsColumn.AllowFocus = false;
+            this.gridColumn2.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn2.OptionsFilter.AllowFilter = false;
             this.gridColumn2.Visible = true;
             this.gridColumn2.VisibleIndex = 0;
             this.gridColumn2.Width = 202;
@@ -698,15 +706,25 @@
             this.gridColumn3.Caption = "原料";
             this.gridColumn3.FieldName = "caiIngrediet";
             this.gridColumn3.Name = "gridColumn3";
+            this.gridColumn3.OptionsColumn.AllowEdit = false;
+            this.gridColumn3.OptionsColumn.AllowFocus = false;
+            this.gridColumn3.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn3.OptionsFilter.AllowFilter = false;
             this.gridColumn3.Visible = true;
             this.gridColumn3.VisibleIndex = 0;
             this.gridColumn3.Width = 202;
             // 
             // gridColumn4
             // 
+            this.gridColumn4.AppearanceCell.Options.UseTextOptions = true;
+            this.gridColumn4.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn4.Caption = "重量";
-            this.gridColumn4.FieldName = "wihgt";
+            this.gridColumn4.FieldName = "weihgt";
             this.gridColumn4.Name = "gridColumn4";
+            this.gridColumn4.OptionsColumn.AllowEdit = false;
+            this.gridColumn4.OptionsColumn.AllowFocus = false;
+            this.gridColumn4.OptionsFilter.AllowAutoFilter = false;
+            this.gridColumn4.OptionsFilter.AllowFilter = false;
             this.gridColumn4.Visible = true;
             this.gridColumn4.VisibleIndex = 1;
             this.gridColumn4.Width = 206;
@@ -724,8 +742,8 @@
             // 
             // panelControl16
             // 
-            this.panelControl16.Controls.Add(this.simpleButton1);
-            this.panelControl16.Controls.Add(this.comboBoxEdit1);
+            this.panelControl16.Controls.Add(this.btnSaveDietCai);
+            this.panelControl16.Controls.Add(this.cboDays);
             this.panelControl16.Controls.Add(this.btnAddDinner);
             this.panelControl16.Controls.Add(this.btnAddLunch);
             this.panelControl16.Controls.Add(this.btnDelCai);
@@ -736,25 +754,26 @@
             this.panelControl16.Size = new System.Drawing.Size(782, 42);
             this.panelControl16.TabIndex = 14;
             // 
-            // simpleButton1
+            // btnSaveDietCai
             // 
-            this.simpleButton1.Appearance.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.simpleButton1.Appearance.Options.UseFont = true;
-            this.simpleButton1.Location = new System.Drawing.Point(300, 6);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(75, 23);
-            this.simpleButton1.TabIndex = 17;
-            this.simpleButton1.Text = "保存";
+            this.btnSaveDietCai.Appearance.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSaveDietCai.Appearance.Options.UseFont = true;
+            this.btnSaveDietCai.Location = new System.Drawing.Point(300, 6);
+            this.btnSaveDietCai.Name = "btnSaveDietCai";
+            this.btnSaveDietCai.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveDietCai.TabIndex = 17;
+            this.btnSaveDietCai.Text = "保存";
+            this.btnSaveDietCai.Click += new System.EventHandler(this.btnSaveDietCai_Click);
             // 
-            // comboBoxEdit1
+            // cboDays
             // 
-            this.comboBoxEdit1.Location = new System.Drawing.Point(493, 9);
-            this.comboBoxEdit1.Name = "comboBoxEdit1";
-            this.comboBoxEdit1.Properties.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBoxEdit1.Properties.Appearance.Options.UseFont = true;
-            this.comboBoxEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.cboDays.Location = new System.Drawing.Point(493, 9);
+            this.cboDays.Name = "cboDays";
+            this.cboDays.Properties.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboDays.Properties.Appearance.Options.UseFont = true;
+            this.cboDays.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEdit1.Properties.Items.AddRange(new object[] {
+            this.cboDays.Properties.Items.AddRange(new object[] {
             "   ",
             "第一天",
             "第二天",
@@ -763,8 +782,10 @@
             "第五天",
             "第六天",
             "第七天"});
-            this.comboBoxEdit1.Size = new System.Drawing.Size(161, 20);
-            this.comboBoxEdit1.TabIndex = 16;
+            this.cboDays.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cboDays.Size = new System.Drawing.Size(161, 20);
+            this.cboDays.TabIndex = 16;
+            this.cboDays.SelectedIndexChanged += new System.EventHandler(this.cboDays_SelectedIndexChanged);
             // 
             // btnAddDinner
             // 
@@ -797,6 +818,7 @@
             this.btnDelCai.Size = new System.Drawing.Size(75, 23);
             this.btnDelCai.TabIndex = 13;
             this.btnDelCai.Text = "删除";
+            this.btnDelCai.Click += new System.EventHandler(this.btnDelCai_Click);
             // 
             // btnAddBreakfast
             // 
@@ -982,7 +1004,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl16)).EndInit();
             this.panelControl16.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cboDays.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl11)).EndInit();
             this.panelControl11.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.memoEdit1.Properties)).EndInit();
@@ -1048,8 +1070,8 @@
         private DevExpress.XtraEditors.SimpleButton btnAddBreakfast;
         private DevExpress.XtraEditors.SimpleButton btnAddDinner;
         private DevExpress.XtraEditors.SimpleButton btnAddLunch;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxEdit1;
+        private DevExpress.XtraEditors.SimpleButton btnSaveDietCai;
+        private DevExpress.XtraEditors.ComboBoxEdit cboDays;
         private DevExpress.XtraEditors.CheckEdit chkDay7;
         private DevExpress.XtraEditors.CheckEdit chkDay6;
         private DevExpress.XtraEditors.CheckEdit chkDay5;
