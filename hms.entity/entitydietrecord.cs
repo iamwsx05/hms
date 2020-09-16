@@ -106,6 +106,19 @@ namespace Hms.Entity
         [DataMember]
         [EntityAttribute(FieldName = "status", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 14)]
         public System.Decimal status { get; set; }
+        [DataMember]
+        public string clientName { get; set; }
+        [DataMember]
+        public string sex { get; set; }
+        [DataMember]
+        public string age { get; set; }
+        [DataMember]
+        public string gradeName { get; set; }
+        [DataMember]
+        public string company { get; set; }
+        [DataMember]
+        public string recordDateStr { get; set; }
+
 
         /// <summary>
         /// Columns

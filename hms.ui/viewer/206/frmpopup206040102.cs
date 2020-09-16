@@ -22,7 +22,7 @@ namespace Hms.Ui
         List<EntityDicDientIngredient> lstDientIngrdient { get; set; }
 
 
-        void calcNutrition(List<EntityDicDientIngredient> lstDientIngrdient)
+        void CalcNutrition(List<EntityDicDientIngredient> lstDientIngrdient)
         {
             decimal kcal = 0;
             decimal proteint = 0;
@@ -77,7 +77,7 @@ namespace Hms.Ui
 
         private void frmPopup206040102_Load(object sender, EventArgs e)
         {
-            calcNutrition(lstDientIngrdient);
+            CalcNutrition(lstDientIngrdient);
         }
     }
 }

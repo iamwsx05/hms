@@ -2404,6 +2404,89 @@ namespace weCare.Core.Utils
             return MapperToModel(d,s,null);
         }
         #endregion
+
+        #region 患者信息赋值
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="dr"></param>
+        public static void SetClientInfo<E>(ref E obj, DataRow dr)
+        {
+            string sex = string.Empty;
+            string age = string.Empty;
+            string company = string.Empty;
+            string clientName = string.Empty;
+            string clientNo = string.Empty;
+            string gradeName = string.Empty;
+            if (dr.Table.Columns.Contains("gender"))
+            {
+                if (dr["gender"].ToString() == "1")
+                    sex = "男";
+                else if (dr["gender"].ToString() == "2")
+                    sex = "女";
+                else
+                    return;
+                PropertyInfo pi = obj.GetType().GetProperty("sex");
+                if (pi != null)
+                {
+                    pi.SetValue(obj, sex, null);
+                }
+            }
+
+            if (dr.Table.Columns.Contains("birthday"))
+            {
+                if (dr["birthday"] != null)
+                    age = Function.CalcAge(Function.Datetime(dr["birthday"]));
+                PropertyInfo pi = obj.GetType().GetProperty("age");
+                if (pi != null)
+                {
+                    pi.SetValue(obj, age, null);
+                }
+            }
+
+            if (dr.Table.Columns.Contains("company"))
+            {
+                company = dr["company"].ToString();
+                PropertyInfo pi = obj.GetType().GetProperty("company");
+                if (pi != null)
+                {
+                    pi.SetValue(obj, company, null);
+                }
+            }
+
+            if (dr.Table.Columns.Contains("clientName"))
+            {
+                clientName = dr["clientName"].ToString();
+                PropertyInfo pi = obj.GetType().GetProperty("clientName");
+                if (pi != null)
+                {
+                    pi.SetValue(obj, clientName, null);
+                }
+            }
+
+            if (dr.Table.Columns.Contains("clientNo"))
+            {
+                clientNo = dr["clientNo"].ToString();
+                PropertyInfo pi = obj.GetType().GetProperty("clientNo");
+                if (pi != null)
+                {
+                    pi.SetValue(obj, clientNo, null);
+                }
+            }
+
+            if (dr.Table.Columns.Contains("gradeName"))
+            {
+                gradeName = dr["gradeName"].ToString();
+                PropertyInfo pi = obj.GetType().GetProperty("gradeName");
+                if (pi != null)
+                {
+                    pi.SetValue(obj, gradeName, null);
+                }
+            }
+        }
+        #endregion
     }
 
     #region COPYDATASTRUCT

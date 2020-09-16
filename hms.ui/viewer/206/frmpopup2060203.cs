@@ -243,7 +243,7 @@ namespace Hms.Ui
                                     caiDiet.caiName = vo.names;
                                     caiDiet.caiIngredietId = ingreDiet.ingredietId;
                                     caiDiet.caiIngrediet = ingreDiet.ingredietName;
-                                    caiDiet.weihgt = ingreDiet.weight;
+                                    caiDiet.weight = ingreDiet.weight;
                                     caiDiet.day = day;
 
                                     if (!lstCaiDiet.Any(r => r.caiId == caiDiet.caiId && r.caiIngredietId == caiDiet.caiIngredietId))

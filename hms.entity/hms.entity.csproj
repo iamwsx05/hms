@@ -72,6 +72,7 @@
     <Compile Include="entityevaluationresult.cs" />
     <Compile Include="entityhmssf.cs" />
     <Compile Include="entityevaluateparams.cs" />
+    <Compile Include="entityIngredietnutrition.cs" />
     <Compile Include="entitymedicaladvicecs.cs" />
     <Compile Include="entitymodelaccess.cs" />
     <Compile Include="entitymodelaccessrecord .cs" />

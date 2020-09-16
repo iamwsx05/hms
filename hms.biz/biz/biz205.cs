@@ -226,7 +226,7 @@ namespace Hms.Biz
                     vo.recId = Function.Dec(dr["recId"]);
                     vo.sfId = Function.Int(dr["sfId"]);
                     vo.sfDateStr = dr["sfDate"] == DBNull.Value ? "" : Function.Datetime(dr["sfDate"]).ToString("yyyy-MM-dd HH:mm");
-                    SetClientInfo(ref vo, dr);
+                    Function.SetClientInfo(ref vo, dr);
                     int sfMethod = Function.Int(dr["sfMethod"]);
                     if (sfMethod == 1)
                         vo.sfMethod = "上门";
@@ -372,7 +372,7 @@ namespace Hms.Biz
                     vo = new EntityGxyPg();
                     vo.pgId = Function.Dec(dr["pgId"]);
                     vo.recId = Function.Dec(dr["recId"]);
-                    SetClientInfo(ref vo, dr);
+                    Function.SetClientInfo(ref vo, dr);
                     vo.evaDateStr = dr["evaDate"] == DBNull.Value ? "" : Function.Datetime(dr["evaDate"]).ToString("yyyy-MM-dd");
                     vo.bloodPressLevel = dr["bloodPressLevel"].ToString();
                     if (vo.bloodPressLevel == "1")
@@ -789,7 +789,7 @@ namespace Hms.Biz
                     vo.recId = Function.Dec(dr["recId"]);
                     vo.sfId = Function.Int(dr["sfId"]);
                     vo.sfDateStr = dr["sfDate"] == DBNull.Value ? "" : Function.Datetime(dr["sfDate"]).ToString("yyyy-MM-dd HH:mm");
-                    SetClientInfo(ref vo, dr);
+                    Function.SetClientInfo(ref vo, dr);
                     int sfMethod = Function.Int(dr["sfMethod"]);
                     if (sfMethod == 1)
                         vo.sfMethod = "上门";
@@ -935,7 +935,7 @@ namespace Hms.Biz
                     vo = new EntityTnbPg();
                     vo.pgId = Function.Dec(dr["pgId"]);
                     vo.recId = Function.Dec(dr["recId"]);
-                    SetClientInfo(ref vo, dr);
+                    Function.SetClientInfo(ref vo, dr);
                     vo.dangerLevel = dr["dangerLevel"].ToString();
                     if (vo.dangerLevel == "1")
                         vo.dangerLevel = "低危";
@@ -1087,89 +1087,6 @@ namespace Hms.Biz
 
         #endregion
 
-        #endregion
-
-        #region 患者信息赋值
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="obj"></param>
-        /// <param name="dr"></param>
-        public void SetClientInfo<E>(ref E obj, DataRow dr)
-        {
-            string sex = string.Empty;
-            string age = string.Empty;
-            string company = string.Empty;
-            string clientName = string.Empty;
-            string clientNo = string.Empty;
-            string gradeName = string.Empty;
-            if (dr.Table.Columns.Contains("gender"))
-            {
-                if (dr["gender"].ToString() == "1")
-                    sex = "男";
-                else if (dr["gender"].ToString() == "2")
-                    sex = "女";
-                else
-                    return;
-                PropertyInfo pi = obj.GetType().GetProperty("sex");
-                if (pi != null)
-                {
-                    pi.SetValue(obj, sex, null);
-                }
-            }
-
-            if (dr.Table.Columns.Contains("birthday"))
-            {
-                if (dr["birthday"] != null)
-                    age = Function.CalcAge(Function.Datetime(dr["birthday"]));
-                PropertyInfo pi = obj.GetType().GetProperty("age");
-                if (pi != null)
-                {
-                    pi.SetValue(obj, age, null);
-                }
-            }
-
-            if (dr.Table.Columns.Contains("company"))
-            {
-                company = dr["company"].ToString();
-                PropertyInfo pi = obj.GetType().GetProperty("company");
-                if (pi != null)
-                {
-                    pi.SetValue(obj, company, null);
-                }
-            }
-
-            if (dr.Table.Columns.Contains("clientName"))
-            {
-                clientName = dr["clientName"].ToString();
-                PropertyInfo pi = obj.GetType().GetProperty("clientName");
-                if (pi != null)
-                {
-                    pi.SetValue(obj, clientName, null);
-                }
-            }
-
-            if (dr.Table.Columns.Contains("clientNo"))
-            {
-                clientNo = dr["clientNo"].ToString();
-                PropertyInfo pi = obj.GetType().GetProperty("clientNo");
-                if (pi != null)
-                {
-                    pi.SetValue(obj, clientNo, null);
-                }
-            }
-
-            if (dr.Table.Columns.Contains("gradeName"))
-            {
-                gradeName = dr["gradeName"].ToString();
-                PropertyInfo pi = obj.GetType().GetProperty("gradeName");
-                if (pi != null)
-                {
-                    pi.SetValue(obj, gradeName, null);
-                }
-            }
-        }
         #endregion
 
         #region Dispose

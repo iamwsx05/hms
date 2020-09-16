@@ -136,6 +136,224 @@ namespace Hms.Biz
 
         #endregion
 
+        #region 膳食方案
+
+        #region 获取
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parms"></param>
+        /// <returns></returns>
+        public List<EntityDietRecord> GetDietRecords(List<EntityParm> parms)
+        {
+            List<EntityDietRecord> data = null;
+            SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
+            string Sql = string.Empty;
+            Sql = @"select a.recId,a.regNo,
+                           b.clientNo,
+                           b.clientName,
+                           a.regTimes,
+                           b.gender,
+                           b.birthday,
+                           b.gradeName,
+                           b.company,
+                           a.day1,
+                           a.day2,
+                           a.day3,
+                           a.day4,
+                           a.day5,
+                           a.day6,
+                           a.day7,
+                           a.recordDate,
+                           a.recorder
+                      from dietRecord a
+                     inner join V_ClientInfo b
+                        on a.clientNo = b.clientNo  and a.regTimes = b.regTimes
+                    where a.recid >= 0 ";
+            string subStr = string.Empty;
+            List<IDataParameter> lstParm = new List<IDataParameter>();
+            if (parms != null)
+            {
+                foreach (var po in parms)
+                {
+                    switch (po.key)
+                    {
+                        case "queryDate":
+                            IDataParameter[] param = svc.CreateParm(2);
+                            param[0].Value = po.value.Split('|')[0] + " 00:00:00";
+                            param[1].Value = po.value.Split('|')[1] + " 23:59:59";
+                            subStr += " and a.recordDate between ? and ?";
+                            lstParm.AddRange(param);
+                            break;
+                        case "clientNo":
+                            subStr += " and a.clientNo like '%" + po.value + "%'";
+                            break;
+                        case "clientName":
+                            subStr += " and b.clientName like '%" + po.value + "%'";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+
+            Sql += subStr;
+
+            DataTable dt = svc.GetDataTable(Sql, lstParm);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                data = new List<EntityDietRecord>();
+                EntityDietRecord vo = null;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    vo = new EntityDietRecord();
+                    vo.recId = Function.Dec(dr["recId"]);
+                    vo.regNo = dr["regNo"].ToString();
+                    vo.regTimes = Function.Int(dr["regTimes"]);
+                    vo.clientNo = dr["clientNo"].ToString();
+                    Function.SetClientInfo(ref vo ,dr);
+                    vo.age = dr["birthday"] == DBNull.Value ? "" : Function.CalcAge(Function.Datetime(dr["birthday"]));
+                    vo.gradeName = dr["gradeName"].ToString();
+                    vo.company = dr["company"].ToString();
+                    vo.day1 = Function.Int(dr["day1"]) ;
+                    vo.day2 = Function.Int(dr["day2"]);
+                    vo.day3 = Function.Int(dr["day3"]);
+                    vo.day4 = Function.Int(dr["day4"]);
+                    vo.day5 = Function.Int(dr["day5"]);
+                    vo.day6 = Function.Int(dr["day6"]);
+                    vo.day7 = Function.Int(dr["day7"]);
+                    vo.recorder = dr["recorder"].ToString();
+                    vo.recordDateStr = Function.Datetime(dr["recordDate"]).ToString("yyyy-MM-dd HH:mm") ;
+                    data.Add(vo);
+                }
+            }
+            return data;
+        }
+        #endregion
+
+        #region 获取食谱及原料
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dietRecIdStr"></param>
+        /// <returns></returns>
+        public List<EntityDietDetails> GetDietDetails(string dietRecIdStr)
+        {
+            List<EntityDietDetails> data = null;
+            SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
+            string Sql = string.Empty;
+            Sql = @"select recId,
+                            day,
+                            mealId,
+                            mealType,
+                            caiId,
+                            caiName,
+                            caiIngrediet,
+                            caiIngredietId,
+                            weight
+                        from dietDetails  ";
+            if (string.IsNullOrEmpty(dietRecIdStr))
+                return null;
+            Sql += " where recId in " + dietRecIdStr;
+            DataTable dt = svc.GetDataTable(Sql);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                data = new List<EntityDietDetails>();
+                EntityDietDetails vo = null;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    vo = new EntityDietDetails();
+                    vo.recId =Function.Dec(dr["recId"]);
+                    vo.day = Function.Int(dr["day"]);
+                    vo.mealId = Function.Int(dr["mealId"]);
+                    vo.mealType = dr["mealType"].ToString();
+                    vo.caiId = dr["caiId"].ToString();
+                    vo.caiName = dr["caiName"].ToString();
+                    vo.caiIngrediet = dr["caiIngrediet"].ToString();
+                    vo.caiIngredietId = dr["caiIngredietId"].ToString();
+                    vo.weight = Function.Dec(dr["weight"]) ;
+                    data.Add(vo);
+                }
+            }
+            return data;
+        }
+        #endregion
+
+        #region 保存
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lstDietRecord"></param>
+        /// <param name="lstDietDetails"></param>
+        /// <returns></returns>
+        public int SaveDietCai(List<EntityDietRecord> lstDietRecord ,List<EntityDietDetails> lstDietDetails, out Dictionary<string,decimal> dicRecId)
+        {
+            int affect = -1;
+            SqlHelper svc = null;
+            string sql = string.Empty;
+            decimal recId = 0;
+            IDataParameter[] param = null;
+            dicRecId = new Dictionary<string, decimal>();
+            try
+            {
+                svc = new SqlHelper(EnumBiz.onlineDB);
+                List<DacParm> lstParm = new List<DacParm>();
+                if (lstDietRecord == null)
+                    return -1;
+                foreach (var dietR in lstDietRecord)
+                {
+                    if (dietR.recId <= 0)
+                    {
+                        recId = svc.GetNextID("dietRecord", "recId");
+                        dietR.recId = recId;
+                    }
+                   
+                    dietR.recorder = "00";
+                    dietR.recordDate = DateTime.Now;
+                    dicRecId.Add(dietR.clientNo,dietR.recId);
+
+                    sql = @"delete from dietRecord where recId =  ?";
+                    param = svc.CreateParm(1);
+                    param[0].Value = dietR.recId;
+
+                    lstParm.Add(svc.GetDacParm(EnumExecType.ExecSql,sql,param));
+                    lstParm.Add(svc.GetInsertParm(dietR));
+
+                    sql = @"delete from dietDetails where recId = ?";
+                    param = svc.CreateParm(1);
+                    param[0].Value = dietR.recId;
+                    lstParm.Add(svc.GetDacParm(EnumExecType.ExecSql, sql, param));
+
+                    if (lstDietDetails != null)
+                    {
+                        foreach (var dietD in lstDietDetails)
+                        {
+                            dietD.recId = dietR.recId;
+                            lstParm.Add(svc.GetInsertParm(dietD));
+                        }
+                    }
+                }
+
+                if (lstParm.Count > 0)
+                    affect = svc.Commit(lstParm);
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.OutPutException(ex);
+            }
+            finally
+            {
+                svc = null;
+            }
+           
+            return affect;
+        }
+        #endregion
+
+        #endregion
+
         #region 饮食菜谱模板
 
         #region 获取类型列表

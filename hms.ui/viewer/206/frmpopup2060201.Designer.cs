@@ -85,12 +85,19 @@
             this.memoEdit1 = new DevExpress.XtraEditors.MemoEdit();
             this.panelControl12 = new DevExpress.XtraEditors.PanelControl();
             this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
-            this.simpleButton6 = new DevExpress.XtraEditors.SimpleButton();
+            this.btnAddDietPrinciple = new DevExpress.XtraEditors.SimpleButton();
             this.panelControl13 = new DevExpress.XtraEditors.PanelControl();
             this.memoEdit2 = new DevExpress.XtraEditors.MemoEdit();
             this.panelControl14 = new DevExpress.XtraEditors.PanelControl();
             this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
             this.simpleButton5 = new DevExpress.XtraEditors.SimpleButton();
+            this.gcDietNutrtion = new DevExpress.XtraGrid.GridControl();
+            this.gvDietNutrtion = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.itemName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.deptName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.sex = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemMemoEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
+            this.repositoryItemCheckEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBackGround)).BeginInit();
             this.pcBackGround.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.marqueeProgressBarControl.Properties)).BeginInit();
@@ -108,6 +115,7 @@
             this.panelControl10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
+            this.xtraTabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl15)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl8)).BeginInit();
             this.panelControl8.SuspendLayout();
@@ -148,6 +156,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.memoEdit2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl14)).BeginInit();
             this.panelControl14.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gcDietNutrtion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gvDietNutrtion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).BeginInit();
             this.SuspendLayout();
             // 
             // pcBackGround
@@ -320,6 +332,7 @@
             // 
             // xtraTabPage1
             // 
+            this.xtraTabPage1.Controls.Add(this.gcDietNutrtion);
             this.xtraTabPage1.Name = "xtraTabPage1";
             this.xtraTabPage1.Size = new System.Drawing.Size(363, 696);
             this.xtraTabPage1.Text = "食谱营养素分析";
@@ -719,7 +732,7 @@
             this.gridColumn4.AppearanceCell.Options.UseTextOptions = true;
             this.gridColumn4.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn4.Caption = "重量";
-            this.gridColumn4.FieldName = "weihgt";
+            this.gridColumn4.FieldName = "weight";
             this.gridColumn4.Name = "gridColumn4";
             this.gridColumn4.OptionsColumn.AllowEdit = false;
             this.gridColumn4.OptionsColumn.AllowFocus = false;
@@ -852,7 +865,7 @@
             // panelControl12
             // 
             this.panelControl12.Controls.Add(this.labelControl8);
-            this.panelControl12.Controls.Add(this.simpleButton6);
+            this.panelControl12.Controls.Add(this.btnAddDietPrinciple);
             this.panelControl12.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl12.Location = new System.Drawing.Point(2, 2);
             this.panelControl12.Name = "panelControl12";
@@ -880,15 +893,15 @@
             this.labelControl8.TabIndex = 12;
             this.labelControl8.Text = "膳食原则";
             // 
-            // simpleButton6
+            // btnAddDietPrinciple
             // 
-            this.simpleButton6.Appearance.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.simpleButton6.Appearance.Options.UseFont = true;
-            this.simpleButton6.Location = new System.Drawing.Point(113, 13);
-            this.simpleButton6.Name = "simpleButton6";
-            this.simpleButton6.Size = new System.Drawing.Size(75, 23);
-            this.simpleButton6.TabIndex = 4;
-            this.simpleButton6.Text = "添加";
+            this.btnAddDietPrinciple.Appearance.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddDietPrinciple.Appearance.Options.UseFont = true;
+            this.btnAddDietPrinciple.Location = new System.Drawing.Point(113, 13);
+            this.btnAddDietPrinciple.Name = "btnAddDietPrinciple";
+            this.btnAddDietPrinciple.Size = new System.Drawing.Size(75, 23);
+            this.btnAddDietPrinciple.TabIndex = 4;
+            this.btnAddDietPrinciple.Text = "添加";
             // 
             // panelControl13
             // 
@@ -949,6 +962,124 @@
             this.simpleButton5.TabIndex = 4;
             this.simpleButton5.Text = "添加";
             // 
+            // gcDietNutrtion
+            // 
+            this.gcDietNutrtion.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gcDietNutrtion.Location = new System.Drawing.Point(0, 0);
+            this.gcDietNutrtion.MainView = this.gvDietNutrtion;
+            this.gcDietNutrtion.Name = "gcDietNutrtion";
+            this.gcDietNutrtion.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemMemoEdit2,
+            this.repositoryItemCheckEdit2});
+            this.gcDietNutrtion.Size = new System.Drawing.Size(363, 696);
+            this.gcDietNutrtion.TabIndex = 13;
+            this.gcDietNutrtion.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gvDietNutrtion});
+            // 
+            // gvDietNutrtion
+            // 
+            this.gvDietNutrtion.Appearance.GroupPanel.Font = new System.Drawing.Font("宋体", 9F);
+            this.gvDietNutrtion.Appearance.GroupPanel.Options.UseFont = true;
+            this.gvDietNutrtion.Appearance.Preview.Font = new System.Drawing.Font("宋体", 9F);
+            this.gvDietNutrtion.Appearance.Preview.Options.UseFont = true;
+            this.gvDietNutrtion.Appearance.Row.Font = new System.Drawing.Font("宋体", 9F);
+            this.gvDietNutrtion.Appearance.Row.Options.UseFont = true;
+            this.gvDietNutrtion.ColumnPanelRowHeight = 26;
+            this.gvDietNutrtion.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.itemName,
+            this.deptName,
+            this.sex});
+            this.gvDietNutrtion.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFullFocus;
+            this.gvDietNutrtion.GridControl = this.gcDietNutrtion;
+            this.gvDietNutrtion.GroupFormat = "[#image]{1} {2}";
+            this.gvDietNutrtion.IndicatorWidth = 45;
+            this.gvDietNutrtion.Name = "gvDietNutrtion";
+            this.gvDietNutrtion.OptionsBehavior.AllowFixedGroups = DevExpress.Utils.DefaultBoolean.True;
+            this.gvDietNutrtion.OptionsBehavior.AllowPixelScrolling = DevExpress.Utils.DefaultBoolean.True;
+            this.gvDietNutrtion.OptionsBehavior.AutoExpandAllGroups = true;
+            this.gvDietNutrtion.OptionsDetail.EnableMasterViewMode = false;
+            this.gvDietNutrtion.OptionsSelection.MultiSelect = true;
+            this.gvDietNutrtion.OptionsView.GroupDrawMode = DevExpress.XtraGrid.Views.Grid.GroupDrawMode.Office;
+            this.gvDietNutrtion.OptionsView.ShowGroupPanel = false;
+            this.gvDietNutrtion.OptionsView.ShowIndicator = false;
+            this.gvDietNutrtion.RowHeight = 26;
+            // 
+            // itemName
+            // 
+            this.itemName.AppearanceCell.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.itemName.AppearanceCell.Options.UseFont = true;
+            this.itemName.AppearanceCell.Options.UseTextOptions = true;
+            this.itemName.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.itemName.AppearanceHeader.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.itemName.AppearanceHeader.Options.UseFont = true;
+            this.itemName.AppearanceHeader.Options.UseTextOptions = true;
+            this.itemName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.itemName.Caption = "成份";
+            this.itemName.FieldName = "itemName";
+            this.itemName.Name = "itemName";
+            this.itemName.OptionsColumn.AllowEdit = false;
+            this.itemName.OptionsColumn.AllowFocus = false;
+            this.itemName.OptionsFilter.AllowAutoFilter = false;
+            this.itemName.OptionsFilter.AllowFilter = false;
+            this.itemName.Visible = true;
+            this.itemName.VisibleIndex = 0;
+            this.itemName.Width = 137;
+            // 
+            // deptName
+            // 
+            this.deptName.AppearanceCell.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.deptName.AppearanceCell.Options.UseFont = true;
+            this.deptName.AppearanceCell.Options.UseTextOptions = true;
+            this.deptName.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.deptName.AppearanceHeader.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.deptName.AppearanceHeader.Options.UseFont = true;
+            this.deptName.AppearanceHeader.Options.UseTextOptions = true;
+            this.deptName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.deptName.Caption = "推荐量";
+            this.deptName.FieldName = "recoJ";
+            this.deptName.GroupInterval = DevExpress.XtraGrid.ColumnGroupInterval.DisplayText;
+            this.deptName.Name = "deptName";
+            this.deptName.OptionsColumn.AllowEdit = false;
+            this.deptName.OptionsColumn.AllowFocus = false;
+            this.deptName.OptionsFilter.AllowAutoFilter = false;
+            this.deptName.OptionsFilter.AllowFilter = false;
+            this.deptName.Visible = true;
+            this.deptName.VisibleIndex = 1;
+            this.deptName.Width = 108;
+            // 
+            // sex
+            // 
+            this.sex.AppearanceCell.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sex.AppearanceCell.Options.UseFont = true;
+            this.sex.AppearanceCell.Options.UseTextOptions = true;
+            this.sex.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.sex.AppearanceHeader.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.sex.AppearanceHeader.Options.UseFont = true;
+            this.sex.AppearanceHeader.Options.UseTextOptions = true;
+            this.sex.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.sex.Caption = "提供量";
+            this.sex.FieldName = "proJ";
+            this.sex.Name = "sex";
+            this.sex.OptionsColumn.AllowEdit = false;
+            this.sex.OptionsColumn.AllowFocus = false;
+            this.sex.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+            this.sex.OptionsFilter.AllowAutoFilter = false;
+            this.sex.OptionsFilter.AllowFilter = false;
+            this.sex.Visible = true;
+            this.sex.VisibleIndex = 2;
+            this.sex.Width = 116;
+            // 
+            // repositoryItemMemoEdit2
+            // 
+            this.repositoryItemMemoEdit2.Name = "repositoryItemMemoEdit2";
+            // 
+            // repositoryItemCheckEdit2
+            // 
+            this.repositoryItemCheckEdit2.AutoHeight = false;
+            this.repositoryItemCheckEdit2.Name = "repositoryItemCheckEdit2";
+            this.repositoryItemCheckEdit2.ValueChecked = 1;
+            this.repositoryItemCheckEdit2.ValueUnchecked = 0;
+            // 
             // frmpopup2060201
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
@@ -974,6 +1105,7 @@
             this.panelControl10.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);
+            this.xtraTabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.panelControl15)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl8)).EndInit();
             this.panelControl8.ResumeLayout(false);
@@ -1015,6 +1147,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.memoEdit2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl14)).EndInit();
             this.panelControl14.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gcDietNutrtion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gvDietNutrtion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1055,7 +1191,7 @@
         private DevExpress.XtraEditors.MemoEdit memoEdit1;
         private DevExpress.XtraEditors.PanelControl panelControl12;
         private DevExpress.XtraEditors.LabelControl labelControl8;
-        private DevExpress.XtraEditors.SimpleButton simpleButton6;
+        private DevExpress.XtraEditors.SimpleButton btnAddDietPrinciple;
         private DevExpress.XtraEditors.XtraScrollableControl xtraScrollableControl1;
         private DevExpress.XtraTab.XtraTabControl xtraTabControl1;
         private DevExpress.XtraTab.XtraTabPage xtraTabPage1;
@@ -1083,5 +1219,12 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
+        private DevExpress.XtraGrid.GridControl gcDietNutrtion;
+        private DevExpress.XtraGrid.Views.Grid.GridView gvDietNutrtion;
+        private DevExpress.XtraGrid.Columns.GridColumn itemName;
+        private DevExpress.XtraGrid.Columns.GridColumn deptName;
+        private DevExpress.XtraGrid.Columns.GridColumn sex;
+        private DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit repositoryItemMemoEdit2;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit2;
     }
 }

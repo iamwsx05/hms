@@ -75,8 +75,8 @@ namespace Hms.Entity
         /// weihgt
         /// </summary>
         [DataMember]
-        [EntityAttribute(FieldName = "weihgt", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 9)]
-        public System.Decimal? weihgt { get; set; }
+        [EntityAttribute(FieldName = "weight", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 9)]
+        public System.Decimal weight { get; set; }
 
         /// <summary>
         /// Columns
@@ -96,7 +96,7 @@ namespace Hms.Entity
             public string caiName = "caiName";
             public string caiIngrediet = "caiIngrediet";
             public string caiIngredietId = "caiIngredietId";
-            public string weihgt = "weihgt";
+            public string weight = "weight";
         }
     }
 }

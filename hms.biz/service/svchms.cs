@@ -696,7 +696,7 @@ namespace Hms.Svc
         #endregion
 
         #region 206 膳食管理
-
+        
         #region 20601 膳食原则
         /// <summary>
         /// 获取膳食原则列表
@@ -735,6 +735,56 @@ namespace Hms.Svc
                 return biz.DeleteDietPrinciple(data);
             }
         }
+        #endregion
+
+        #region 20602 膳食方案
+
+        #region 保存
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lstDietRecord"></param>
+        /// <param name="lstDietDetails"></param>
+        /// <returns></returns>
+        public int SaveDietCai(List<EntityDietRecord> lstDietRecord, List<EntityDietDetails> lstDietDetails, out Dictionary<string, decimal> dicRecId)
+        {
+            using (Biz206 biz = new Biz206())
+            {
+                return biz.SaveDietCai(lstDietRecord, lstDietDetails, out dicRecId);
+            }
+        }
+        #endregion
+
+        #region 获取记录
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parms"></param>
+        /// <returns></returns>
+        public List<EntityDietRecord> GetDietRecords(List<EntityParm> parms)
+        {
+            using (Biz206 biz = new Biz206())
+            {
+                return biz.GetDietRecords(parms);
+            }
+        }
+        #endregion
+
+        #region 获取食谱
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dietRecIdStr"></param>
+        /// <returns></returns>
+        public List<EntityDietDetails> GetDietDetails(string dietRecIdStr)
+        {
+            using (Biz206 biz = new Biz206())
+            {
+                return biz.GetDietDetails(dietRecIdStr);
+            }
+        }
+        #endregion
+
         #endregion
 
         #region 20602 饮食菜谱模板
@@ -935,7 +985,7 @@ namespace Hms.Svc
         #endregion
 
         #region 207 服务预约
-        
+
         #endregion
 
         #region 208 体检维护

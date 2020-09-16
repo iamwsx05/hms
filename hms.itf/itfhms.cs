@@ -449,6 +449,34 @@ namespace Hms.Itf
         int DeleteDietPrinciple(List<EntityDietPrinciple> data);
         #endregion
 
+        #region 膳食方案
+        /// <summary>
+        /// 保存
+        /// </summary>
+        /// <param name="lstDietRecord"></param>
+        /// <param name="lstDietDetails"></param>
+        /// <returns></returns>
+        [OperationContract(Name = "SaveDietCai")]
+        int SaveDietCai(List<EntityDietRecord> lstDietRecord, List<EntityDietDetails> lstDietDetails, out Dictionary<string, decimal> dicRecId);
+
+        /// <summary>
+        /// 获取食谱
+        /// </summary>
+        /// <param name="dietRecIdStr"></param>
+        /// <returns></returns>
+        [OperationContract(Name = "GetDietDetails")]
+        List<EntityDietDetails> GetDietDetails(string dietRecIdStr);
+
+        /// <summary>
+        /// 获取记录
+        /// </summary>
+        /// <param name="parms"></param>
+        /// <returns></returns>
+        [OperationContract(Name = "GetDietRecords")]
+        List<EntityDietRecord> GetDietRecords(List<EntityParm> parms);
+
+        #endregion
+
         #region 饮食菜谱模板
         /// <summary>
         /// 模板类型
