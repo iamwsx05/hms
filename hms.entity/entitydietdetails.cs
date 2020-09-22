@@ -27,14 +27,14 @@ namespace Hms.Entity
         /// </summary>
         [DataMember]
         [EntityAttribute(FieldName = "day", DbType = DbType.Int32, IsPK = false, IsSeq = false, SerNo = 2)]
-        public System.Int32? day { get; set; }
+        public System.Int32 day { get; set; }
 
         /// <summary>
         /// mealId
         /// </summary>
         [DataMember]
         [EntityAttribute(FieldName = "mealId", DbType = DbType.Int32, IsPK = false, IsSeq = false, SerNo = 3)]
-        public System.Int32? mealId { get; set; }
+        public System.Int32 mealId { get; set; }
 
         /// <summary>
         /// mealType
@@ -79,6 +79,30 @@ namespace Hms.Entity
         public System.Decimal weight { get; set; }
 
         /// <summary>
+        /// realWeight
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "realWeight", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 10)]
+        public System.Decimal realWeight { get; set; }
+
+        /// <summary>
+        /// caiWeight
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "caiWeight", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 11)]
+        public System.Decimal caiWeight { get; set; }
+
+        /// <summary>
+        /// per
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "per", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 12)]
+        public System.Decimal per { get; set; }
+
+        [DataMember]
+        public List<EntityDietdetailsCai> lstDetailsCai { get; set; }
+
+        /// <summary>
         /// Columns
         /// </summary>
         public static EnumCols Columns = new EnumCols();
@@ -97,6 +121,9 @@ namespace Hms.Entity
             public string caiIngrediet = "caiIngrediet";
             public string caiIngredietId = "caiIngredietId";
             public string weight = "weight";
+            public string realWeight = "realWeight";
+            public string caiWeight = "caiWeight";
+            public string per = "per";
         }
     }
 }

@@ -203,6 +203,7 @@ namespace Hms.Ui
                 lstCaiDiet = new List<EntityDietDetails>();
             if (gvData.RowCount > 0)
             {
+                List<EntityDietDetails> data2 = new List<EntityDietDetails>();
                 for (int i = 0; i < this.gvData.RowCount; i++)
                 {
                     if (this.gvData.IsRowSelected(i))
@@ -218,7 +219,7 @@ namespace Hms.Ui
 
                             if(lstCaiIngredient != null)
                             {
-                                foreach(var ingreDiet in lstCaiIngredient)
+                                foreach (var ingreDiet in lstCaiIngredient)
                                 {
                                     EntityDietDetails caiDiet = new EntityDietDetails();
                                     if (enumMeals == EnumMeals.breakfast)
@@ -226,32 +227,78 @@ namespace Hms.Ui
                                         caiDiet.mealId = 1;
                                         caiDiet.mealType = "早餐";
                                     }
-                                        
+
                                     if (enumMeals == EnumMeals.lunch)
                                     {
                                         caiDiet.mealId = 2;
                                         caiDiet.mealType = "午餐";
                                     }
-                                        
+
                                     if (enumMeals == EnumMeals.diner)
                                     {
                                         caiDiet.mealId = 3;
                                         caiDiet.mealType = "晚餐";
                                     }
-                                        
+
                                     caiDiet.caiId = vo.id;
                                     caiDiet.caiName = vo.names;
                                     caiDiet.caiIngredietId = ingreDiet.ingredietId;
                                     caiDiet.caiIngrediet = ingreDiet.ingredietName;
                                     caiDiet.weight = ingreDiet.weight;
                                     caiDiet.day = day;
+                                    caiDiet.per = Math.Round(ingreDiet.weight / lstCaiIngredient.FindAll(r => r.caiId == vo.id).Sum(c => c.weight), 1); 
 
-                                    if (!lstCaiDiet.Any(r => r.caiId == caiDiet.caiId && r.caiIngredietId == caiDiet.caiIngredietId))
+                                    if (lstCaiDiet.Any(r => r.day == caiDiet.day && r.mealId == caiDiet.mealId))
+                                    {
+                                        EntityDietDetails voDietClone = lstCaiDiet.Find(r => r.day == caiDiet.day && r.mealId == caiDiet.mealId);
+
+                                        if (!voDietClone.lstDetailsCai.Any((u => u.day == caiDiet.day && u.mealId == caiDiet.mealId && u.caiId == caiDiet.caiId)))
+                                        {
+                                            EntityDietdetailsCai voC = new EntityDietdetailsCai();
+                                            voC.day = caiDiet.day;
+                                            voC.mealId = caiDiet.mealId;
+                                            voC.caiId = caiDiet.caiId;
+                                            voC.caiName = caiDiet.caiName;
+                                            voDietClone.lstDetailsCai.Add(voC);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        caiDiet.lstDetailsCai = new List<EntityDietdetailsCai>();
+
                                         lstCaiDiet.Add(caiDiet);
+                                    }
+
+                                    data2.Add(caiDiet);
                                 }
                             }
 
                             isSave = true;
+                        }
+                    }
+                }
+
+                if (lstCaiDiet != null)
+                {
+                    foreach (var temp in lstCaiDiet)
+                    {
+                        if (temp.lstDetailsCai != null)
+                        {
+                            foreach (var caiTemp in temp.lstDetailsCai)
+                            {
+                                List<EntityDietDetails> details = data2.FindAll(r => r.recId == caiTemp.recId && r.day == caiTemp.day && r.mealId == caiTemp.mealId && r.caiId == caiTemp.caiId);
+                                if (details != null)
+                                {
+                                    caiTemp.lstDietdetailsIngrediet = new List<EntityDietDetails>();
+
+                                    foreach (var temp2 in details)
+                                    {
+                                        EntityDietDetails Ingrediet = new EntityDietDetails();
+                                        Ingrediet = temp2;
+                                        caiTemp.lstDietdetailsIngrediet.Add(Ingrediet);
+                                    }
+                                }
+                            }
                         }
                     }
                 }

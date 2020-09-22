@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="entityadpeitem.cs" />
-    <Compile Include="entitycaidiet.cs" />
+    <Compile Include="entitydietdetails.cs" />
     <Compile Include="entityclienttnbresult.cs" />
     <Compile Include="entityclientgxyresult.cs" />
     <Compile Include="entityclientinfo.cs" />
@@ -58,6 +58,8 @@
     <Compile Include="entitydicingredientclassify.cs" />
     <Compile Include="entitydicingredientconfig.cs" />
     <Compile Include="entitydicqnctllocation .cs" />
+    <Compile Include="entitydietdetailscai.cs" />
+    <Compile Include="entitydietdetailsingrediet.cs" />
     <Compile Include="entitydietprinciple.cs" />
     <Compile Include="entitydietrecord.cs" />
     <Compile Include="entitydiettemplate.cs" />
@@ -72,7 +74,7 @@
     <Compile Include="entityevaluationresult.cs" />
     <Compile Include="entityhmssf.cs" />
     <Compile Include="entityevaluateparams.cs" />
-    <Compile Include="entityIngredietnutrition.cs" />
+    <Compile Include="entityingredietnutrition.cs" />
     <Compile Include="entitymedicaladvicecs.cs" />
     <Compile Include="entitymodelaccess.cs" />
     <Compile Include="entitymodelaccessrecord .cs" />

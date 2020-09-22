@@ -25,7 +25,9 @@ namespace Hms.Biz
         public List<EntityClientInfo> GetClientInfoAndRpt(List<EntityParm> parms)
         {
             List<EntityClientInfo> data = null;
+#pragma warning disable CS0219 // 变量“lstReportRecord”已被赋值，但从未使用过它的值
             List<EntityReportRecorde> lstReportRecord = null;
+#pragma warning restore CS0219 // 变量“lstReportRecord”已被赋值，但从未使用过它的值
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
             string Sql = string.Empty;
             Sql = @"select distinct

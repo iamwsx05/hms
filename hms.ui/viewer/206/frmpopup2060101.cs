@@ -44,6 +44,7 @@ namespace Hms.Ui
         private void btnSave_Click(object sender, EventArgs e)
         {
             int affect = -1;
+            string id = string.Empty;
             if (dietPrinciple == null)
                 dietPrinciple = new EntityDietPrinciple();
             else if (string.IsNullOrEmpty(dietPrinciple.principleId))
@@ -54,15 +55,19 @@ namespace Hms.Ui
 
             using (ProxyHms proxy = new ProxyHms())
             {
-                affect =  proxy.Service.SaveDietPrinciple(ref dietPrinciple);
+                affect =  proxy.Service.SaveDietPrinciple(dietPrinciple,out id);
             }
 
             if(affect < 0)
             {
+                dietPrinciple.principleId = "";
                 DialogBox.Msg("保存失败 !");
             }
             else
+            {
+                dietPrinciple.principleId = id;
                 this.IsRequireRefresh = true;
+            }
         }
     }
 }

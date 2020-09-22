@@ -28,6 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.txtClientName = new DevExpress.XtraEditors.TextEdit();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.txtClientNo = new DevExpress.XtraEditors.TextEdit();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
+            this.dteEnd = new DevExpress.XtraEditors.DateEdit();
+            this.dteBegin = new DevExpress.XtraEditors.DateEdit();
             this.gcData = new DevExpress.XtraGrid.GridControl();
             this.gvData = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.itemName = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -41,27 +49,19 @@
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemMemoEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.txtClientName = new DevExpress.XtraEditors.TextEdit();
-            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
-            this.txtClientNo = new DevExpress.XtraEditors.TextEdit();
-            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
-            this.dteEnd = new DevExpress.XtraEditors.DateEdit();
-            this.dteBegin = new DevExpress.XtraEditors.DateEdit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBackGround)).BeginInit();
             this.pcBackGround.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.marqueeProgressBarControl.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gcData)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gvData)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtClientName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtClientNo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dteEnd.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dteEnd.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dteBegin.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dteBegin.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gcData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gvData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // pcBackGround
@@ -87,6 +87,106 @@
             // 
             this.marqueeProgressBarControl.Properties.Appearance.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
+            // txtClientName
+            // 
+            this.txtClientName.Location = new System.Drawing.Point(378, 10);
+            this.txtClientName.MenuManager = this.barManager;
+            this.txtClientName.Name = "txtClientName";
+            this.txtClientName.Properties.Appearance.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtClientName.Properties.Appearance.Options.UseFont = true;
+            this.txtClientName.Size = new System.Drawing.Size(118, 20);
+            this.txtClientName.TabIndex = 11;
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Appearance.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelControl2.Appearance.Options.UseFont = true;
+            this.labelControl2.Location = new System.Drawing.Point(336, 14);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(36, 12);
+            this.labelControl2.TabIndex = 10;
+            this.labelControl2.Text = "姓名：";
+            // 
+            // txtClientNo
+            // 
+            this.txtClientNo.Location = new System.Drawing.Point(576, 10);
+            this.txtClientNo.MenuManager = this.barManager;
+            this.txtClientNo.Name = "txtClientNo";
+            this.txtClientNo.Properties.Appearance.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtClientNo.Properties.Appearance.Options.UseFont = true;
+            this.txtClientNo.Size = new System.Drawing.Size(118, 20);
+            this.txtClientNo.TabIndex = 13;
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Appearance.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelControl1.Appearance.Options.UseFont = true;
+            this.labelControl1.Location = new System.Drawing.Point(510, 14);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(60, 12);
+            this.labelControl1.TabIndex = 12;
+            this.labelControl1.Text = "客户编号：";
+            // 
+            // labelControl3
+            // 
+            this.labelControl3.Location = new System.Drawing.Point(195, 12);
+            this.labelControl3.Name = "labelControl3";
+            this.labelControl3.Size = new System.Drawing.Size(12, 14);
+            this.labelControl3.TabIndex = 18;
+            this.labelControl3.Text = "至";
+            // 
+            // labelControl4
+            // 
+            this.labelControl4.Location = new System.Drawing.Point(12, 12);
+            this.labelControl4.Name = "labelControl4";
+            this.labelControl4.Size = new System.Drawing.Size(60, 14);
+            this.labelControl4.TabIndex = 17;
+            this.labelControl4.Text = "创建日期：";
+            // 
+            // dteEnd
+            // 
+            this.dteEnd.EditValue = null;
+            this.dteEnd.Location = new System.Drawing.Point(213, 9);
+            this.dteEnd.MenuManager = this.barManager;
+            this.dteEnd.Name = "dteEnd";
+            this.dteEnd.Properties.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dteEnd.Properties.Appearance.ForeColor = System.Drawing.Color.Red;
+            this.dteEnd.Properties.Appearance.Options.UseFont = true;
+            this.dteEnd.Properties.Appearance.Options.UseForeColor = true;
+            this.dteEnd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dteEnd.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dteEnd.Properties.DisplayFormat.FormatString = "yyyy-MM-dd";
+            this.dteEnd.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.dteEnd.Properties.EditFormat.FormatString = "yyyy-MM-dd";
+            this.dteEnd.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.dteEnd.Properties.Mask.EditMask = "yyyy-MM-dd";
+            this.dteEnd.Size = new System.Drawing.Size(107, 20);
+            this.dteEnd.TabIndex = 16;
+            // 
+            // dteBegin
+            // 
+            this.dteBegin.EditValue = null;
+            this.dteBegin.Location = new System.Drawing.Point(78, 9);
+            this.dteBegin.MenuManager = this.barManager;
+            this.dteBegin.Name = "dteBegin";
+            this.dteBegin.Properties.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dteBegin.Properties.Appearance.ForeColor = System.Drawing.Color.Red;
+            this.dteBegin.Properties.Appearance.Options.UseFont = true;
+            this.dteBegin.Properties.Appearance.Options.UseForeColor = true;
+            this.dteBegin.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dteBegin.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dteBegin.Properties.DisplayFormat.FormatString = "yyyy-MM-dd";
+            this.dteBegin.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.dteBegin.Properties.EditFormat.FormatString = "yyyy-MM-dd";
+            this.dteBegin.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.dteBegin.Properties.Mask.EditMask = "yyyy-MM-dd";
+            this.dteBegin.Size = new System.Drawing.Size(111, 20);
+            this.dteBegin.TabIndex = 15;
+            // 
             // gcData
             // 
             this.gcData.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -97,9 +197,10 @@
             this.repositoryItemMemoEdit1,
             this.repositoryItemCheckEdit1});
             this.gcData.Size = new System.Drawing.Size(1210, 410);
-            this.gcData.TabIndex = 12;
+            this.gcData.TabIndex = 13;
             this.gcData.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvData});
+            this.gcData.DoubleClick += new System.EventHandler(this.gcData_DoubleClick);
             // 
             // gvData
             // 
@@ -325,106 +426,6 @@
             this.repositoryItemCheckEdit1.ValueChecked = 1;
             this.repositoryItemCheckEdit1.ValueUnchecked = 0;
             // 
-            // txtClientName
-            // 
-            this.txtClientName.Location = new System.Drawing.Point(378, 10);
-            this.txtClientName.MenuManager = this.barManager;
-            this.txtClientName.Name = "txtClientName";
-            this.txtClientName.Properties.Appearance.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtClientName.Properties.Appearance.Options.UseFont = true;
-            this.txtClientName.Size = new System.Drawing.Size(118, 20);
-            this.txtClientName.TabIndex = 11;
-            // 
-            // labelControl2
-            // 
-            this.labelControl2.Appearance.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelControl2.Appearance.Options.UseFont = true;
-            this.labelControl2.Location = new System.Drawing.Point(336, 14);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(36, 12);
-            this.labelControl2.TabIndex = 10;
-            this.labelControl2.Text = "姓名：";
-            // 
-            // txtClientNo
-            // 
-            this.txtClientNo.Location = new System.Drawing.Point(576, 10);
-            this.txtClientNo.MenuManager = this.barManager;
-            this.txtClientNo.Name = "txtClientNo";
-            this.txtClientNo.Properties.Appearance.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtClientNo.Properties.Appearance.Options.UseFont = true;
-            this.txtClientNo.Size = new System.Drawing.Size(118, 20);
-            this.txtClientNo.TabIndex = 13;
-            // 
-            // labelControl1
-            // 
-            this.labelControl1.Appearance.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelControl1.Appearance.Options.UseFont = true;
-            this.labelControl1.Location = new System.Drawing.Point(510, 14);
-            this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(60, 12);
-            this.labelControl1.TabIndex = 12;
-            this.labelControl1.Text = "客户编号：";
-            // 
-            // labelControl3
-            // 
-            this.labelControl3.Location = new System.Drawing.Point(195, 12);
-            this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(12, 14);
-            this.labelControl3.TabIndex = 18;
-            this.labelControl3.Text = "至";
-            // 
-            // labelControl4
-            // 
-            this.labelControl4.Location = new System.Drawing.Point(12, 12);
-            this.labelControl4.Name = "labelControl4";
-            this.labelControl4.Size = new System.Drawing.Size(60, 14);
-            this.labelControl4.TabIndex = 17;
-            this.labelControl4.Text = "创建日期：";
-            // 
-            // dteEnd
-            // 
-            this.dteEnd.EditValue = null;
-            this.dteEnd.Location = new System.Drawing.Point(213, 9);
-            this.dteEnd.MenuManager = this.barManager;
-            this.dteEnd.Name = "dteEnd";
-            this.dteEnd.Properties.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dteEnd.Properties.Appearance.ForeColor = System.Drawing.Color.Red;
-            this.dteEnd.Properties.Appearance.Options.UseFont = true;
-            this.dteEnd.Properties.Appearance.Options.UseForeColor = true;
-            this.dteEnd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dteEnd.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dteEnd.Properties.DisplayFormat.FormatString = "yyyy-MM-dd";
-            this.dteEnd.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-            this.dteEnd.Properties.EditFormat.FormatString = "yyyy-MM-dd";
-            this.dteEnd.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-            this.dteEnd.Properties.Mask.EditMask = "yyyy-MM-dd";
-            this.dteEnd.Size = new System.Drawing.Size(107, 20);
-            this.dteEnd.TabIndex = 16;
-            // 
-            // dteBegin
-            // 
-            this.dteBegin.EditValue = null;
-            this.dteBegin.Location = new System.Drawing.Point(78, 9);
-            this.dteBegin.MenuManager = this.barManager;
-            this.dteBegin.Name = "dteBegin";
-            this.dteBegin.Properties.Appearance.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dteBegin.Properties.Appearance.ForeColor = System.Drawing.Color.Red;
-            this.dteBegin.Properties.Appearance.Options.UseFont = true;
-            this.dteBegin.Properties.Appearance.Options.UseForeColor = true;
-            this.dteBegin.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dteBegin.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dteBegin.Properties.DisplayFormat.FormatString = "yyyy-MM-dd";
-            this.dteBegin.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-            this.dteBegin.Properties.EditFormat.FormatString = "yyyy-MM-dd";
-            this.dteBegin.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-            this.dteBegin.Properties.Mask.EditMask = "yyyy-MM-dd";
-            this.dteBegin.Size = new System.Drawing.Size(111, 20);
-            this.dteBegin.TabIndex = 15;
-            // 
             // frm20602
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
@@ -441,23 +442,30 @@
             this.pcBackGround.ResumeLayout(false);
             this.pcBackGround.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.marqueeProgressBarControl.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gcData)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gvData)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtClientName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtClientNo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dteEnd.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dteEnd.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dteBegin.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dteBegin.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gcData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gvData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
+        private DevExpress.XtraEditors.TextEdit txtClientNo;
+        private DevExpress.XtraEditors.LabelControl labelControl1;
+        private DevExpress.XtraEditors.TextEdit txtClientName;
+        private DevExpress.XtraEditors.LabelControl labelControl2;
+        private DevExpress.XtraEditors.LabelControl labelControl3;
+        private DevExpress.XtraEditors.LabelControl labelControl4;
+        private DevExpress.XtraEditors.DateEdit dteEnd;
+        private DevExpress.XtraEditors.DateEdit dteBegin;
         private DevExpress.XtraGrid.GridControl gcData;
         private DevExpress.XtraGrid.Views.Grid.GridView gvData;
         private DevExpress.XtraGrid.Columns.GridColumn itemName;
@@ -471,13 +479,5 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit repositoryItemMemoEdit1;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
-        private DevExpress.XtraEditors.TextEdit txtClientNo;
-        private DevExpress.XtraEditors.LabelControl labelControl1;
-        private DevExpress.XtraEditors.TextEdit txtClientName;
-        private DevExpress.XtraEditors.LabelControl labelControl2;
-        private DevExpress.XtraEditors.LabelControl labelControl3;
-        private DevExpress.XtraEditors.LabelControl labelControl4;
-        private DevExpress.XtraEditors.DateEdit dteEnd;
-        private DevExpress.XtraEditors.DateEdit dteBegin;
     }
 }

@@ -55,9 +55,10 @@ namespace Hms.Biz
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public int SaveDietPrinciple(ref EntityDietPrinciple dietPrinciple)
+        public int SaveDietPrinciple(EntityDietPrinciple dietPrinciple,out string id)
         {
             SqlHelper svc = null;
+            id = string.Empty;
             int affect = -1;
             try
             {
@@ -65,7 +66,8 @@ namespace Hms.Biz
                 List<DacParm> lstParm = new List<DacParm>();
                 if (string.IsNullOrEmpty(dietPrinciple.principleId))
                 {
-                    dietPrinciple.principleId = svc.GetNextID("dietPrinciple", "dietPrincipleId").ToString().PadLeft(6, '0');
+                    string principleId = svc.GetNextID("dietPrinciple", "dietPrincipleId").ToString().PadLeft(6, '0');
+                    dietPrinciple.principleId = principleId;
                     dietPrinciple.createDate = DateTime.Now;
                     dietPrinciple.createUserId = "00";
                     lstParm.Add(svc.GetInsertParm(dietPrinciple));
@@ -83,6 +85,8 @@ namespace Hms.Biz
 
                 if (lstParm.Count > 0)
                     affect = svc.Commit(lstParm);
+
+                id = dietPrinciple.principleId;
             }
             catch (Exception ex)
             {
@@ -164,6 +168,8 @@ namespace Hms.Biz
                            a.day5,
                            a.day6,
                            a.day7,
+                           a.principle,
+                           a.dietTreament,
                            a.recordDate,
                            a.recorder
                       from dietRecord a
@@ -223,6 +229,8 @@ namespace Hms.Biz
                     vo.day5 = Function.Int(dr["day5"]);
                     vo.day6 = Function.Int(dr["day6"]);
                     vo.day7 = Function.Int(dr["day7"]);
+                    vo.principle = dr["principle"].ToString();
+                    vo.dietTreament = dr["dietTreament"].ToString();
                     vo.recorder = dr["recorder"].ToString();
                     vo.recordDateStr = Function.Datetime(dr["recordDate"]).ToString("yyyy-MM-dd HH:mm") ;
                     data.Add(vo);
@@ -238,9 +246,10 @@ namespace Hms.Biz
         /// </summary>
         /// <param name="dietRecIdStr"></param>
         /// <returns></returns>
-        public List<EntityDietDetails> GetDietDetails(string dietRecIdStr)
+        public List<EntityDietDetails> GetDietDetails(string dietRecIdStr )
         {
             List<EntityDietDetails> data = null;
+            List<EntityDietDetails> data2 = null;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
             string Sql = string.Empty;
             Sql = @"select recId,
@@ -251,7 +260,7 @@ namespace Hms.Biz
                             caiName,
                             caiIngrediet,
                             caiIngredietId,
-                            weight
+                            weight,caiWeight,realWeight,per
                         from dietDetails  ";
             if (string.IsNullOrEmpty(dietRecIdStr))
                 return null;
@@ -260,20 +269,74 @@ namespace Hms.Biz
             if (dt != null && dt.Rows.Count > 0)
             {
                 data = new List<EntityDietDetails>();
-                EntityDietDetails vo = null;
+                data2 = new List<EntityDietDetails>();
+                EntityDietDetails voD = null;
+                EntityDietdetailsCai voC = null;
                 foreach (DataRow dr in dt.Rows)
                 {
-                    vo = new EntityDietDetails();
-                    vo.recId =Function.Dec(dr["recId"]);
-                    vo.day = Function.Int(dr["day"]);
-                    vo.mealId = Function.Int(dr["mealId"]);
-                    vo.mealType = dr["mealType"].ToString();
-                    vo.caiId = dr["caiId"].ToString();
-                    vo.caiName = dr["caiName"].ToString();
-                    vo.caiIngrediet = dr["caiIngrediet"].ToString();
-                    vo.caiIngredietId = dr["caiIngredietId"].ToString();
-                    vo.weight = Function.Dec(dr["weight"]) ;
-                    data.Add(vo);
+                    voD = new EntityDietDetails();
+                    voD.recId =Function.Dec(dr["recId"]);
+                    voD.day = Function.Int(dr["day"]);
+                    voD.mealId = Function.Int(dr["mealId"]);
+                    voD.mealType = dr["mealType"].ToString();
+                    string caiId = dr["caiId"].ToString();
+                    string caiIngredietId = dr["caiIngredietId"].ToString();
+                    voD.caiId = caiId;
+                    voD.caiName = dr["caiName"].ToString();
+                    voD.caiIngrediet = dr["caiIngrediet"].ToString();
+                    voD.caiIngredietId = dr["caiIngredietId"].ToString();
+                    voD.weight = Function.Dec(dr["weight"]);
+                    voD.caiWeight = Function.Dec(dr["caiWeight"]);
+                    voD.realWeight = Function.Dec(dr["realWeight"]);
+                    voD.per = Function.Dec(dr["per"]);
+
+                    if (data.Any(r => r.recId == voD.recId && r.day == voD.day && r.mealId == voD.mealId))
+                    {
+                        EntityDietDetails voDietClone = data.Find(r => r.recId == voD.recId && r.day == voD.day && r.mealId == voD.mealId);
+
+                        if (!voDietClone.lstDetailsCai.Any((u => u.recId == voD.recId && u.day == voD.day && u.mealId == voD.mealId && u.caiId == caiId)))
+                        {
+                            voC = new EntityDietdetailsCai();
+                            voC.recId = Function.Dec(dr["recId"]);
+                            voC.day = Function.Int(dr["day"]);
+                            voC.mealId = Function.Int(dr["mealId"]);
+                            voC.caiId = dr["caiId"].ToString();
+                            voC.caiName = dr["caiName"].ToString();
+                            voC.weight= Function.Dec(dr["caiWeight"]);
+                            voDietClone.lstDetailsCai.Add(voC);
+                        }
+                    }
+                    else
+                    {
+                        voD.lstDetailsCai = new List<EntityDietdetailsCai>();
+                        
+                        data.Add(voD);
+                    }
+                    data2.Add(voD);
+                }
+                if (data != null)
+                {
+                    foreach(var temp in data)
+                    {
+                        if(temp.lstDetailsCai != null)
+                        {
+                            foreach(var caiTemp in temp.lstDetailsCai)
+                            {
+                                List<EntityDietDetails>  details = data2.FindAll(r=>r.recId== caiTemp.recId && r.day == caiTemp.day && r.mealId== caiTemp.mealId && r.caiId == caiTemp.caiId);
+                                if(details != null)
+                                {
+                                    caiTemp.lstDietdetailsIngrediet = new List<EntityDietDetails>();
+
+                                    foreach(var temp2 in details)
+                                    {
+                                        EntityDietDetails Ingrediet = new EntityDietDetails();
+                                        Ingrediet = temp2;
+                                        caiTemp.lstDietdetailsIngrediet.Add(Ingrediet);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
             return data;
@@ -316,7 +379,6 @@ namespace Hms.Biz
                     sql = @"delete from dietRecord where recId =  ?";
                     param = svc.CreateParm(1);
                     param[0].Value = dietR.recId;
-
                     lstParm.Add(svc.GetDacParm(EnumExecType.ExecSql,sql,param));
                     lstParm.Add(svc.GetInsertParm(dietR));
 
@@ -327,10 +389,19 @@ namespace Hms.Biz
 
                     if (lstDietDetails != null)
                     {
-                        foreach (var dietD in lstDietDetails)
+                        foreach (var temp in lstDietDetails)
                         {
-                            dietD.recId = dietR.recId;
-                            lstParm.Add(svc.GetInsertParm(dietD));
+                            if (temp.lstDetailsCai != null)
+                            {
+                                foreach(var cai in temp.lstDetailsCai)
+                                {
+                                   foreach(var detail in cai.lstDietdetailsIngrediet)
+                                   {
+                                        detail.recId = dietR.recId;
+                                        lstParm.Add(svc.GetInsertParm(detail));
+                                   }
+                                }
+                            }
                         }
                     }
                 }
@@ -428,9 +499,10 @@ namespace Hms.Biz
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public int SaveDietTemplate(ref EntityDietTemplate dietTemplate)
+        public int SaveDietTemplate(EntityDietTemplate dietTemplate, out string templateId)
         {
             SqlHelper svc = null;
+            templateId = string.Empty;
             int affect = -1;
             try
             {
@@ -438,7 +510,8 @@ namespace Hms.Biz
                 List<DacParm> lstParm = new List<DacParm>();
                 if (string.IsNullOrEmpty(dietTemplate.templateId))
                 {
-                    dietTemplate.templateId = svc.GetNextID("dietTemplate", "templateId").ToString().PadLeft(6, '0');
+                    templateId = svc.GetNextID("dietTemplate", "templateId").ToString().PadLeft(6, '0');
+                    dietTemplate.templateId = templateId;
                     dietTemplate.createDate = DateTime.Now;
                     dietTemplate.creator = "00";
                     dietTemplate.createName = "系统管理员";
@@ -458,6 +531,8 @@ namespace Hms.Biz
 
                 if (lstParm.Count > 0)
                     affect = svc.Commit(lstParm);
+
+                templateId = dietTemplate.templateId;
             }
             catch (Exception ex)
             {

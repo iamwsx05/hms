@@ -106,6 +106,21 @@ namespace Hms.Entity
         [DataMember]
         [EntityAttribute(FieldName = "status", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 14)]
         public System.Decimal status { get; set; }
+        /// <summary>
+        /// principle
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "principle", DbType = DbType.AnsiString, IsPK = false, IsSeq = false, SerNo = 15)]
+        public System.String principle { get; set; }
+
+        /// <summary>
+        /// dietTreament
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "dietTreament", DbType = DbType.AnsiString, IsPK = false, IsSeq = false, SerNo = 16)]
+        public System.String dietTreament { get; set; }
+
+
         [DataMember]
         public string clientName { get; set; }
         [DataMember]
@@ -143,6 +158,8 @@ namespace Hms.Entity
             public string day7 = "day7";
             public string recorder = "recorder";
             public string recordDate = "recordDate";
+            public string principle = "principle";
+            public string dietTreament = "dietTreament";
             public string status = "status";
         }
     }

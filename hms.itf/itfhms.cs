@@ -438,7 +438,7 @@ namespace Hms.Itf
         /// <param name="dietPrinciple"></param>
         /// <returns></returns>
         [OperationContract(Name = "SaveDietPrinciple")]
-        int SaveDietPrinciple(ref EntityDietPrinciple dietPrinciple);
+        int SaveDietPrinciple(EntityDietPrinciple dietPrinciple,out string id);
 
         /// <summary>
         /// 删除
@@ -498,7 +498,7 @@ namespace Hms.Itf
         /// <param name="dietTemplate"></param>
         /// <returns></returns>
         [OperationContract(Name = "SaveDietTemplate")]
-        int SaveDietTemplate(ref EntityDietTemplate dietTemplate);
+        int SaveDietTemplate(EntityDietTemplate dietTemplate, out string templateId);
 
         /// <summary>
         /// 删除

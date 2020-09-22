@@ -28,7 +28,7 @@ namespace Hms.Ui
         /// </summary>
         public override void New()
         {
-            frmpopup2060201 frm = new frmpopup2060201(null);
+            frmPopup2060201 frm = new frmPopup2060201(null);
             frm.ShowDialog();
         }
         #endregion
@@ -43,7 +43,7 @@ namespace Hms.Ui
 
             if(dietRecord != null)
             {
-                frmpopup2060201 frm = new frmpopup2060201(dietRecord);
+                frmPopup2060201 frm = new frmPopup2060201(dietRecord);
                 frm.ShowDialog();
             }
         }
@@ -79,6 +79,7 @@ namespace Hms.Ui
             DateTime dateTime = DateTime.Now;
             this.dteBegin.Text = dateTime.AddDays(-30).ToString("yyyy-MM-dd") ;
             this.dteEnd.Text = DateTime.Now.ToString("yyyy-MM-dd");
+            Query(); 
         }
         #endregion
 
@@ -153,6 +154,11 @@ namespace Hms.Ui
         private void frm20602_Load(object sender, EventArgs e)
         {
             Init();
+        }
+
+        private void gcData_DoubleClick(object sender, EventArgs e)
+        {
+            this.Edit();
         }
         #endregion
     }

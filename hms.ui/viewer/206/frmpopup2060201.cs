@@ -12,9 +12,9 @@ using weCare.Core.Entity;
 
 namespace Hms.Ui
 {
-    public partial class frmpopup2060201 : frmBasePopup
+    public partial class frmPopup2060201 : frmBasePopup
     {
-        public frmpopup2060201(EntityDietRecord _dietRecord)
+        public frmPopup2060201(EntityDietRecord _dietRecord)
         {
             InitializeComponent();
             dietRecord = _dietRecord;
@@ -27,6 +27,15 @@ namespace Hms.Ui
         List<EntityDicDientIngredient> lstDicDietIngrediet { get; set; }
         //膳食方案记录
         EntityDietRecord dietRecord { get; set; }
+
+        //膳食原则
+        List<EntityDietPrinciple> lstPrinciple { get; set; }
+        List<EntityDietPrinciple> lstPrincipleAll { get; set; }
+
+        //
+        List<EntityDietTreatment> lstDietTreatment { get; set; }
+        List<EntityDietTreatment> lstDietTreatmentAll { get; set; }
+
         #endregion
 
         #region methods
@@ -34,6 +43,8 @@ namespace Hms.Ui
         #region Init
         void Init()
         {
+            this.lblCaiName.Text = "";
+            this.gvDietCai.ViewCaption = "成品菜";
             if (lstDietDetails == null)
                 lstDietDetails = new List<EntityDietDetails>();
             if (lstDietRecord == null)
@@ -41,6 +52,8 @@ namespace Hms.Ui
             using (ProxyHms proxy = new ProxyHms())
             {
                 lstDicDietIngrediet = proxy.Service.GetDicDietIngredient();
+                lstPrincipleAll = proxy.Service.GetDietPrinciple();
+                lstDietTreatmentAll = proxy.Service.GetDietTreatment();
             }
 
             if (dietRecord != null)
@@ -55,6 +68,7 @@ namespace Hms.Ui
                 parms.Add(vo);
                 string clientNoStr = string.Empty;
 
+                #region 客户
                 using (ProxyHms proxy = new ProxyHms())
                 {
                     if (!string.IsNullOrEmpty(search))
@@ -68,12 +82,17 @@ namespace Hms.Ui
                     gcSelectClient.DataSource = lstClient;
                     gcSelectClient.RefreshDataSource();
                 }
+                #endregion
 
+                #region 食谱
                 string dietRecId = "('" + dietRecord.recId.ToString() + "')";
                 using (ProxyHms proxy = new ProxyHms())
                 {
                     lstDietDetails = proxy.Service.GetDietDetails(dietRecId);
                 }
+
+                if (lstDietDetails == null)
+                    return;
 
                 if (lstDietDetails.Any(r => r.day == 1))
                     chkDay1.Checked = true;
@@ -107,45 +126,104 @@ namespace Hms.Ui
                 if (lstDietDetails.Any(r => r.day == 1))
                 {
                     cboDays.SelectedIndex = 1;
-                    gridControl.DataSource = lstDietDetails.FindAll(r => r.day == 1);
-                    gridControl.RefreshDataSource();
+                    gcData.DataSource = lstDietDetails.FindAll(r => r.day == 1);
+                    gcData.RefreshDataSource();
                 }
                 else if (lstDietDetails.Any(r => r.day == 2))
                 {
                     cboDays.SelectedIndex = 2;
-                    gridControl.DataSource = lstDietDetails.FindAll(r => r.day == 2);
-                    gridControl.RefreshDataSource();
+                    gcData.DataSource = lstDietDetails.FindAll(r => r.day == 2);
+                    gcData.RefreshDataSource();
                 }
                 else if (lstDietDetails.Any(r => r.day == 3))
                 {
                     cboDays.SelectedIndex = 3;
-                    gridControl.DataSource = lstDietDetails.FindAll(r => r.day == 3);
-                    gridControl.RefreshDataSource();
+                    gcData.DataSource = lstDietDetails.FindAll(r => r.day == 3);
+                    gcData.RefreshDataSource();
                 }
                 else if (lstDietDetails.Any(r => r.day == 4))
                 {
                     cboDays.SelectedIndex = 4;
-                    gridControl.DataSource = lstDietDetails.FindAll(r => r.day == 4);
-                    gridControl.RefreshDataSource();
+                    gcData.DataSource = lstDietDetails.FindAll(r => r.day == 4);
+                    gcData.RefreshDataSource();
                 }
                 else if (lstDietDetails.Any(r => r.day == 5))
                 {
                     cboDays.SelectedIndex = 5;
-                    gridControl.DataSource = lstDietDetails.FindAll(r => r.day == 5);
-                    gridControl.RefreshDataSource();
+                    gcData.DataSource = lstDietDetails.FindAll(r => r.day == 5);
+                    gcData.RefreshDataSource();
                 }
                 else if (lstDietDetails.Any(r => r.day == 6))
                 {
                     cboDays.SelectedIndex = 6;
-                    gridControl.DataSource = lstDietDetails.FindAll(r => r.day == 6);
-                    gridControl.RefreshDataSource();
+                    gcData.DataSource = lstDietDetails.FindAll(r => r.day == 6);
+                    gcData.RefreshDataSource();
                 }
                 else if (lstDietDetails.Any(r => r.day == 7))
                 {
                     cboDays.SelectedIndex = 7;
-                    gridControl.DataSource = lstDietDetails.FindAll(r => r.day == 7);
-                    gridControl.RefreshDataSource();
+                    gcData.DataSource = lstDietDetails.FindAll(r => r.day == 7);
+                    gcData.RefreshDataSource();
                 }
+                #endregion
+
+                #region 原则
+                string principle = string.Empty;
+                if(!string.IsNullOrEmpty(dietRecord.principle))
+                {
+                    if (dietRecord.principle.Contains(";"))
+                    {
+                        string[] arrPrinciple = dietRecord.principle.Split(';');
+                        for(int i = 0;i<arrPrinciple.Length;i++)
+                        {
+                            EntityDietPrinciple pc = lstPrincipleAll.Find(r=>r.principleId == arrPrinciple[i]);
+                            if (pc != null)
+                                principle += pc.principleName + " 、";
+                        }
+                    }
+                    else
+                    {
+                        EntityDietPrinciple pc = lstPrincipleAll.Find(r => r.principleId == dietRecord.principle);
+                        if (pc != null)
+                            principle += pc.principleName + " 、";
+                    }
+
+                    if (!string.IsNullOrEmpty(principle))
+                    {
+                        principle = principle.TrimEnd('、');
+                    }
+                }
+                this.memDietPrinciple.Text = principle;
+                #endregion
+
+                #region 中医食疗
+                string dietTreament = string.Empty;
+                if (!string.IsNullOrEmpty(dietRecord.dietTreament))
+                {
+                    if (dietRecord.dietTreament.Contains(";"))
+                    {
+                        string[] arrDietTreament = dietRecord.dietTreament.Split(';');
+                        for (int i = 0; i < arrDietTreament.Length; i++)
+                        {
+                            EntityDietTreatment pc = lstDietTreatmentAll.Find(r => r.id == arrDietTreament[i]);
+                            if (pc != null)
+                                dietTreament += pc.names + " 、";
+                        }
+                    }
+                    else
+                    {
+                        EntityDietTreatment pc = lstDietTreatmentAll.Find(r => r.id == dietRecord.dietTreament);
+                        if (pc != null)
+                            dietTreament += pc.names + " 、";
+                    }
+
+                    if (!string.IsNullOrEmpty(dietTreament))
+                    {
+                        dietTreament = dietTreament.TrimEnd('、');
+                    }
+                }
+                this.memDietTreament.Text = dietTreament;
+                #endregion
             }
         }
         #endregion
@@ -156,26 +234,42 @@ namespace Hms.Ui
         /// </summary>
         /// <param name="lstDietDetails"></param>
         /// <returns></returns>
-        List<EntityIngredietNutrition> CalcNutrition(List<EntityDietDetails> lstDietDetails)
+        List<EntityIngredietNutrition> CalcNutrition(List<EntityDietDetails> lstDietdetailsIngrediet)
         {
-            decimal kcal = 0;
-            decimal proteint = 0;
-            decimal fat = 0;
-            decimal cho = 0;
-            decimal brxxw = 0;
-            decimal dgc = 0;
-            decimal vitaminsA = 0;
-            decimal vitaminsD = 0;
-            decimal vitaminsE = 0;
-            decimal vitaminsB1 = 0;
-            decimal vitaminsB2 = 0;
-            decimal vitaminsC = 0;
-            decimal ca = 0;
-            decimal fe = 0;
+            decimal recKcal = 0;
+            decimal recProteint = 0;
+            decimal recFat = 0;
+            decimal recCho = 0;
+            decimal recBrxxw = 0;
+            decimal recDgc = 0;
+            decimal recVitaminsA = 0;
+            decimal recVitaminsD = 0;
+            decimal recVitaminsE = 0;
+            decimal recVitaminsB1 = 0;
+            decimal recVitaminsB2 = 0;
+            decimal recVitaminsC = 0;
+            decimal recCa = 0;
+            decimal recFe = 0;
+
+            decimal proKcal = 0;
+            decimal proProteint = 0;
+            decimal proFat = 0;
+            decimal proCho = 0;
+            decimal proBrxxw = 0;
+            decimal proDgc = 0;
+            decimal proVitaminsA = 0;
+            decimal proVitaminsD = 0;
+            decimal proVitaminsE = 0;
+            decimal proVitaminsB1 = 0;
+            decimal proVitaminsB2 = 0;
+            decimal proVitaminsC = 0;
+            decimal proCa = 0;
+            decimal proFe = 0;
+
             List <EntityIngredietNutrition> data = null;
             EntityIngredietNutrition idNut = null;
 
-            if (lstDietDetails != null && lstDietDetails.Count > 0)
+            if (lstDietdetailsIngrediet != null && lstDietdetailsIngrediet.Count > 0)
             {
                 data = new List<EntityIngredietNutrition>();
                 foreach (var vo in lstDietDetails)
@@ -183,90 +277,127 @@ namespace Hms.Ui
                     EntityDicDientIngredient dietIngrediet = lstDicDietIngrediet.Find(r=>r.ingredientId == vo.caiIngredietId);
                     if (dietIngrediet == null)
                         continue;
-                    kcal += dietIngrediet.kCal * vo.weight;
-                    proteint += dietIngrediet.proteint * vo.weight;
-                    fat += dietIngrediet.fat * vo.weight;
-                    cho += dietIngrediet.cho * vo.weight;
-                    brxxw += dietIngrediet.brxxw * vo.weight;
-                    dgc += dietIngrediet.dgc * vo.weight;
-                    vitaminsA += dietIngrediet.vitaminsA * vo.weight;
-                    vitaminsD += dietIngrediet.vitaminsD * vo.weight;
-                    vitaminsE += dietIngrediet.vitaminsE * vo.weight;
-                    vitaminsB1 += dietIngrediet.thiamin * vo.weight;
-                    vitaminsB2 += dietIngrediet.riboflavin * vo.weight;
-                    vitaminsC += dietIngrediet.vitaminsC * vo.weight;
-                    ca += dietIngrediet.ca * vo.weight;
-                    fe += dietIngrediet.fe * vo.weight;
+
+                    #region 推荐
+                    recKcal += dietIngrediet.kCal * vo.weight;
+                    recProteint += dietIngrediet.proteint * vo.weight;
+                    recFat += dietIngrediet.fat * vo.weight;
+                    recCho += dietIngrediet.cho * vo.weight;
+                    recBrxxw += dietIngrediet.brxxw * vo.weight;
+                    recDgc += dietIngrediet.dgc * vo.weight;
+                    recVitaminsA += dietIngrediet.vitaminsA * vo.weight;
+                    recVitaminsD += dietIngrediet.vitaminsD * vo.weight;
+                    recVitaminsE += dietIngrediet.vitaminsE * vo.weight;
+                    recVitaminsB1 += dietIngrediet.thiamin * vo.weight;
+                    recVitaminsB2 += dietIngrediet.riboflavin * vo.weight;
+                    recVitaminsC += dietIngrediet.vitaminsC * vo.weight;
+                    recCa += dietIngrediet.ca * vo.weight;
+                    recFe += dietIngrediet.fe * vo.weight;
+                    #endregion
+
+                    #region 提供
+                    proKcal += dietIngrediet.kCal * vo.realWeight;
+                    proProteint += dietIngrediet.proteint * vo.realWeight;
+                    proFat += dietIngrediet.fat * vo.realWeight;
+                    proCho += dietIngrediet.cho * vo.realWeight;
+                    proBrxxw += dietIngrediet.brxxw * vo.realWeight;
+                    proDgc += dietIngrediet.dgc * vo.realWeight;
+                    proVitaminsA += dietIngrediet.vitaminsA * vo.realWeight;
+                    proVitaminsD += dietIngrediet.vitaminsD * vo.realWeight;
+                    proVitaminsE += dietIngrediet.vitaminsE * vo.realWeight;
+                    proVitaminsB1 += dietIngrediet.thiamin * vo.realWeight;
+                    proVitaminsB2 += dietIngrediet.riboflavin * vo.realWeight;
+                    proVitaminsC += dietIngrediet.vitaminsC * vo.realWeight;
+                    proCa += dietIngrediet.ca * vo.realWeight;
+                    proFe += dietIngrediet.fe * vo.realWeight;
+                    #endregion
                 }
+
+                #region 推荐
                 idNut = new EntityIngredietNutrition();
-                idNut.itemName = "kcal";
-                idNut.recoJ = (kcal / 100).ToString("0.00") + " Kcal";
+                idNut.itemName = "能量";
+                idNut.recoJ = (recKcal / 100).ToString("0.00") + " Kcal";
+                idNut.proJ = (proKcal / 100).ToString("0.00") + " g";
                 data.Add(idNut);
 
                 idNut = new EntityIngredietNutrition();
-                idNut.itemName = "proteint";
-                idNut.recoJ = (proteint / 100).ToString("0.00") + " g";
+                idNut.itemName = "蛋白质";
+                idNut.recoJ = (recProteint / 100).ToString("0.00") + " g";
+                idNut.proJ = (proProteint / 100).ToString("0.00") + " g";
                 data.Add(idNut);
 
                 idNut = new EntityIngredietNutrition();
-                idNut.itemName = "fat";
-                idNut.recoJ = (fat / 100).ToString("0.00") + " g";
+                idNut.itemName = "脂肪";
+                idNut.recoJ = (recFat / 100).ToString("0.00") + " g";
+                idNut.proJ = (proFat / 100).ToString("0.00") + " g";
                 data.Add(idNut);
 
                 idNut = new EntityIngredietNutrition();
-                idNut.itemName = "cho";
-                idNut.recoJ = (cho / 100).ToString("0.00") + " g";
+                idNut.itemName = "碳水化合物";
+                idNut.recoJ = (recCho / 100).ToString("0.00") + " g";
+                idNut.proJ = (proCho / 100).ToString("0.00") + " g";
                 data.Add(idNut);
 
                 idNut = new EntityIngredietNutrition();
-                idNut.itemName = "brxxw";
-                idNut.recoJ = (brxxw / 100).ToString("0.00") + " g";
+                idNut.itemName = "膳食纤维";
+                idNut.recoJ = (recBrxxw / 100).ToString("0.00") + " g";
+                idNut.proJ = (proBrxxw / 100).ToString("0.00") + " g";
                 data.Add(idNut);
 
                 idNut = new EntityIngredietNutrition();
-                idNut.itemName = "dgc";
-                idNut.recoJ = (dgc / 100).ToString("0.00") + " g";
+                idNut.itemName = "胆固醇";
+                idNut.recoJ = (recDgc / 100).ToString("0.00") + " g";
+                idNut.proJ = (proDgc / 100).ToString("0.00") + " g";
                 data.Add(idNut);
 
                 idNut = new EntityIngredietNutrition();
-                idNut.itemName = "vitaminsA";
-                idNut.recoJ = (vitaminsA / 100).ToString("0.00") + " g";
+                idNut.itemName = "维生素A";
+                idNut.recoJ = (recVitaminsA / 100).ToString("0.00") + " g";
+                idNut.proJ = (proVitaminsA / 100).ToString("0.00") + " g";
                 data.Add(idNut);
 
                 idNut = new EntityIngredietNutrition();
-                idNut.itemName = "vitaminsD";
-                idNut.recoJ = (vitaminsD / 100).ToString("0.00") + " g";
+                idNut.itemName = "维生素D";
+                idNut.recoJ = (recVitaminsD / 100).ToString("0.00") + " g";
+                idNut.proJ = (proVitaminsD / 100).ToString("0.00") + " g";
                 data.Add(idNut);
 
                 idNut = new EntityIngredietNutrition();
-                idNut.itemName = "vitaminsE";
-                idNut.recoJ = (vitaminsE / 100).ToString("0.00") + " g";
+                idNut.itemName = "维生素E";
+                idNut.recoJ = (recVitaminsE / 100).ToString("0.00") + " g";
+                idNut.proJ = (proVitaminsE / 100).ToString("0.00") + " g";
                 data.Add(idNut);
 
                 idNut = new EntityIngredietNutrition();
-                idNut.itemName = "vitaminsB1";
-                idNut.recoJ = (vitaminsB1 / 100).ToString("0.00") + " g";
+                idNut.itemName = "维生素B1";
+                idNut.recoJ = (recVitaminsB1 / 100).ToString("0.00") + " g";
+                idNut.proJ = (proVitaminsB1 / 100).ToString("0.00") + " g";
                 data.Add(idNut);
 
                 idNut = new EntityIngredietNutrition();
-                idNut.itemName = "vitaminsB2";
-                idNut.recoJ = (vitaminsB2 / 100).ToString("0.00") + " g";
+                idNut.itemName = "维生素B2";
+                idNut.recoJ = (recVitaminsB2 / 100).ToString("0.00") + " g";
+                idNut.proJ = (proVitaminsB2 / 100).ToString("0.00") + " g";
                 data.Add(idNut);
 
                 idNut = new EntityIngredietNutrition();
-                idNut.itemName = "vitaminsC";
-                idNut.recoJ = (vitaminsC / 100).ToString("0.00") + " g";
+                idNut.itemName = "维生素C";
+                idNut.recoJ = (recVitaminsC / 100).ToString("0.00") + " g";
+                idNut.proJ = (proVitaminsC / 100).ToString("0.00") + " g";
                 data.Add(idNut);
 
                 idNut = new EntityIngredietNutrition();
-                idNut.itemName = "ca";
-                idNut.recoJ = (ca / 100).ToString("0.00") + " g";
+                idNut.itemName = "钙";
+                idNut.recoJ = (recCa / 100).ToString("0.00") + " g";
+                idNut.proJ = (proCa / 100).ToString("0.00") + " g";
                 data.Add(idNut);
 
                 idNut = new EntityIngredietNutrition();
-                idNut.itemName = "fe";
-                idNut.recoJ = (fe / 100).ToString("0.00") + " g";
+                idNut.itemName = "铁";
+                idNut.recoJ = (recFe / 100).ToString("0.00") + " g";
+                idNut.proJ = (proFe / 100).ToString("0.00") + " g";
                 data.Add(idNut);
+                #endregion
             }
             return data;
         }
@@ -280,8 +411,8 @@ namespace Hms.Ui
         internal EntityDietDetails GetRowDietDetail()
         {
             EntityDietDetails vo = null;
-            if (this.gridView.FocusedRowHandle >= 0)
-                vo = this.gridView.GetRow(this.gridView.FocusedRowHandle) as EntityDietDetails;
+            if (this.gvData.FocusedRowHandle >= 0)
+                vo = this.gvData.GetRow(this.gvData.FocusedRowHandle) as EntityDietDetails;
 
             return vo;
         }
@@ -292,8 +423,8 @@ namespace Hms.Ui
         {
             if (lstDietDetails == null)
             {
-                gridControl.DataSource = null;
-                gridControl.RefreshDataSource();
+                gcData.DataSource = null;
+                gcData.RefreshDataSource();
                 return;
             }
 
@@ -326,15 +457,14 @@ namespace Hms.Ui
             else
                 chkDay7.Checked = false;
 
-            gridControl.DataSource = lstDietDetails.FindAll(r => r.day == cboDays.SelectedIndex);
-            gridControl.RefreshDataSource();
+            gcData.DataSource = lstDietDetails.FindAll(r => r.day == cboDays.SelectedIndex);
+            gcData.RefreshDataSource();
         }
         #endregion
 
         #endregion
 
         #region events
-
         private void btnAddPerson_Click(object sender, EventArgs e)
         {
             frmpopup2060202 frm = new frmpopup2060202(lstClient);
@@ -493,6 +623,26 @@ namespace Hms.Ui
                         dietR.day6 = 1;
                     if (lstDietDetails.Any(r => r.day == 7))
                         dietR.day7 = 1;
+
+                    if(lstPrinciple != null)
+                    {
+                        foreach(var pc in lstPrinciple)
+                        {
+                            dietR.principle += pc.principleId + ";" ;
+                        }
+                        if (!string.IsNullOrEmpty(dietR.principle))
+                            dietR.principle = dietR.principle.TrimEnd(';');
+                    }
+
+                    if (lstDietTreatment != null)
+                    {
+                        foreach (var pc in lstDietTreatment)
+                        {
+                            dietR.dietTreament += pc.id + ";";
+                        }
+                        if (!string.IsNullOrEmpty(dietR.dietTreament))
+                            dietR.dietTreament = dietR.dietTreament.TrimEnd(';');
+                    }
                 }
                 using (ProxyHms proxy = new ProxyHms())
                 {
@@ -541,14 +691,17 @@ namespace Hms.Ui
                 if (lstDietDetails != null)
                 {
                     lstDietDetailsTemp  = lstDietDetails.FindAll(r => r.day == cboDays.SelectedIndex);
-                    gridControl.DataSource = lstDietDetailsTemp;
-                    gridControl.RefreshDataSource();
+                    this.gcData.DataSource = lstDietDetailsTemp;
+                    gcData.RefreshDataSource();
                 }
+
+                this.gcDietNutrtion.DataSource = null;
+                gcDietNutrtion.RefreshDataSource();
             }
 
-            if(lstDietDetailsTemp != null)
+            if (lstDietDetailsTemp != null)
             {
-                this.gcDietNutrtion.DataSource = CalcNutrition(lstDietDetailsTemp) ;
+                this.gcDietNutrtion.DataSource = CalcNutrition(lstDietDetailsTemp);
                 gcDietNutrtion.RefreshDataSource();
             }
             else
@@ -558,6 +711,112 @@ namespace Hms.Ui
             }
         }
 
+        private void btnAddDietPrinciple_Click(object sender, EventArgs e)
+        {
+            frmPopup2060204 frm = new frmPopup2060204(lstPrinciple);
+            frm.ShowDialog();
+            string principle = string.Empty;
+            if(frm.isRefresh )
+                lstPrinciple = frm.lstChoose;
+
+            if (lstPrinciple != null)
+            {
+                foreach (var vo in lstPrinciple)
+                {
+                    principle += vo.principleName + "  、";
+                }
+            }
+
+            if (!string.IsNullOrEmpty(principle))
+            {
+                principle = principle.TrimEnd('、');
+
+            }
+            memDietPrinciple.Text = principle;
+        }
+
+        private void gvDietCai_RowCellClick(object sender, DevExpress.XtraGrid.Views.Grid.RowCellClickEventArgs e)
+        {
+            if (e.RowHandle >= 0)
+            {
+                DevExpress.XtraGrid.Views.Grid.GridView currentView = (DevExpress.XtraGrid.Views.Grid.GridView)this.gcData.FocusedView;
+                var res = currentView.GetRow(e.RowHandle) as EntityDietdetailsCai;
+
+                if (res != null)
+                {
+                    lblCaiName.Text = res.caiName;
+                    this.gcIngrediet.DataSource = res.lstDietdetailsIngrediet;
+                    this.gcIngrediet.RefreshDataSource();
+                }
+            }
+        }
+
+        private void gvDietCai_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
+        {
+            if (e.RowHandle >= 0)
+            {
+                DevExpress.XtraGrid.Views.Grid.GridView currentView = (DevExpress.XtraGrid.Views.Grid.GridView)this.gcData.FocusedView;
+                var res = currentView.GetRow(e.RowHandle) as EntityDietdetailsCai;
+
+                if (res != null)
+                {
+                    if(res.lstDietdetailsIngrediet != null)
+                    {
+                        foreach (var vo in res.lstDietdetailsIngrediet)
+                        {
+                            vo.realWeight = res.weight * vo.per;
+                            vo.caiWeight = res.weight;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void gvDietCai_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
+        {
+            if (e.FocusedRowHandle >= 0)
+            {
+                DevExpress.XtraGrid.Views.Grid.GridView currentView = (DevExpress.XtraGrid.Views.Grid.GridView)this.gcData.FocusedView;
+                var res = currentView.GetRow(e.FocusedRowHandle) as EntityDietdetailsCai;
+
+                if (res != null)
+                {
+                    lblCaiName.Text = res.caiName;
+                    this.gcIngrediet.DataSource = res.lstDietdetailsIngrediet;
+                    this.gcIngrediet.RefreshDataSource();
+                }
+            }
+        }
+       
+        private void btnAddZysl_Click(object sender, EventArgs e)
+        {
+            frmPopup2060205 frm = new frmPopup2060205(lstDietTreatment);
+            frm.ShowDialog();
+            string dietTreatment = string.Empty;
+            if (frm.isRefresh)
+                lstDietTreatment = frm.lstChoose;
+
+            if (lstDietTreatment != null)
+            {
+                foreach (var vo in lstDietTreatment)
+                {
+                    dietTreatment += vo.names + "  、";
+                }
+            }
+
+            if (!string.IsNullOrEmpty(dietTreatment))
+            {
+                dietTreatment = dietTreatment.TrimEnd('、');
+
+            }
+            memDietTreament.Text = dietTreatment;
+        }
+        
+
+        private void btnSaveTemplate_Click(object sender, EventArgs e)
+        {
+
+        }
         #endregion
     }
 }

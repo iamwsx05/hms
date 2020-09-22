@@ -715,11 +715,11 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="dietPrinciple"></param>
         /// <returns></returns>
-        public int SaveDietPrinciple(ref EntityDietPrinciple dietPrinciple)
+        public int SaveDietPrinciple(EntityDietPrinciple dietPrinciple, out string id)
         {
             using (Biz206 biz = new Biz206())
             {
-                return biz.SaveDietPrinciple(ref dietPrinciple);
+                return biz.SaveDietPrinciple(dietPrinciple,out id);
             }
         }
 
@@ -817,11 +817,11 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="dietTemplate"></param>
         /// <returns></returns>
-        public int SaveDietTemplate(ref EntityDietTemplate dietTemplate)
+        public int SaveDietTemplate(EntityDietTemplate dietTemplate, out string templateId)
         {
             using (Biz206 biz = new Biz206())
             {
-                return biz.SaveDietTemplate(ref dietTemplate);
+                return biz.SaveDietTemplate(dietTemplate,out templateId);
             }
         }
 

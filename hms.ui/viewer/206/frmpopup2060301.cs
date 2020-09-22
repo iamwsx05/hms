@@ -58,6 +58,7 @@ namespace Hms.Ui
         private void btnSave_Click(object sender, EventArgs e)
         {
             int affect = -1;
+            string templateId = string.Empty;
             if (dietTemplate == null)
                 dietTemplate = new EntityDietTemplate();
             else if (string.IsNullOrEmpty(dietTemplate.templateId))
@@ -71,15 +72,19 @@ namespace Hms.Ui
 
             using (ProxyHms proxy = new ProxyHms())
             {
-                affect = proxy.Service.SaveDietTemplate(ref dietTemplate);
+                affect = proxy.Service.SaveDietTemplate(dietTemplate,out templateId);
             }
 
             if (affect < 0)
             {
+                dietTemplate.templateId = "";
                 DialogBox.Msg("保存失败 !");
             }
             else
+            {
+                dietTemplate.templateId = templateId;
                 this.IsRequireRefresh = true;
+            }
         }
         #endregion
     }
