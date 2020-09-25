@@ -785,6 +785,34 @@ namespace Hms.Svc
         }
         #endregion
 
+        /// <summary>
+        /// 另存为模板
+        /// </summary>
+        /// <param name="dietTemplate"></param>
+        /// <param name="lstDietDetails"></param>
+        /// <param name="templateId"></param>
+        /// <returns></returns>
+        public int SaveDietTemplateDetails(EntityDietTemplate dietTemplate, List<EntityDietTemplateDetails> lstDietDetails, out string templateId)
+        {
+            using (Biz206 biz = new Biz206())
+            {
+                return biz.SaveDietTemplateDetails(dietTemplate, lstDietDetails, out templateId);
+            }
+        }
+
+        /// <summary>
+        /// 模板食谱
+        /// </summary>
+        /// <param name="templateId"></param>
+        /// <returns></returns>
+        public List<EntityDietTemplateDetails> GetDietTemplateDetails(string templateId)
+        {
+            using (Biz206 biz = new Biz206())
+            {
+                return biz.GetDietTemplateDetails(templateId);
+            }
+        }
+
         #endregion
 
         #region 20602 饮食菜谱模板

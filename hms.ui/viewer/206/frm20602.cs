@@ -28,7 +28,7 @@ namespace Hms.Ui
         /// </summary>
         public override void New()
         {
-            frmPopup2060201 frm = new frmPopup2060201(null);
+            frmPopup2060201 frm = new frmPopup2060201();
             frm.ShowDialog();
         }
         #endregion

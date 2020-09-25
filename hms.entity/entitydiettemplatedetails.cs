@@ -9,36 +9,32 @@ using weCare.Core.Entity;
 namespace Hms.Entity
 {
     /// <summary>
-    /// EntityDietDetails
+    /// EntityDietTemplateDetails
     /// </summary>
     [DataContract, Serializable]
-    [EntityAttribute(TableName = "dietDetails")]
-    public class EntityDietDetails : BaseDataContract
+    [EntityAttribute(TableName = "dietTemplateDetails")]
+    public class EntityDietTemplateDetails :BaseDataContract
     {
-        public EntityDietDetails()
-        {
-            lstDetailsCai = new List<EntityDietdetailsCai>();
-        }
         /// <summary>
-        /// recId
+        /// templateId
         /// </summary>
         [DataMember]
-        [EntityAttribute(FieldName = "recId", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 1)]
-        public System.Decimal recId { get; set; }
+        [EntityAttribute(FieldName = "templateId", DbType = DbType.AnsiString, IsPK = false, IsSeq = false, SerNo = 1)]
+        public System.String templateId { get; set; }
 
         /// <summary>
         /// day
         /// </summary>
         [DataMember]
         [EntityAttribute(FieldName = "day", DbType = DbType.Int32, IsPK = false, IsSeq = false, SerNo = 2)]
-        public System.Int32 day { get; set; }
+        public int day { get; set; }
 
         /// <summary>
         /// mealId
         /// </summary>
         [DataMember]
         [EntityAttribute(FieldName = "mealId", DbType = DbType.Int32, IsPK = false, IsSeq = false, SerNo = 3)]
-        public System.Int32 mealId { get; set; }
+        public int mealId { get; set; }
 
         /// <summary>
         /// mealType
@@ -76,7 +72,7 @@ namespace Hms.Entity
         public System.String caiIngredietId { get; set; }
 
         /// <summary>
-        /// weihgt
+        /// weight
         /// </summary>
         [DataMember]
         [EntityAttribute(FieldName = "weight", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 9)]
@@ -115,7 +111,7 @@ namespace Hms.Entity
         /// </summary>
         public class EnumCols
         {
-            public string recId = "recId";
+            public string templateId = "templateId";
             public string day = "day";
             public string mealId = "mealId";
             public string mealType = "mealType";
@@ -128,5 +124,6 @@ namespace Hms.Entity
             public string caiWeight = "caiWeight";
             public string per = "per";
         }
+
     }
 }

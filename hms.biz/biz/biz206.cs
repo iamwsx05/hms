@@ -55,7 +55,7 @@ namespace Hms.Biz
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public int SaveDietPrinciple(EntityDietPrinciple dietPrinciple,out string id)
+        public int SaveDietPrinciple(EntityDietPrinciple dietPrinciple, out string id)
         {
             SqlHelper svc = null;
             id = string.Empty;
@@ -218,11 +218,11 @@ namespace Hms.Biz
                     vo.regNo = dr["regNo"].ToString();
                     vo.regTimes = Function.Int(dr["regTimes"]);
                     vo.clientNo = dr["clientNo"].ToString();
-                    Function.SetClientInfo(ref vo ,dr);
+                    Function.SetClientInfo(ref vo, dr);
                     vo.age = dr["birthday"] == DBNull.Value ? "" : Function.CalcAge(Function.Datetime(dr["birthday"]));
                     vo.gradeName = dr["gradeName"].ToString();
                     vo.company = dr["company"].ToString();
-                    vo.day1 = Function.Int(dr["day1"]) ;
+                    vo.day1 = Function.Int(dr["day1"]);
                     vo.day2 = Function.Int(dr["day2"]);
                     vo.day3 = Function.Int(dr["day3"]);
                     vo.day4 = Function.Int(dr["day4"]);
@@ -232,7 +232,7 @@ namespace Hms.Biz
                     vo.principle = dr["principle"].ToString();
                     vo.dietTreament = dr["dietTreament"].ToString();
                     vo.recorder = dr["recorder"].ToString();
-                    vo.recordDateStr = Function.Datetime(dr["recordDate"]).ToString("yyyy-MM-dd HH:mm") ;
+                    vo.recordDateStr = Function.Datetime(dr["recordDate"]).ToString("yyyy-MM-dd HH:mm");
                     data.Add(vo);
                 }
             }
@@ -240,16 +240,15 @@ namespace Hms.Biz
         }
         #endregion
 
-        #region 获取食谱及原料
+        #region 获取方案食谱及原料
         /// <summary>
         /// 
         /// </summary>
         /// <param name="dietRecIdStr"></param>
         /// <returns></returns>
-        public List<EntityDietDetails> GetDietDetails(string dietRecIdStr )
+        public List<EntityDietDetails> GetDietDetails(string dietRecIdStr)
         {
             List<EntityDietDetails> data = null;
-            List<EntityDietDetails> data2 = null;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
             string Sql = string.Empty;
             Sql = @"select recId,
@@ -269,19 +268,15 @@ namespace Hms.Biz
             if (dt != null && dt.Rows.Count > 0)
             {
                 data = new List<EntityDietDetails>();
-                data2 = new List<EntityDietDetails>();
                 EntityDietDetails voD = null;
-                EntityDietdetailsCai voC = null;
                 foreach (DataRow dr in dt.Rows)
                 {
                     voD = new EntityDietDetails();
-                    voD.recId =Function.Dec(dr["recId"]);
+                    voD.recId = Function.Dec(dr["recId"]);
                     voD.day = Function.Int(dr["day"]);
                     voD.mealId = Function.Int(dr["mealId"]);
                     voD.mealType = dr["mealType"].ToString();
-                    string caiId = dr["caiId"].ToString();
-                    string caiIngredietId = dr["caiIngredietId"].ToString();
-                    voD.caiId = caiId;
+                    voD.caiId = dr["caiId"].ToString();
                     voD.caiName = dr["caiName"].ToString();
                     voD.caiIngrediet = dr["caiIngrediet"].ToString();
                     voD.caiIngredietId = dr["caiIngredietId"].ToString();
@@ -289,56 +284,10 @@ namespace Hms.Biz
                     voD.caiWeight = Function.Dec(dr["caiWeight"]);
                     voD.realWeight = Function.Dec(dr["realWeight"]);
                     voD.per = Function.Dec(dr["per"]);
-
-                    if (data.Any(r => r.recId == voD.recId && r.day == voD.day && r.mealId == voD.mealId))
-                    {
-                        EntityDietDetails voDietClone = data.Find(r => r.recId == voD.recId && r.day == voD.day && r.mealId == voD.mealId);
-
-                        if (!voDietClone.lstDetailsCai.Any((u => u.recId == voD.recId && u.day == voD.day && u.mealId == voD.mealId && u.caiId == caiId)))
-                        {
-                            voC = new EntityDietdetailsCai();
-                            voC.recId = Function.Dec(dr["recId"]);
-                            voC.day = Function.Int(dr["day"]);
-                            voC.mealId = Function.Int(dr["mealId"]);
-                            voC.caiId = dr["caiId"].ToString();
-                            voC.caiName = dr["caiName"].ToString();
-                            voC.weight= Function.Dec(dr["caiWeight"]);
-                            voDietClone.lstDetailsCai.Add(voC);
-                        }
-                    }
-                    else
-                    {
-                        voD.lstDetailsCai = new List<EntityDietdetailsCai>();
-                        
-                        data.Add(voD);
-                    }
-                    data2.Add(voD);
-                }
-                if (data != null)
-                {
-                    foreach(var temp in data)
-                    {
-                        if(temp.lstDetailsCai != null)
-                        {
-                            foreach(var caiTemp in temp.lstDetailsCai)
-                            {
-                                List<EntityDietDetails>  details = data2.FindAll(r=>r.recId== caiTemp.recId && r.day == caiTemp.day && r.mealId== caiTemp.mealId && r.caiId == caiTemp.caiId);
-                                if(details != null)
-                                {
-                                    caiTemp.lstDietdetailsIngrediet = new List<EntityDietDetails>();
-
-                                    foreach(var temp2 in details)
-                                    {
-                                        EntityDietDetails Ingrediet = new EntityDietDetails();
-                                        Ingrediet = temp2;
-                                        caiTemp.lstDietdetailsIngrediet.Add(Ingrediet);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    data.Add(voD);
                 }
             }
+
             return data;
         }
         #endregion
@@ -350,7 +299,7 @@ namespace Hms.Biz
         /// <param name="lstDietRecord"></param>
         /// <param name="lstDietDetails"></param>
         /// <returns></returns>
-        public int SaveDietCai(List<EntityDietRecord> lstDietRecord ,List<EntityDietDetails> lstDietDetails, out Dictionary<string,decimal> dicRecId)
+        public int SaveDietCai(List<EntityDietRecord> lstDietRecord, List<EntityDietDetails> lstDietDetails, out Dictionary<string, decimal> dicRecId)
         {
             int affect = -1;
             SqlHelper svc = null;
@@ -371,15 +320,15 @@ namespace Hms.Biz
                         recId = svc.GetNextID("dietRecord", "recId");
                         dietR.recId = recId;
                     }
-                   
+
                     dietR.recorder = "00";
                     dietR.recordDate = DateTime.Now;
-                    dicRecId.Add(dietR.clientNo,dietR.recId);
+                    dicRecId.Add(dietR.clientNo, dietR.recId);
 
                     sql = @"delete from dietRecord where recId =  ?";
                     param = svc.CreateParm(1);
                     param[0].Value = dietR.recId;
-                    lstParm.Add(svc.GetDacParm(EnumExecType.ExecSql,sql,param));
+                    lstParm.Add(svc.GetDacParm(EnumExecType.ExecSql, sql, param));
                     lstParm.Add(svc.GetInsertParm(dietR));
 
                     sql = @"delete from dietDetails where recId = ?";
@@ -393,13 +342,13 @@ namespace Hms.Biz
                         {
                             if (temp.lstDetailsCai != null)
                             {
-                                foreach(var cai in temp.lstDetailsCai)
+                                foreach (var cai in temp.lstDetailsCai)
                                 {
-                                   foreach(var detail in cai.lstDietdetailsIngrediet)
-                                   {
+                                    foreach (var detail in cai.lstDietdetailsIngrediet)
+                                    {
                                         detail.recId = dietR.recId;
                                         lstParm.Add(svc.GetInsertParm(detail));
-                                   }
+                                    }
                                 }
                             }
                         }
@@ -418,8 +367,127 @@ namespace Hms.Biz
             {
                 svc = null;
             }
-           
+
             return affect;
+        }
+        #endregion
+
+        #region 另存为模板 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dietTemplate"></param>
+        /// <param name="lstDietDetails"></param>
+        /// <param name="templateId"></param>
+        /// <returns></returns>
+        public int SaveDietTemplateDetails(EntityDietTemplate dietTemplate, List<EntityDietTemplateDetails> lstDietDetails,out string templateId)
+        {
+            int affect = -1;
+            SqlHelper svc = null;
+            string sql = string.Empty;
+            templateId = string.Empty;
+            IDataParameter[] param = null;
+
+            try
+            {
+                svc = new SqlHelper(EnumBiz.onlineDB);
+                List<DacParm> lstParm = new List<DacParm>();
+                if (dietTemplate == null)
+                    return -1;
+                templateId = dietTemplate.templateId;
+                if (string.IsNullOrEmpty(dietTemplate.templateId))
+                {
+                    templateId = svc.GetNextID("dietTemplate", "templateId").ToString().PadLeft(6, '0');
+                }
+                dietTemplate.templateId = templateId;
+                sql = @"delete from dietTemplate where templateId =  ?";
+                param = svc.CreateParm(1);
+                param[0].Value = templateId;
+                lstParm.Add(svc.GetDacParm(EnumExecType.ExecSql, sql, param));
+                lstParm.Add(svc.GetInsertParm(dietTemplate));
+
+                sql = @"delete from dietTemplateDetails where templateId = ?";
+                param = svc.CreateParm(1);
+                param[0].Value = templateId;
+                lstParm.Add(svc.GetDacParm(EnumExecType.ExecSql, sql, param));
+
+                if (lstDietDetails != null)
+                {
+                    foreach (var temp in lstDietDetails)
+                    {
+                        temp.templateId = dietTemplate.templateId;
+                        lstParm.Add(svc.GetInsertParm(temp));
+                    }
+                }
+
+                if (lstParm.Count > 0)
+                    affect = svc.Commit(lstParm);
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.OutPutException(ex);
+            }
+            finally
+            {
+                svc = null;
+            }
+
+            return affect;
+        }
+        #endregion
+
+        #region 获取模板食谱及原料
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="templateId"></param>
+        /// <returns></returns>
+        public List<EntityDietTemplateDetails> GetDietTemplateDetails(string templateId)
+        {
+            if (string.IsNullOrEmpty(templateId))
+                return null;
+
+            List<EntityDietTemplateDetails> data = null;
+            SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
+            string Sql = string.Empty;
+            Sql = @"select templateId,
+                            day,
+                            mealId,
+                            mealType,
+                            caiId,
+                            caiName,
+                            caiIngrediet,
+                            caiIngredietId,
+                            weight,caiWeight,realWeight,per
+                        from dietTemplateDetails  ";
+
+            Sql += " where templateId =  '" + templateId + "'";
+            DataTable dt = svc.GetDataTable(Sql);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                data = new List<EntityDietTemplateDetails>();
+                EntityDietTemplateDetails voD = null;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    voD = new EntityDietTemplateDetails();
+                    voD.templateId = dr["templateId"].ToString();
+                    voD.day = Function.Int(dr["day"]);
+                    voD.mealId = Function.Int(dr["mealId"]);
+                    voD.mealType = dr["mealType"].ToString();
+                    voD.caiId = dr["caiId"].ToString();
+                    voD.caiName = dr["caiName"].ToString();
+                    voD.caiIngrediet = dr["caiIngrediet"].ToString();
+                    voD.caiIngredietId = dr["caiIngredietId"].ToString();
+                    voD.weight = Function.Dec(dr["weight"]);
+                    voD.caiWeight = Function.Dec(dr["caiWeight"]);
+                    voD.realWeight = Function.Dec(dr["realWeight"]);
+                    voD.per = Function.Dec(dr["per"]);
+                    data.Add(voD);
+                }
+            }
+
+            return data;
         }
         #endregion
 
@@ -889,7 +957,7 @@ namespace Hms.Biz
                 }
 
                 //菜分类
-                if (cai.lstCaiSlaveId != null )
+                if (cai.lstCaiSlaveId != null)
                 {
                     sql = "delete  from dicCaiConfig where caiId = '" + cai.id + "'";
                     lstParm.Add(svc.GetDacParm(EnumExecType.ExecSql, sql));
@@ -954,21 +1022,21 @@ namespace Hms.Biz
                 //菜
                 lstParm.Add(svc.GetDelParmByPk(new EntityDicCai() { id = cai.id }));
                 //菜分类
-                if(cai.lstCaiSlaveId != null)
+                if (cai.lstCaiSlaveId != null)
                 {
                     string subStr = string.Empty;
-                    foreach(var strId in cai.lstCaiSlaveId)
+                    foreach (var strId in cai.lstCaiSlaveId)
                     {
                         subStr += "'" + strId + "',";
                     }
                     if (!string.IsNullOrEmpty(subStr))
                         subStr = "(" + subStr.TrimEnd(',') + ")";
                     sql = @"delete from diccaiconfig where caiSlaveId in " + subStr;
-                    lstParm.Add(svc.GetDacParm(EnumExecType.ExecSql,sql));
+                    lstParm.Add(svc.GetDacParm(EnumExecType.ExecSql, sql));
                 }
                 //菜原料
-                if(cai.lstCaiIngredient != null)
-                {                  
+                if (cai.lstCaiIngredient != null)
+                {
                     lstParm.Add(svc.GetDelParm(cai.lstCaiIngredient[0], EntityDicCaiIngredient.Columns.caiId));
                 }
 
@@ -1138,7 +1206,7 @@ namespace Hms.Biz
                 List<DacParm> lstParm = new List<DacParm>();
                 if (string.IsNullOrEmpty(dicDientIngredient.id))
                 {
-                    dicDientIngredient.id = dicDientIngredient.lstClassify[0].ToString().PadLeft(2,'0')+ "-" + svc.GetNextID("dicDietIngredient", "id").ToString().PadLeft(6, '0');
+                    dicDientIngredient.id = dicDientIngredient.lstClassify[0].ToString().PadLeft(2, '0') + "-" + svc.GetNextID("dicDietIngredient", "id").ToString().PadLeft(6, '0');
                     lstParm.Add(svc.GetInsertParm(dicDientIngredient));
                 }
                 else
@@ -1192,9 +1260,9 @@ namespace Hms.Biz
                 }
 
                 //保存 分类
-                if(dicDientIngredient.lstClassify != null)
+                if (dicDientIngredient.lstClassify != null)
                 {
-                    foreach(int id in dicDientIngredient.lstClassify)
+                    foreach (int id in dicDientIngredient.lstClassify)
                     {
                         EntityDicIngredientConfig vo = new EntityDicIngredientConfig();
                         vo.classifyId = id;
@@ -1236,9 +1304,9 @@ namespace Hms.Biz
             try
             {
                 svc = new SqlHelper(EnumBiz.onlineDB);
-                
+
                 lstParm.Add(svc.GetDelParmByPk(new EntityDicDientIngredient() { id = dicDientIngredienti.id }));
-                
+
                 if (dicDientIngredienti.lstClassify != null)
                 {
                     string subStr = string.Empty;
@@ -1251,7 +1319,7 @@ namespace Hms.Biz
                     sql = @"delete from dicIngredientConfig where ingredientId in " + subStr;
                     lstParm.Add(svc.GetDacParm(EnumExecType.ExecSql, sql));
                 }
-                
+
                 if (lstParm.Count > 0)
                     affectRows = svc.Commit(lstParm);
             }
@@ -1293,7 +1361,7 @@ namespace Hms.Biz
                 foreach (DataRow dr in dt.Rows)
                 {
                     vo = new EntityDietTreatment();
-                    vo.id = dr["id"].ToString() ;
+                    vo.id = dr["id"].ToString();
                     vo.names = dr["names"].ToString();
                     vo.configs = dr["configs"].ToString();
                     vo.fuctions = dr["fuctions"].ToString();

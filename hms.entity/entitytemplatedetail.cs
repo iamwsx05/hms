@@ -35,7 +35,6 @@ namespace Hms.Entity
         [DataMember]
         public int gender { get; set; }
 
-        [DataMember]
         public string sex
         {
             get
@@ -54,7 +53,6 @@ namespace Hms.Entity
         [DataMember]
         public int isCompare { get; set; }
 
-        [DataMember]
         public string isCompareName
         {
             get
@@ -67,7 +65,6 @@ namespace Hms.Entity
         /// </summary>
         [DataMember]
         public int isMain { get; set; }
-        [DataMember]
         public string isMainName
         {
             get

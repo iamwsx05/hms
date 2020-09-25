@@ -220,7 +220,7 @@ namespace Hms.Itf
         /// </summary>
         /// <param name="promotionPlan"></param>
         /// <returns></returns>
-        [OperationContract(Name = "SavePromotionPan")]
+        [OperationContract(Name = "SavePromotionRecord")]
         int SavePromotionRecord(EntityPromotionPlan promotionPlan);
 
         /// <summary>
@@ -474,6 +474,24 @@ namespace Hms.Itf
         /// <returns></returns>
         [OperationContract(Name = "GetDietRecords")]
         List<EntityDietRecord> GetDietRecords(List<EntityParm> parms);
+
+        /// <summary>
+        /// 另存为模板
+        /// </summary>
+        /// <param name="dietTemplate"></param>
+        /// <param name="lstDietDetails"></param>
+        /// <param name="templateId"></param>
+        /// <returns></returns>
+        [OperationContract(Name = "SaveDietTemplate")]
+        int SaveDietTemplateDetails(EntityDietTemplate dietTemplate, List<EntityDietTemplateDetails> lstDietDetails, out string templateId);
+
+        /// <summary>
+        /// 模板食谱
+        /// </summary>
+        /// <param name="templateId"></param>
+        /// <returns></returns>
+        [OperationContract(Name = "GetDietTemplateDetails")]
+        List<EntityDietTemplateDetails> GetDietTemplateDetails(string templateId);
 
         #endregion
 

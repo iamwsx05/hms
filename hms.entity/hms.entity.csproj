@@ -63,6 +63,7 @@
     <Compile Include="entitydietprinciple.cs" />
     <Compile Include="entitydietrecord.cs" />
     <Compile Include="entitydiettemplate.cs" />
+    <Compile Include="entitydiettemplatedetails.cs" />
     <Compile Include="entitydiettemplatetype.cs" />
     <Compile Include="entitydiettreatment.cs" />
     <Compile Include="entitydiplaypeitem.cs" />

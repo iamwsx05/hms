@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraGrid.GridLevelNode gridLevelNode2 = new DevExpress.XtraGrid.GridLevelNode();
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
             this.gvDietCai = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn12 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn13 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -69,12 +69,12 @@
             this.panelControl9 = new DevExpress.XtraEditors.PanelControl();
             this.labelControl7 = new DevExpress.XtraEditors.LabelControl();
             this.btnSaveTemplate = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButton4 = new DevExpress.XtraEditors.SimpleButton();
-            this.panelControl7 = new DevExpress.XtraEditors.PanelControl();
+            this.btnImportTemplate = new DevExpress.XtraEditors.SimpleButton();
+            this.pcClient = new DevExpress.XtraEditors.PanelControl();
             this.gcSelectClient = new DevExpress.XtraGrid.GridControl();
             this.cvSelectClient = new DevExpress.XtraGrid.Views.Card.CardView();
             this.gridColumn14 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.panelControl3 = new DevExpress.XtraEditors.PanelControl();
+            this.pcSearch = new DevExpress.XtraEditors.PanelControl();
             this.btnSaveDietCai = new DevExpress.XtraEditors.SimpleButton();
             this.btnDelPerson = new DevExpress.XtraEditors.SimpleButton();
             this.btnAddPerson = new DevExpress.XtraEditors.SimpleButton();
@@ -155,12 +155,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.chkDay1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl9)).BeginInit();
             this.panelControl9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.panelControl7)).BeginInit();
-            this.panelControl7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pcClient)).BeginInit();
+            this.pcClient.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gcSelectClient)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cvSelectClient)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).BeginInit();
-            this.panelControl3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pcSearch)).BeginInit();
+            this.pcSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit2.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties.CalendarTimeProperties)).BeginInit();
@@ -197,8 +197,8 @@
             this.pcBackGround.Controls.Add(this.panelControl11);
             this.pcBackGround.Controls.Add(this.xtraScrollableControl1);
             this.pcBackGround.Controls.Add(this.panelControl8);
-            this.pcBackGround.Controls.Add(this.panelControl7);
-            this.pcBackGround.Controls.Add(this.panelControl3);
+            this.pcBackGround.Controls.Add(this.pcClient);
+            this.pcBackGround.Controls.Add(this.pcSearch);
             this.pcBackGround.Controls.Add(this.panelControl10);
             this.pcBackGround.Controls.Add(this.panelControl4);
             this.pcBackGround.Size = new System.Drawing.Size(1359, 777);
@@ -268,17 +268,17 @@
             // gcData
             // 
             this.gcData.Dock = System.Windows.Forms.DockStyle.Fill;
-            gridLevelNode2.LevelTemplate = this.gvDietCai;
-            gridLevelNode2.RelationName = "lstDetailsCai";
+            gridLevelNode1.LevelTemplate = this.gvDietCai;
+            gridLevelNode1.RelationName = "lstDetailsCai";
             this.gcData.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
-            gridLevelNode2});
+            gridLevelNode1});
             this.gcData.Location = new System.Drawing.Point(0, 0);
             this.gcData.MainView = this.gvData;
             this.gcData.Name = "gcData";
             this.gcData.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.itemChk,
             this.deptChk});
-            this.gcData.Size = new System.Drawing.Size(0, 0);
+            this.gcData.Size = new System.Drawing.Size(400, 262);
             this.gcData.TabIndex = 16;
             this.gcData.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvData,
@@ -695,7 +695,7 @@
             // 
             this.panelControl9.Controls.Add(this.labelControl7);
             this.panelControl9.Controls.Add(this.btnSaveTemplate);
-            this.panelControl9.Controls.Add(this.simpleButton4);
+            this.panelControl9.Controls.Add(this.btnImportTemplate);
             this.panelControl9.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl9.Location = new System.Drawing.Point(2, 2);
             this.panelControl9.Name = "panelControl9";
@@ -734,24 +734,24 @@
             this.btnSaveTemplate.Text = "保存为模板";
             this.btnSaveTemplate.Click += new System.EventHandler(this.btnSaveTemplate_Click);
             // 
-            // simpleButton4
+            // btnImportTemplate
             // 
-            this.simpleButton4.Appearance.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.simpleButton4.Appearance.Options.UseFont = true;
-            this.simpleButton4.Location = new System.Drawing.Point(113, 10);
-            this.simpleButton4.Name = "simpleButton4";
-            this.simpleButton4.Size = new System.Drawing.Size(75, 23);
-            this.simpleButton4.TabIndex = 4;
-            this.simpleButton4.Text = "从模板导入";
+            this.btnImportTemplate.Appearance.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImportTemplate.Appearance.Options.UseFont = true;
+            this.btnImportTemplate.Location = new System.Drawing.Point(113, 10);
+            this.btnImportTemplate.Name = "btnImportTemplate";
+            this.btnImportTemplate.Size = new System.Drawing.Size(75, 23);
+            this.btnImportTemplate.TabIndex = 4;
+            this.btnImportTemplate.Text = "从模板导入";
             // 
-            // panelControl7
+            // pcClient
             // 
-            this.panelControl7.Controls.Add(this.gcSelectClient);
-            this.panelControl7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl7.Location = new System.Drawing.Point(202, 48);
-            this.panelControl7.Name = "panelControl7";
-            this.panelControl7.Size = new System.Drawing.Size(782, 88);
-            this.panelControl7.TabIndex = 12;
+            this.pcClient.Controls.Add(this.gcSelectClient);
+            this.pcClient.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pcClient.Location = new System.Drawing.Point(202, 48);
+            this.pcClient.Name = "pcClient";
+            this.pcClient.Size = new System.Drawing.Size(782, 88);
+            this.pcClient.TabIndex = 12;
             // 
             // gcSelectClient
             // 
@@ -798,20 +798,20 @@
             this.gridColumn14.Visible = true;
             this.gridColumn14.VisibleIndex = 0;
             // 
-            // panelControl3
+            // pcSearch
             // 
-            this.panelControl3.Controls.Add(this.btnSaveDietCai);
-            this.panelControl3.Controls.Add(this.btnDelPerson);
-            this.panelControl3.Controls.Add(this.btnAddPerson);
-            this.panelControl3.Controls.Add(this.dateEdit2);
-            this.panelControl3.Controls.Add(this.labelControl6);
-            this.panelControl3.Controls.Add(this.dateEdit1);
-            this.panelControl3.Controls.Add(this.labelControl5);
-            this.panelControl3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl3.Location = new System.Drawing.Point(202, 2);
-            this.panelControl3.Name = "panelControl3";
-            this.panelControl3.Size = new System.Drawing.Size(782, 46);
-            this.panelControl3.TabIndex = 11;
+            this.pcSearch.Controls.Add(this.btnSaveDietCai);
+            this.pcSearch.Controls.Add(this.btnDelPerson);
+            this.pcSearch.Controls.Add(this.btnAddPerson);
+            this.pcSearch.Controls.Add(this.dateEdit2);
+            this.pcSearch.Controls.Add(this.labelControl6);
+            this.pcSearch.Controls.Add(this.dateEdit1);
+            this.pcSearch.Controls.Add(this.labelControl5);
+            this.pcSearch.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pcSearch.Location = new System.Drawing.Point(202, 2);
+            this.pcSearch.Name = "pcSearch";
+            this.pcSearch.Size = new System.Drawing.Size(782, 46);
+            this.pcSearch.TabIndex = 11;
             // 
             // btnSaveDietCai
             // 
@@ -925,7 +925,7 @@
             this.splitContainerControl1.Panel2.Controls.Add(this.panelControl17);
             this.splitContainerControl1.Panel2.Text = "Panel2";
             this.splitContainerControl1.Size = new System.Drawing.Size(782, 262);
-            this.splitContainerControl1.SplitterPosition = 0;
+            this.splitContainerControl1.SplitterPosition = 400;
             this.splitContainerControl1.TabIndex = 16;
             this.splitContainerControl1.Text = "splitContainerControl1";
             // 
@@ -938,7 +938,7 @@
             this.gcIngrediet.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1,
             this.repositoryItemCheckEdit3});
-            this.gcIngrediet.Size = new System.Drawing.Size(776, 227);
+            this.gcIngrediet.Size = new System.Drawing.Size(376, 227);
             this.gcIngrediet.TabIndex = 19;
             this.gcIngrediet.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvIngrediet,
@@ -1079,7 +1079,7 @@
             this.panelControl17.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl17.Location = new System.Drawing.Point(0, 0);
             this.panelControl17.Name = "panelControl17";
-            this.panelControl17.Size = new System.Drawing.Size(776, 35);
+            this.panelControl17.Size = new System.Drawing.Size(376, 35);
             this.panelControl17.TabIndex = 18;
             // 
             // lblCaiName
@@ -1354,13 +1354,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.chkDay1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl9)).EndInit();
             this.panelControl9.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.panelControl7)).EndInit();
-            this.panelControl7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pcClient)).EndInit();
+            this.pcClient.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gcSelectClient)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cvSelectClient)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).EndInit();
-            this.panelControl3.ResumeLayout(false);
-            this.panelControl3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pcSearch)).EndInit();
+            this.pcSearch.ResumeLayout(false);
+            this.pcSearch.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit2.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties.CalendarTimeProperties)).EndInit();
@@ -1408,12 +1408,12 @@
         private DevExpress.XtraEditors.PanelControl panelControl9;
         private DevExpress.XtraEditors.LabelControl labelControl7;
         private DevExpress.XtraEditors.SimpleButton btnSaveTemplate;
-        private DevExpress.XtraEditors.SimpleButton simpleButton4;
-        private DevExpress.XtraEditors.PanelControl panelControl7;
+        private DevExpress.XtraEditors.SimpleButton btnImportTemplate;
+        private DevExpress.XtraEditors.PanelControl pcClient;
         private DevExpress.XtraGrid.GridControl gcSelectClient;
         private DevExpress.XtraGrid.Views.Card.CardView cvSelectClient;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn14;
-        private DevExpress.XtraEditors.PanelControl panelControl3;
+        private DevExpress.XtraEditors.PanelControl pcSearch;
         private DevExpress.XtraEditors.SimpleButton btnDelPerson;
         private DevExpress.XtraEditors.SimpleButton btnAddPerson;
         private DevExpress.XtraEditors.DateEdit dateEdit2;

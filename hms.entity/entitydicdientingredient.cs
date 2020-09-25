@@ -148,7 +148,6 @@ namespace Hms.Entity
         [Entity(FieldName = "bakfield2", DbType = DbType.String, IsPK = false, IsSeq = false, SerNo = 45)]
         public string bakfield2 { get; set; }
 
-        [DataMember]
         public string ingredietName
         {
             get
@@ -160,6 +159,7 @@ namespace Hms.Entity
         /// <summary>
         /// 重量
         /// </summary>
+        [DataMember]
         public decimal weight { get; set; }
 
         /// <summary>
@@ -167,7 +167,6 @@ namespace Hms.Entity
         /// </summary>
         [DataMember]
         public List<int> lstClassify { get; set; }
-        //public string classifyStr { get; set; }
 
         public static EnumCols Columns = new EnumCols();
 

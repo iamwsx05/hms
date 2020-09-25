@@ -140,6 +140,18 @@ namespace Hms.Ui
                 DialogBox.Msg("请选择需要删除的记录。");
             }
         }
+
+        /// <summary>
+        /// 查看
+        /// </summary>
+        public override void LoadData()
+        {
+            if (this.gvData.SelectedRowsCount > 0)
+            {
+                frmPopup2060201 frm = new frmPopup2060201(this.gvData.GetRow(this.gvData.GetSelectedRows()[0]) as EntityDietTemplate);
+                frm.ShowDialog();
+            }
+        }
         #endregion
 
         #region method

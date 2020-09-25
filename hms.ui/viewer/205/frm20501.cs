@@ -175,8 +175,6 @@ namespace Hms.Ui
         {
             try
             {
-                this.dteStart.Text = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd");
-                this.dteEnd.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 List<EntityParm> lstParams = new List<EntityParm>();
                 EntityParm vo = new EntityParm();
                 vo.key = "queryDate";
@@ -256,7 +254,7 @@ namespace Hms.Ui
         {
             try
             {
-                this.dteStart.Text = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd");
+                this.dteStart.Text = "2020-01-01";
                 this.dteEnd.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 List<EntityParm> lstParams = new List<EntityParm>();
                 EntityParm vo = new EntityParm();
