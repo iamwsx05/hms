@@ -58,7 +58,7 @@ namespace Hms.Ui
                 List<EntityDicQnDetail> lstDetails = null;
                 using (ProxyHms proxy = new ProxyHms())
                 {
-                    DataSource = proxy.Service.GetQnSetting();
+                    DataSource = proxy.Service.GetQnSetting(this.QnVo.qnId);
                     lstDetails = proxy.Service.GetQnDetail(this.QnVo.qnId);
                     if (DataSource != null && DataSource.Count > 0 && lstDetails != null && lstDetails.Count > 0)
                     {

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using weCare.Core.Entity;
+using weCare.Core.Utils;
 
 namespace Hms.Ui
 {
@@ -71,12 +72,18 @@ namespace Hms.Ui
                 InitDietDetails(dietRecord);
             }
 
-            if(dietTemplate != null)
+            if (dietTemplate != null)
             {
                 this.pcSearch.Visible = false;
                 this.pcClient.Visible = false;
                 this.btnSaveTemplate.Visible = false;
                 this.btnImportTemplate.Visible = false;
+                this.btnAddBreakfast.Visible = false;
+                this.btnAddDietPrinciple.Visible = false;
+                this.btnAddDinner.Visible = false;
+                this.btnAddLunch.Visible = false;
+                this.btnAddZysl.Visible = false;
+                this.btnDelCai.Visible = false;
                 InitTemplateDietDetails(dietTemplate);
             }
         }
@@ -91,7 +98,7 @@ namespace Hms.Ui
         void InitDietDetails(EntityDietRecord dietRecord)
         {
             if (dietRecord == null)
-                return ;
+                return;
 
             List<EntityClientInfo> lstClientTemp = new List<EntityClientInfo>();
             lstDietRecord.Add(dietRecord);
@@ -128,7 +135,7 @@ namespace Hms.Ui
             }
 
             if (lstDietDetailsTmp == null)
-                return ;
+                return;
 
             foreach (var dietDetail in lstDietDetailsTmp)
             {
@@ -256,6 +263,205 @@ namespace Hms.Ui
 
             #region 原则
             string principle = string.Empty;
+            if (!string.IsNullOrEmpty(dietRecord.principle))
+            {
+                if (dietRecord.principle.Contains(";"))
+                {
+                    string[] arrPrinciple = dietRecord.principle.Split(';');
+                    for (int i = 0; i < arrPrinciple.Length; i++)
+                    {
+                        EntityDietPrinciple pc = lstPrincipleAll.Find(r => r.principleId == arrPrinciple[i]);
+                        if (pc != null)
+                            principle += pc.principleName + " 、";
+                    }
+                }
+                else
+                {
+                    EntityDietPrinciple pc = lstPrincipleAll.Find(r => r.principleId == dietRecord.principle);
+                    if (pc != null)
+                        principle += pc.principleName + " 、";
+                }
+
+                if (!string.IsNullOrEmpty(principle))
+                {
+                    principle = principle.TrimEnd('、');
+                }
+            }
+            this.memDietPrinciple.Text = principle;
+            #endregion
+
+            #region 中医食疗
+            string dietTreament = string.Empty;
+            if (!string.IsNullOrEmpty(dietRecord.dietTreament))
+            {
+                if (dietRecord.dietTreament.Contains(";"))
+                {
+                    string[] arrDietTreament = dietRecord.dietTreament.Split(';');
+                    for (int i = 0; i < arrDietTreament.Length; i++)
+                    {
+                        EntityDietTreatment pc = lstDietTreatmentAll.Find(r => r.id == arrDietTreament[i]);
+                        if (pc != null)
+                            dietTreament += pc.names + " 、";
+                    }
+                }
+                else
+                {
+                    EntityDietTreatment pc = lstDietTreatmentAll.Find(r => r.id == dietRecord.dietTreament);
+                    if (pc != null)
+                        dietTreament += pc.names + " 、";
+                }
+
+                if (!string.IsNullOrEmpty(dietTreament))
+                {
+                    dietTreament = dietTreament.TrimEnd('、');
+                }
+            }
+            this.memDietTreament.Text = dietTreament;
+            #endregion
+        }
+        #endregion
+
+        #region 模板导入方案食谱
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lstDietDetailsTmp"></param>
+        /// <returns></returns>
+        void InitDietDetails(List<EntityDietDetails> lstDietDetailsTmp)
+        {
+            lstDietDetails = new List<EntityDietDetails>();
+            if (lstDietDetailsTmp == null)
+                return;
+
+            #region 食谱
+            foreach (var dietDetail in lstDietDetailsTmp)
+            {
+                if (lstDietDetails.Any(r => r.recId == dietDetail.recId && r.day == dietDetail.day && r.mealId == dietDetail.mealId))
+                {
+                    EntityDietDetails voDietClone = lstDietDetailsTmp.Find(r => r.recId == dietDetail.recId && r.day == dietDetail.day && r.mealId == dietDetail.mealId);
+                    if (!voDietClone.lstDetailsCai.Any((u => u.recId == dietDetail.recId && u.day == dietDetail.day && u.mealId == dietDetail.mealId && u.caiId == dietDetail.caiId)))
+                    {
+                        EntityDietdetailsCai voC = new EntityDietdetailsCai();
+                        voC.recId = dietDetail.recId;
+                        voC.day = dietDetail.day;
+                        voC.mealId = dietDetail.mealId;
+                        voC.caiId = dietDetail.caiId;
+                        voC.caiName = dietDetail.caiName;
+                        voC.weight = dietDetail.caiWeight;
+                        voDietClone.lstDetailsCai.Add(voC);
+                    }
+                }
+                else
+                {
+                    dietDetail.lstDetailsCai = new List<EntityDietdetailsCai>();
+                    lstDietDetails.Add(dietDetail);
+                }
+            }
+
+            if (lstDietDetails != null)
+            {
+                foreach (var temp in lstDietDetails)
+                {
+                    if (temp.lstDetailsCai != null)
+                    {
+                        foreach (var caiTemp in temp.lstDetailsCai)
+                        {
+                            List<EntityDietDetails> details = lstDietDetailsTmp.FindAll(r => r.recId == caiTemp.recId && r.day == caiTemp.day && r.mealId == caiTemp.mealId && r.caiId == caiTemp.caiId);
+                            if (details != null)
+                            {
+                                caiTemp.lstDietdetailsIngrediet = new List<EntityDietDetails>();
+
+                                foreach (var temp2 in details)
+                                {
+                                    EntityDietDetails Ingrediet = new EntityDietDetails();
+                                    Ingrediet = temp2;
+                                    caiTemp.lstDietdetailsIngrediet.Add(Ingrediet);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            this.gcData.DataSource = lstDietDetails;
+            this.gcData.RefreshDataSource();
+
+            if (lstDietDetails.Any(r => r.day == 1))
+                chkDay1.Checked = true;
+            else
+                chkDay1.Checked = false;
+            if (lstDietDetails.Any(r => r.day == 2))
+                chkDay2.Checked = true;
+            else
+                chkDay2.Checked = false;
+            if (lstDietDetails.Any(r => r.day == 3))
+                chkDay3.Checked = true;
+            else
+                chkDay3.Checked = false;
+            if (lstDietDetails.Any(r => r.day == 4))
+                chkDay4.Checked = true;
+            else
+                chkDay4.Checked = false;
+            if (lstDietDetails.Any(r => r.day == 5))
+                chkDay5.Checked = true;
+            else
+                chkDay5.Checked = false;
+            if (lstDietDetails.Any(r => r.day == 6))
+                chkDay6.Checked = true;
+            else
+                chkDay6.Checked = false;
+            if (lstDietDetails.Any(r => r.day == 7))
+                chkDay7.Checked = true;
+            else
+                chkDay7.Checked = false;
+
+            if (lstDietDetails.Any(r => r.day == 1))
+            {
+                cboDays.SelectedIndex = 1;
+                gcData.DataSource = lstDietDetails.FindAll(r => r.day == 1);
+                gcData.RefreshDataSource();
+            }
+            else if (lstDietDetails.Any(r => r.day == 2))
+            {
+                cboDays.SelectedIndex = 2;
+                gcData.DataSource = lstDietDetails.FindAll(r => r.day == 2);
+                gcData.RefreshDataSource();
+            }
+            else if (lstDietDetails.Any(r => r.day == 3))
+            {
+                cboDays.SelectedIndex = 3;
+                gcData.DataSource = lstDietDetails.FindAll(r => r.day == 3);
+                gcData.RefreshDataSource();
+            }
+            else if (lstDietDetails.Any(r => r.day == 4))
+            {
+                cboDays.SelectedIndex = 4;
+                gcData.DataSource = lstDietDetails.FindAll(r => r.day == 4);
+                gcData.RefreshDataSource();
+            }
+            else if (lstDietDetails.Any(r => r.day == 5))
+            {
+                cboDays.SelectedIndex = 5;
+                gcData.DataSource = lstDietDetails.FindAll(r => r.day == 5);
+                gcData.RefreshDataSource();
+            }
+            else if (lstDietDetails.Any(r => r.day == 6))
+            {
+                cboDays.SelectedIndex = 6;
+                gcData.DataSource = lstDietDetails.FindAll(r => r.day == 6);
+                gcData.RefreshDataSource();
+            }
+            else if (lstDietDetails.Any(r => r.day == 7))
+            {
+                cboDays.SelectedIndex = 7;
+                gcData.DataSource = lstDietDetails.FindAll(r => r.day == 7);
+                gcData.RefreshDataSource();
+            }
+            #endregion
+
+            #region 原则
+            string principle = string.Empty;
+            if (dietRecord == null)
+                return ;
             if (!string.IsNullOrEmpty(dietRecord.principle))
             {
                 if (dietRecord.principle.Contains(";"))
@@ -528,7 +734,7 @@ namespace Hms.Ui
         /// </summary>
         /// <param name="lstDietDetails"></param>
         /// <returns></returns>
-        List<EntityIngredietNutrition> CalcNutrition(List<EntityDietDetails> lstDietdetailsIngrediet ,List<EntityDietTemplateDetails> lstDdTemplateIngrediet )
+        List<EntityIngredietNutrition> CalcNutrition(List<EntityDietDetails> lstDietdetailsIngrediet, List<EntityDietTemplateDetails> lstDdTemplateIngrediet)
         {
 
             decimal recKcal = 0;
@@ -561,10 +767,10 @@ namespace Hms.Ui
             decimal proCa = 0;
             decimal proFe = 0;
 
-            List <EntityIngredietNutrition> data = null;
+            List<EntityIngredietNutrition> data = null;
             EntityIngredietNutrition idNut = null;
 
-            if(lstDietdetailsIngrediet != null)
+            if (lstDietdetailsIngrediet != null)
             {
                 if (lstDietdetailsIngrediet != null && lstDietdetailsIngrediet.Count > 0)
                 {
@@ -1112,10 +1318,10 @@ namespace Hms.Ui
 
             if (vo != null)
             {
-                List<EntityDietDetails> lstDel = lstDietDetails.FindAll(r=>r.day == vo.day && r.mealId == vo.mealId && r.caiId == vo.caiId);
-                if(lstDel != null)
-                {   
-                    for(int i = 0;i<lstDel.Count;i++)
+                List<EntityDietDetails> lstDel = lstDietDetails.FindAll(r => r.day == vo.day && r.mealId == vo.mealId && r.caiId == vo.caiId);
+                if (lstDel != null)
+                {
+                    for (int i = 0; i < lstDel.Count; i++)
                     {
                         lstDietDetails.Remove(lstDel[i]);
                     }
@@ -1129,7 +1335,7 @@ namespace Hms.Ui
         {
             List<EntityDietDetails> lstDietDetailsTemp = null;
             List<EntityDietTemplateDetails> lstDietTemplteDetailsTmp = null;
-            if (dietRecord != null)
+            if (dietRecord != null || lstDietDetails.Count > 0)
             {
                 if (!string.IsNullOrEmpty(cboDays.Text))
                 {
@@ -1146,7 +1352,7 @@ namespace Hms.Ui
 
                 if (lstDietDetailsTemp != null)
                 {
-                    this.gcDietNutrtion.DataSource = CalcNutrition(lstDietDetailsTemp,null);
+                    this.gcDietNutrtion.DataSource = CalcNutrition(lstDietDetailsTemp, null);
                     gcDietNutrtion.RefreshDataSource();
                 }
                 else
@@ -1155,7 +1361,7 @@ namespace Hms.Ui
                     gcDietNutrtion.RefreshDataSource();
                 }
             }
-            else
+            else if(lstDietTemplateDetails != null)
             {
                 if (!string.IsNullOrEmpty(cboDays.Text))
                 {
@@ -1172,7 +1378,7 @@ namespace Hms.Ui
 
                 if (lstDietTemplteDetailsTmp != null)
                 {
-                    this.gcDietNutrtion.DataSource = CalcNutrition(null,lstDietTemplteDetailsTmp);
+                    this.gcDietNutrtion.DataSource = CalcNutrition(null, lstDietTemplteDetailsTmp);
                     gcDietNutrtion.RefreshDataSource();
                 }
                 else
@@ -1181,7 +1387,6 @@ namespace Hms.Ui
                     gcDietNutrtion.RefreshDataSource();
                 }
             }
-            
         }
 
         private void btnAddDietPrinciple_Click(object sender, EventArgs e)
@@ -1189,7 +1394,7 @@ namespace Hms.Ui
             frmPopup2060204 frm = new frmPopup2060204(lstPrinciple);
             frm.ShowDialog();
             string principle = string.Empty;
-            if(frm.isRefresh )
+            if (frm.isRefresh)
                 lstPrinciple = frm.lstChoose;
 
             if (lstPrinciple != null)
@@ -1218,7 +1423,7 @@ namespace Hms.Ui
                 if (res != null)
                 {
                     lblCaiName.Text = res.caiName;
-                    if(dietRecord != null)
+                    if (dietRecord != null || lstDietDetails.Count > 0)
                         this.gcIngrediet.DataSource = res.lstDietdetailsIngrediet;
                     else
                         this.gcIngrediet.DataSource = res.lstDietTemplateDetails;
@@ -1236,7 +1441,7 @@ namespace Hms.Ui
 
                 if (res != null)
                 {
-                    if(res.lstDietdetailsIngrediet != null)
+                    if (res.lstDietdetailsIngrediet != null)
                     {
                         foreach (var vo in res.lstDietdetailsIngrediet)
                         {
@@ -1258,7 +1463,7 @@ namespace Hms.Ui
                 if (res != null)
                 {
                     lblCaiName.Text = res.caiName;
-                    if (dietRecord != null)
+                    if (dietRecord != null || lstDietDetails.Count > 0)
                         this.gcIngrediet.DataSource = res.lstDietdetailsIngrediet;
                     else
                         this.gcIngrediet.DataSource = res.lstDietTemplateDetails;
@@ -1266,7 +1471,7 @@ namespace Hms.Ui
                 }
             }
         }
-       
+
         private void btnAddZysl_Click(object sender, EventArgs e)
         {
             frmPopup2060205 frm = new frmPopup2060205(lstDietTreatment);
@@ -1290,11 +1495,45 @@ namespace Hms.Ui
             }
             memDietTreament.Text = dietTreatment;
         }
-        
+
         private void btnSaveTemplate_Click(object sender, EventArgs e)
         {
             frmPopup2060301 frm = new frmPopup2060301(lstDietDetails);
             frm.ShowDialog();
+        }
+
+        private void btnImportTemplate_Click(object sender, EventArgs e)
+        {
+            List<EntityDietDetails> lstDietDetailsTemp = new List<EntityDietDetails>();
+            frmPopup2060206 frm = new frmPopup2060206();
+            frm.ShowDialog();
+
+            if (frm.isRefresh)
+            {
+                if(frm.lstDietTemplateDetails != null)
+                {
+                    foreach (var temp in frm.lstDietTemplateDetails)
+                    {
+                        EntityDietDetails vo = new EntityDietDetails();
+                        Dictionary<string, string> map = new Dictionary<string, string>() {
+                            { "day","day"},
+                            {  "mealId","mealId"},
+                            {  "mealType","mealType"},
+                            {  "caiId","caiId"},
+                            {  "caiName","caiName"},
+                            {  "caiIngrediet","caiIngrediet"},
+                            {  "caiIngredietId","caiIngredietId"},
+                            {  "weight","weight"},
+                            {  "realWeight","realWeight"},
+                            {  "caiWeight","caiWeight"},
+                            {  "per","per"} };
+                        vo.recId = 0;
+                        vo = Function.MapperToModel(vo,temp,map);
+                        lstDietDetailsTemp.Add(vo);
+                    }
+                }
+                InitDietDetails(lstDietDetailsTemp);
+            }
         }
         #endregion
     }

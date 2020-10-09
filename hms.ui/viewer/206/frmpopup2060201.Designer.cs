@@ -278,7 +278,7 @@
             this.gcData.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.itemChk,
             this.deptChk});
-            this.gcData.Size = new System.Drawing.Size(400, 262);
+            this.gcData.Size = new System.Drawing.Size(381, 262);
             this.gcData.TabIndex = 16;
             this.gcData.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvData,
@@ -743,6 +743,7 @@
             this.btnImportTemplate.Size = new System.Drawing.Size(75, 23);
             this.btnImportTemplate.TabIndex = 4;
             this.btnImportTemplate.Text = "从模板导入";
+            this.btnImportTemplate.Click += new System.EventHandler(this.btnImportTemplate_Click);
             // 
             // pcClient
             // 
@@ -925,7 +926,7 @@
             this.splitContainerControl1.Panel2.Controls.Add(this.panelControl17);
             this.splitContainerControl1.Panel2.Text = "Panel2";
             this.splitContainerControl1.Size = new System.Drawing.Size(782, 262);
-            this.splitContainerControl1.SplitterPosition = 400;
+            this.splitContainerControl1.SplitterPosition = 381;
             this.splitContainerControl1.TabIndex = 16;
             this.splitContainerControl1.Text = "splitContainerControl1";
             // 
@@ -938,7 +939,7 @@
             this.gcIngrediet.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1,
             this.repositoryItemCheckEdit3});
-            this.gcIngrediet.Size = new System.Drawing.Size(376, 227);
+            this.gcIngrediet.Size = new System.Drawing.Size(395, 227);
             this.gcIngrediet.TabIndex = 19;
             this.gcIngrediet.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvIngrediet,
@@ -1079,7 +1080,7 @@
             this.panelControl17.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl17.Location = new System.Drawing.Point(0, 0);
             this.panelControl17.Name = "panelControl17";
-            this.panelControl17.Size = new System.Drawing.Size(376, 35);
+            this.panelControl17.Size = new System.Drawing.Size(395, 35);
             this.panelControl17.TabIndex = 18;
             // 
             // lblCaiName

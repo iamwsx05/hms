@@ -31,7 +31,7 @@ namespace weCare.Core.Entity
         /// </summary>
         [DataMember]
         [EntityAttribute(FieldName = "classId", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 3)]
-        public System.Int32 classId { get; set; }
+        public System.Decimal classId { get; set; }
 
         /// <summary>
         /// qnDesc

@@ -25,10 +25,10 @@ namespace Hms.Ui
         /// <summary>
         /// ctor
         /// </summary>
-        public frmPopup2020201(List<EntityClientInfo> _lstClientInfo)
+        public frmPopup2020201(decimal _qnId)
         {
             InitializeComponent();
-            lstClientInfo = _lstClientInfo;
+            qnId = _qnId;
         }
 
         /// <summary>
@@ -54,6 +54,7 @@ namespace Hms.Ui
         EntityClientInfo clientInfo { get; set; }
         public EntityQnRecord qnRecordVo { get; set; }
         public EntityQnData qnData { get; set; }
+        public decimal qnId { get; set; }
         enum EnumDataType
         {
             Base = 0,
@@ -61,7 +62,7 @@ namespace Hms.Ui
         }
 
         int idx = 0;
-        List<string> lstQuest = new List<string>() {"quest01","quest02","quest03","quest04","quest05", "quest06","quest07","quest08","quest09","quest10"};
+        List<string> lstQuest = new List<string>() { "quest01", "quest02", "quest03", "quest04", "quest05", "quest06", "quest07", "quest08", "quest09", "quest10" };
         Dictionary<int, string> dicXmlData = new Dictionary<int, string>();
         Dictionary<int, IQuest> dicQuestCtrl { get; set; }
 
@@ -93,12 +94,12 @@ namespace Hms.Ui
                 this.glueClient.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.True;
                 this.glueClient.Properties.View.BestFitColumns();
                 this.glueClient.Properties.ShowFooter = false;
-                this.glueClient.Properties.View.OptionsView.ShowAutoFilterRow = true; 
+                this.glueClient.Properties.View.OptionsView.ShowAutoFilterRow = true;
                 this.glueClient.Properties.AutoComplete = false;
                 this.glueClient.Properties.ImmediatePopup = true;
                 this.glueClient.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
                 this.glueClient.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-                
+
 
                 dicQuestCtrl = new Dictionary<int, IQuest>();
                 dicQuestCtrl.Add(0, new Hms.Ui.Quest01());
@@ -132,10 +133,9 @@ namespace Hms.Ui
                 if (!dicXmlData.ContainsKey(9))
                     dicXmlData.Add(9, "<FormIdx9></FormIdx9>");
 
-                AddQuestCtrl();
-
                 if (qnRecordVo != null)
                 {
+                    qnId = qnRecordVo.qnId;
                     if (!string.IsNullOrEmpty(qnRecordVo.xmlData))
                     {
                         XmlDocument document = new XmlDocument();
@@ -153,6 +153,8 @@ namespace Hms.Ui
                     this.glueClient.Enabled = false;
                     this.txtSearch.Enabled = false;
                 }
+
+                AddQuestCtrl();
             }
             finally
             {
@@ -189,165 +191,269 @@ namespace Hms.Ui
         /// </summary>
         public void InitComponent()
         {
-            try
+            this.SuspendLayout();
+            lstCheck.Clear();
+            using (ProxyHms proxy = new ProxyHms())
             {
-                this.SuspendLayout();
-                lstCheck.Clear();
-                using (ProxyHms proxy = new ProxyHms())
-                {
-                    lstCtrlLocation = proxy.Service.GetQnCtrlLocation(lstQuest[idx]);
-                }
+                lstCtrlLocation = proxy.Service.GetQnCtrlLocation(lstQuest[idx], qnId);
+            }
 
-                using (ProxyHms proxy = new ProxyHms())
+            using (ProxyHms proxy = new ProxyHms())
+            {
+                lstTopic = new List<EntityDicQnSetting>();
+                lstItems = new List<EntityDicQnSetting>();
+                proxy.Service.GetQnCustom(qnId, out lstTopic, out lstItems);
+            }
+            int locationX = 0;
+            int locationY = 0;
+
+            #region quest01
+            if (idx == 0)
+            {
+                if (lstCtrlLocation != null && lstCtrlLocation.Count > 0)
                 {
-                    lstTopic = new List<EntityDicQnSetting>();
-                    lstItems = new List<EntityDicQnSetting>();
-                    proxy.Service.GetQnCustom(1, out lstTopic, out lstItems);
-                }
-                int locationX = 0;
-                int locationY = 0;
-                
-                #region quest01
-                if (idx == 0)
-                {
-                    if (lstCtrlLocation != null && lstCtrlLocation.Count > 0)
+                    foreach (var clVo in lstCtrlLocation)
                     {
-                        foreach (var clVo in lstCtrlLocation)
+                        if (clVo.name.Contains("FT"))
                         {
-                            if (clVo.name.Contains("FT"))
+                            DevExpress.XtraEditors.LabelControl lblTopic = new DevExpress.XtraEditors.LabelControl();
+                            lblTopic.Name = clVo.name;
+                            lblTopic.Text = clVo.text;
+                            lblTopic.Font = new System.Drawing.Font("宋体", 9.5F);
+                            locationX = clVo.locationX;
+                            locationY = clVo.locationY;
+                            lblTopic.Location = new System.Drawing.Point(locationX, locationY);
+                            this.plUserCtrl.Controls.Add(lblTopic);
+                        }
+                        if (clVo.name.Contains("FM"))
+                        {
+                            DevExpress.XtraEditors.LabelControl lblTopic = new DevExpress.XtraEditors.LabelControl();
+                            lblTopic.Name = clVo.name;
+                            lblTopic.Text = clVo.text;
+                            lblTopic.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold);
+                            locationX = clVo.locationX;
+                            locationY = clVo.locationY;
+                            lblTopic.Location = new System.Drawing.Point(locationX, locationY);
+                            this.plUserCtrl.Controls.Add(lblTopic);
+                        }
+                    }
+                }
+                int parentCount = 0;
+                List<EntityDicQnSetting> lstChildSettings = new List<EntityDicQnSetting>();
+                if (lstTopic != null && lstTopic.Count > 0)
+                {
+                    List<EntityCtrlLocation> lstCtrlLocation2 = lstCtrlLocation.FindAll(r => r.type == 1 && !(r.name.Contains("FM") || r.name.Contains("FT")));
+                    for (int i = 0; i < lstTopic.Count; i++)
+                    {
+                        EntityDicQnSetting item = lstTopic[i];
+
+                        #region quest01
+                        if (item.questName == "quest01")
+                        {
+                            if (string.IsNullOrEmpty(item.parentFieldId))
                             {
                                 DevExpress.XtraEditors.LabelControl lblTopic = new DevExpress.XtraEditors.LabelControl();
-                                lblTopic.Name = clVo.name;
-                                lblTopic.Text = clVo.text;
+                                lblTopic.Name = item.fieldId;
+                                lblTopic.Text = lstTopic.Find(r => r.fieldId == item.fieldId).fieldName;
                                 lblTopic.Font = new System.Drawing.Font("宋体", 9.5F);
-                                locationX = clVo.locationX;
-                                locationY = clVo.locationY;
+                                EntityCtrlLocation ctrLocat = lstCtrlLocation2[parentCount];
+                                locationX = ctrLocat.locationX;
+                                locationY = ctrLocat.locationY;
                                 lblTopic.Location = new System.Drawing.Point(locationX, locationY);
                                 this.plUserCtrl.Controls.Add(lblTopic);
+
+                                lstChildSettings = lstTopic.FindAll(r => r.parentFieldId == item.fieldId);
+                                if (lstChildSettings.Count > 0)
+                                {
+                                    foreach (var childVo in lstChildSettings)
+                                    {
+                                        DevExpress.XtraEditors.CheckEdit chkAns = new DevExpress.XtraEditors.CheckEdit();
+                                        string strEndWith = childVo.fieldId.Substring(4, 2);
+                                        chkAns.Text = "";
+                                        chkAns.Font = new System.Drawing.Font("宋体", 9.5F);
+                                        chkAns.Name = childVo.fieldId;
+                                        chkAns.Properties.AccessibleName = childVo.fieldId;
+                                        EntityCtrlLocation ctrLocatChild = lstCtrlLocation.Find(r => r.name.Contains(ctrLocat.name) && r.type == 2 && r.name.EndsWith(strEndWith));
+                                        locationX = ctrLocatChild.locationX;
+                                        locationY = ctrLocatChild.locationY;
+                                        chkAns.Width = ctrLocatChild.width;
+                                        chkAns.Height = ctrLocatChild.height;
+                                        chkAns.Location = new System.Drawing.Point(locationX, locationY);
+                                        this.plUserCtrl.Controls.Add(chkAns);
+                                    }
+                                    parentCount++;
+                                }  
                             }
-                            if (clVo.name.Contains("FM"))
+                        }
+                        #endregion
+                    }
+                }
+                this.plUserCtrl.Height = 680;
+                this.plContent.Height = (this.plUserCtrl.Height + 200);
+            }
+            #endregion
+
+            #region quest02
+            if (idx == 1)
+            {
+                int F35Count = 0;
+                int F35Row = (lstTopic.FindAll(r => r.fieldId.Contains("F035")).Count) / 6;
+                int F35Y = 0;
+                List<EntityDicQnSetting> lstChildSettings = new List<EntityDicQnSetting>();
+                if (lstTopic != null && lstTopic.Count > 0)
+                {
+                    for (int i = 0; i < lstTopic.Count; i++)
+                    {
+                        EntityDicQnSetting item = lstTopic[i];
+                        if (item.questName == lstQuest[idx])
+                        {
+                            if (item.fieldId.Contains("F035"))
+                            {
+                                DevExpress.XtraEditors.CheckEdit chkAns = new DevExpress.XtraEditors.CheckEdit();
+                                chkAns.Text = item.fieldName;
+                                chkAns.Font = new System.Drawing.Font("宋体", 9.5F);
+                                chkAns.Name = item.fieldId;
+                                chkAns.Properties.AccessibleName = item.fieldId;
+                                EntityCtrlLocation ctrLocat = lstCtrlLocation.FindAll(r => r.name.Contains("F035"))[F35Count];
+                                locationX = ctrLocat.locationX;
+                                locationY = ctrLocat.locationY;
+                                F35Y += locationY;
+                                chkAns.Width = ctrLocat.width;
+                                chkAns.Height = ctrLocat.height;
+                                chkAns.Location = new System.Drawing.Point(locationX, locationY);
+                                this.plUserCtrl.Controls.Add(chkAns);
+                                F35Count++;
+                            }
+                        }
+                    }
+
+                    for (int i2 = 0; i2 < lstTopic.Count; i2++)
+                    {
+                        EntityDicQnSetting itemVo = lstTopic[i2];
+                        if (itemVo.questName == lstQuest[idx])
+                        {
+                            if (string.IsNullOrEmpty(itemVo.parentFieldId) && !itemVo.fieldId.Contains("F035"))
                             {
                                 DevExpress.XtraEditors.LabelControl lblTopic = new DevExpress.XtraEditors.LabelControl();
-                                lblTopic.Name = clVo.name;
-                                lblTopic.Text = clVo.text;
-                                lblTopic.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold);
-                                locationX = clVo.locationX;
-                                locationY = clVo.locationY;
+                                lblTopic.Name = itemVo.fieldId;
+                                lblTopic.Text = itemVo.fieldName;
+                                lblTopic.Font = new System.Drawing.Font("宋体", 9.5F);
+                                EntityCtrlLocation ctrLocat = lstCtrlLocation.Find(r => r.name == itemVo.fieldId);
+                                locationX = ctrLocat.locationX;
+                                locationY = ctrLocat.locationY - F35Y + 80;
                                 lblTopic.Location = new System.Drawing.Point(locationX, locationY);
                                 this.plUserCtrl.Controls.Add(lblTopic);
-                            }
-                        }
-                    }
-                    int parentCount = 0;
-                    List<EntityDicQnSetting> lstChildSettings = new List<EntityDicQnSetting>();
-                    if (lstTopic != null && lstTopic.Count > 0)
-                    {
-                        for (int i = 0; i < lstTopic.Count; i++)
-                        {
-                            EntityDicQnSetting item = lstTopic[i];
 
-                            #region quest01
-                            if (item.questName == "quest01")
-                            {
-                                if (string.IsNullOrEmpty(item.parentFieldId))
+                                lstChildSettings = lstTopic.FindAll(r => r.parentFieldId == itemVo.fieldId);
+                                if (lstChildSettings.Count > 0)
                                 {
-                                    DevExpress.XtraEditors.LabelControl lblTopic = new DevExpress.XtraEditors.LabelControl();
-                                    lblTopic.Name = item.fieldId;
-                                    lblTopic.Text = lstTopic.Find(r => r.fieldId == item.fieldId).fieldName;
-                                    lblTopic.Font = new System.Drawing.Font("宋体", 9.5F);
-                                    EntityCtrlLocation ctrLocat = lstCtrlLocation.FindAll(r => r.type == 1)[parentCount];
-                                    locationX = ctrLocat.locationX;
-                                    locationY = ctrLocat.locationY;
-                                    lblTopic.Location = new System.Drawing.Point(locationX, locationY);
-                                    this.plUserCtrl.Controls.Add(lblTopic);
-                                    
-                                    lstChildSettings = lstTopic.FindAll(r => r.parentFieldId == item.fieldId);
-                                    if (lstChildSettings.Count > 0)
+                                    foreach (var childVo in lstChildSettings)
                                     {
-                                        foreach (var childVo in lstChildSettings)
-                                        {
-                                            DevExpress.XtraEditors.CheckEdit chkAns = new DevExpress.XtraEditors.CheckEdit();
-                                            string strEndWith = childVo.fieldId.Substring(4, 2);
-                                            chkAns.Text = "";
-                                            chkAns.Font = new System.Drawing.Font("宋体", 9.5F);
-                                            chkAns.Name = childVo.fieldId;
-                                            chkAns.Properties.AccessibleName = childVo.fieldId;
-                                            EntityCtrlLocation ctrLocatChild = lstCtrlLocation.Find(r => r.name.Contains(ctrLocat.name) && r.type == 2 && r.name.EndsWith(strEndWith));
-                                            locationX = ctrLocatChild.locationX;
-                                            locationY = ctrLocatChild.locationY;
-                                            chkAns.Width = ctrLocatChild.width;
-                                            chkAns.Height = ctrLocatChild.height;
-                                            chkAns.Location = new System.Drawing.Point(locationX, locationY);
-                                            this.plUserCtrl.Controls.Add(chkAns);
-                                        }
+                                        DevExpress.XtraEditors.CheckEdit chkAns = new DevExpress.XtraEditors.CheckEdit();
+                                        string strEndWith = childVo.fieldId.Substring(4, 2);
+                                        chkAns.Text = childVo.fieldName;
+                                        chkAns.Font = new System.Drawing.Font("宋体", 9.5F);
+                                        chkAns.Name = childVo.fieldId;
+                                        chkAns.Properties.AccessibleName = childVo.fieldId;
+                                        EntityCtrlLocation ctrLocatChild = lstCtrlLocation.Find(r => r.name == childVo.fieldId);
+                                        locationX = ctrLocatChild.locationX;
+                                        locationY = ctrLocatChild.locationY - F35Y + 80;
+                                        chkAns.Width = ctrLocatChild.width;
+                                        chkAns.Height = ctrLocatChild.height;
+                                        chkAns.Location = new System.Drawing.Point(locationX, locationY);
+                                        this.plUserCtrl.Controls.Add(chkAns);
                                     }
-
-                                    parentCount++;
                                 }
                             }
-                            #endregion
                         }
                     }
-                    this.plUserCtrl.Height = 680;
-                    this.plContent.Height = (this.plUserCtrl.Height + 200);
+
                 }
-                #endregion
 
-                #region quest02
-                if (idx == 1)
+                if (lstCtrlLocation != null && lstCtrlLocation.Count > 0)
                 {
-                    int F35Count = 0;
-                    int F35Row = (lstTopic.FindAll(r => r.fieldId.Contains("F035")).Count) / 6;
-                    int F35Y = 0;
-                    List<EntityDicQnSetting> lstChildSettings = new List<EntityDicQnSetting>();
-                    if (lstTopic != null && lstTopic.Count > 0)
+                    foreach (var clVo in lstCtrlLocation)
                     {
-                        for (int i = 0; i < lstTopic.Count; i++)
+                        DevExpress.XtraEditors.LabelControl lblTopic = new DevExpress.XtraEditors.LabelControl();
+                        lblTopic.Name = clVo.name;
+                        lblTopic.Text = clVo.text;
+                        lblTopic.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold);
+                        locationX = clVo.locationX;
+                        if (clVo.name == "FM0201")
                         {
-                            EntityDicQnSetting item = lstTopic[i];
-                            if (item.questName == lstQuest[idx])
-                            {
-                                if (item.fieldId.Contains("F035"))
-                                {
-                                    DevExpress.XtraEditors.CheckEdit chkAns = new DevExpress.XtraEditors.CheckEdit();
-                                    chkAns.Text = item.fieldName;
-                                    chkAns.Font = new System.Drawing.Font("宋体", 9.5F);
-                                    chkAns.Name = item.fieldId;
-                                    chkAns.Properties.AccessibleName = item.fieldId;
-                                    EntityCtrlLocation ctrLocat = lstCtrlLocation.FindAll(r => r.name.Contains("F035"))[F35Count];
-                                    locationX = ctrLocat.locationX;
-                                    locationY = ctrLocat.locationY;
-                                    F35Y += locationY;
-                                    chkAns.Width = ctrLocat.width;
-                                    chkAns.Height = ctrLocat.height;
-                                    chkAns.Location = new System.Drawing.Point(locationX, locationY);
-                                    this.plUserCtrl.Controls.Add(chkAns);
-                                    F35Count++;
-                                }
-                            }
+                            locationY = clVo.locationY;
                         }
-
-                        for (int i2 = 0; i2 < lstTopic.Count; i2++)
+                        else if (clVo.name.Contains("FM"))
                         {
-                            EntityDicQnSetting itemVo = lstTopic[i2];
-                            if (itemVo.questName == lstQuest[idx])
-                            {
-                                if (string.IsNullOrEmpty(itemVo.parentFieldId) && !itemVo.fieldId.Contains("F035"))
-                                {
-                                    DevExpress.XtraEditors.LabelControl lblTopic = new DevExpress.XtraEditors.LabelControl();
-                                    lblTopic.Name = itemVo.fieldId;
-                                    lblTopic.Text = itemVo.fieldName;
-                                    lblTopic.Font = new System.Drawing.Font("宋体", 9.5F);
-                                    EntityCtrlLocation ctrLocat = lstCtrlLocation.Find(r => r.name == itemVo.fieldId);
-                                    locationX = ctrLocat.locationX;
-                                    locationY = ctrLocat.locationY - F35Y + 80;
-                                    lblTopic.Location = new System.Drawing.Point(locationX, locationY);
-                                    this.plUserCtrl.Controls.Add(lblTopic);
+                            locationY = clVo.locationY - F35Y + 80;
+                        }
+                        else
+                            continue;
 
-                                    lstChildSettings = lstTopic.FindAll(r => r.parentFieldId == itemVo.fieldId);
-                                    if (lstChildSettings.Count > 0)
+                        lblTopic.Location = new System.Drawing.Point(locationX, locationY);
+                        this.plUserCtrl.Controls.Add(lblTopic);
+                    }
+                }
+
+                this.plUserCtrl.Height = 1000;
+                this.plContent.Height = (this.plUserCtrl.Height + 200);
+            }
+
+            #endregion
+
+            #region quest03  quest04 quest05 quest06 quest07 quest08 quest09 quest10
+            if (idx == 2 || idx == 3 || idx == 4 || idx == 5 || idx == 6 || idx == 7 || idx == 8 || idx == 9)
+            {
+                if (lstCtrlLocation != null && lstCtrlLocation.Count > 0)
+                {
+                    foreach (var clVo in lstCtrlLocation)
+                    {
+                        if (clVo.name.Contains("FM"))
+                        {
+                            DevExpress.XtraEditors.LabelControl lblTopic = new DevExpress.XtraEditors.LabelControl();
+                            lblTopic.Name = clVo.name;
+                            lblTopic.Text = clVo.text;
+                            if (clVo.name == "FM0902" || clVo.name == "FM0903")
+                            {
+                                lblTopic.Font = new System.Drawing.Font("宋体", 9.5F);
+                                lblTopic.ForeColor = System.Drawing.Color.Red;
+                            }
+                            else
+                                lblTopic.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold);
+                            locationX = clVo.locationX;
+                            locationY = clVo.locationY;
+                            lblTopic.Location = new System.Drawing.Point(locationX, locationY);
+                            this.plUserCtrl.Controls.Add(lblTopic);
+                        }
+                    }
+                }
+
+                List<EntityDicQnSetting> lstChildSettings = new List<EntityDicQnSetting>();
+                if (lstTopic != null && lstTopic.Count > 0)
+                {
+                    for (int i = 0; i < lstTopic.Count; i++)
+                    {
+                        EntityDicQnSetting item = lstTopic[i];
+                        if (item.questName == lstQuest[idx])
+                        {
+                            if (string.IsNullOrEmpty(item.parentFieldId))
+                            {
+                                DevExpress.XtraEditors.LabelControl lblTopic = new DevExpress.XtraEditors.LabelControl();
+                                lblTopic.Name = item.fieldId;
+                                lblTopic.Text = item.fieldName;
+                                lblTopic.Font = new System.Drawing.Font("宋体", 9.5F);
+                                EntityCtrlLocation ctrLocat = lstCtrlLocation.Find(r => r.name == item.fieldId);
+                                locationX = ctrLocat.locationX;
+                                locationY = ctrLocat.locationY;
+                                lblTopic.Location = new System.Drawing.Point(locationX, locationY);
+                                this.plUserCtrl.Controls.Add(lblTopic);
+
+                                lstChildSettings = lstTopic.FindAll(r => r.parentFieldId == item.fieldId);
+                                if (lstChildSettings.Count > 0)
+                                {
+                                    foreach (var childVo in lstChildSettings)
                                     {
-                                        foreach (var childVo in lstChildSettings)
+                                        if (childVo.typeId != "3")
                                         {
                                             DevExpress.XtraEditors.CheckEdit chkAns = new DevExpress.XtraEditors.CheckEdit();
                                             string strEndWith = childVo.fieldId.Substring(4, 2);
@@ -357,160 +463,47 @@ namespace Hms.Ui
                                             chkAns.Properties.AccessibleName = childVo.fieldId;
                                             EntityCtrlLocation ctrLocatChild = lstCtrlLocation.Find(r => r.name == childVo.fieldId);
                                             locationX = ctrLocatChild.locationX;
-                                            locationY = ctrLocatChild.locationY - F35Y + 80;
+                                            locationY = ctrLocatChild.locationY;
                                             chkAns.Width = ctrLocatChild.width;
                                             chkAns.Height = ctrLocatChild.height;
                                             chkAns.Location = new System.Drawing.Point(locationX, locationY);
+                                            chkAns.CheckedChanged += new EventHandler(iChk_CheckedChanged);
+                                            if (!string.IsNullOrEmpty(childVo.parentFieldId) && item.typeId == "1")
+                                            {
+                                                chkAns.Properties.AccessibleName = childVo.parentFieldId;
+                                                lstCheck.Add(chkAns);
+                                            }
                                             this.plUserCtrl.Controls.Add(chkAns);
                                         }
-                                    }
-                                }
-                            }
-                        }
-
-                    }
-
-                    if (lstCtrlLocation != null && lstCtrlLocation.Count > 0)
-                    {
-                        foreach (var clVo in lstCtrlLocation)
-                        {
-                            DevExpress.XtraEditors.LabelControl lblTopic = new DevExpress.XtraEditors.LabelControl();
-                            lblTopic.Name = clVo.name;
-                            lblTopic.Text = clVo.text;
-                            lblTopic.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold);
-                            locationX = clVo.locationX;
-                            if (clVo.name == "FM0201")
-                            {
-                                locationY = clVo.locationY;
-                            }
-                            else if (clVo.name.Contains("FM"))
-                            {
-                                locationY = clVo.locationY - F35Y + 80;
-                            }
-                            else
-                                continue;
-
-                            lblTopic.Location = new System.Drawing.Point(locationX, locationY);
-                            this.plUserCtrl.Controls.Add(lblTopic);
-                        }
-                    }
-
-                    this.plUserCtrl.Height = 1000;
-                    this.plContent.Height = (this.plUserCtrl.Height + 200);
-                }
-
-                #endregion
-
-                #region quest03  quest04 quest05 quest06 quest07 quest08 quest09 quest10
-                if (idx == 2 ||idx == 3 || idx == 4 || idx == 5 || idx == 6 || idx == 7 || idx == 8 || idx == 9)
-                {
-                    if (lstCtrlLocation != null && lstCtrlLocation.Count > 0)
-                    {
-                        foreach (var clVo in lstCtrlLocation)
-                        {
-                            if (clVo.name.Contains("FM"))
-                            {
-                                DevExpress.XtraEditors.LabelControl lblTopic = new DevExpress.XtraEditors.LabelControl();
-                                lblTopic.Name = clVo.name;
-                                lblTopic.Text = clVo.text;
-                                if(clVo.name == "FM0902" || clVo.name == "FM0903")
-                                {
-                                    lblTopic.Font = new System.Drawing.Font("宋体", 9.5F);
-                                    lblTopic.ForeColor = System.Drawing.Color.Red;
-                                }
-                                else
-                                    lblTopic.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold);
-                                locationX = clVo.locationX;
-                                locationY = clVo.locationY;
-                                lblTopic.Location = new System.Drawing.Point(locationX, locationY);
-                                this.plUserCtrl.Controls.Add(lblTopic);
-                            }
-                        }
-                    }
-
-                    List<EntityDicQnSetting> lstChildSettings = new List<EntityDicQnSetting>();
-                    if (lstTopic != null && lstTopic.Count > 0)
-                    {
-                        for (int i = 0; i < lstTopic.Count; i++)
-                        {
-                            EntityDicQnSetting item = lstTopic[i];
-                            if (item.questName == lstQuest[idx])
-                            {
-                                if (string.IsNullOrEmpty(item.parentFieldId))
-                                {
-                                    DevExpress.XtraEditors.LabelControl lblTopic = new DevExpress.XtraEditors.LabelControl();
-                                    lblTopic.Name = item.fieldId;
-                                    lblTopic.Text = item.fieldName;
-                                    lblTopic.Font = new System.Drawing.Font("宋体", 9.5F);
-                                    EntityCtrlLocation ctrLocat = lstCtrlLocation.Find(r => r.name == item.fieldId);
-                                    locationX = ctrLocat.locationX;
-                                    locationY = ctrLocat.locationY;
-                                    lblTopic.Location = new System.Drawing.Point(locationX, locationY);
-                                    this.plUserCtrl.Controls.Add(lblTopic);
-
-                                    lstChildSettings = lstTopic.FindAll(r => r.parentFieldId == item.fieldId);
-                                    if (lstChildSettings.Count > 0)
-                                    {
-                                        foreach (var childVo in lstChildSettings)
+                                        else
                                         {
-                                            if(childVo.typeId != "3")
-                                            {
-                                                DevExpress.XtraEditors.CheckEdit chkAns = new DevExpress.XtraEditors.CheckEdit();
-                                                string strEndWith = childVo.fieldId.Substring(4, 2);
-                                                chkAns.Text = childVo.fieldName;
-                                                chkAns.Font = new System.Drawing.Font("宋体", 9.5F);
-                                                chkAns.Name = childVo.fieldId;
-                                                chkAns.Properties.AccessibleName = childVo.fieldId;
-                                                EntityCtrlLocation ctrLocatChild = lstCtrlLocation.Find(r => r.name == childVo.fieldId);
-                                                locationX = ctrLocatChild.locationX;
-                                                locationY = ctrLocatChild.locationY;
-                                                chkAns.Width = ctrLocatChild.width;
-                                                chkAns.Height = ctrLocatChild.height;
-                                                chkAns.Location = new System.Drawing.Point(locationX, locationY);
-                                                chkAns.CheckedChanged += new EventHandler(iChk_CheckedChanged);
-                                                if (!string.IsNullOrEmpty(childVo.parentFieldId) && item.typeId == "1")
-                                                {
-                                                    chkAns.Properties.AccessibleName = childVo.parentFieldId;
-                                                    lstCheck.Add(chkAns);
-                                                }
-                                                this.plUserCtrl.Controls.Add(chkAns);
-                                            }
-                                            else
-                                            {
-                                                DevExpress.XtraEditors.TextEdit txtAns = new DevExpress.XtraEditors.TextEdit();
-                                                string strEndWith = childVo.fieldId.Substring(4, 2);
-                                                txtAns.Text = childVo.fieldName;
-                                                txtAns.Font = new System.Drawing.Font("宋体", 9.5F);
-                                                txtAns.Name = childVo.fieldId;
-                                                txtAns.Properties.AccessibleName = childVo.fieldId;
-                                                EntityCtrlLocation ctrLocatChild = lstCtrlLocation.Find(r => r.name == childVo.fieldId);
-                                                locationX = ctrLocatChild.locationX;
-                                                locationY = ctrLocatChild.locationY;
-                                                txtAns.Width = ctrLocatChild.width;
-                                                txtAns.Height = ctrLocatChild.height;
-                                                txtAns.Location = new System.Drawing.Point(locationX, locationY);
-                                                this.plUserCtrl.Controls.Add(txtAns);
-                                            }
+                                            DevExpress.XtraEditors.TextEdit txtAns = new DevExpress.XtraEditors.TextEdit();
+                                            string strEndWith = childVo.fieldId.Substring(4, 2);
+                                            txtAns.Text = childVo.fieldName;
+                                            txtAns.Font = new System.Drawing.Font("宋体", 9.5F);
+                                            txtAns.Name = childVo.fieldId;
+                                            txtAns.Properties.AccessibleName = childVo.fieldId;
+                                            EntityCtrlLocation ctrLocatChild = lstCtrlLocation.Find(r => r.name == childVo.fieldId);
+                                            locationX = ctrLocatChild.locationX;
+                                            locationY = ctrLocatChild.locationY;
+                                            txtAns.Width = ctrLocatChild.width;
+                                            txtAns.Height = ctrLocatChild.height;
+                                            txtAns.Location = new System.Drawing.Point(locationX, locationY);
+                                            this.plUserCtrl.Controls.Add(txtAns);
                                         }
                                     }
                                 }
                             }
                         }
                     }
-
-                    this.plUserCtrl.Height = 2000;
-                    this.plContent.Height = (this.plUserCtrl.Height + 200);
                 }
-                #endregion
+
+                this.plUserCtrl.Height = 2000;
+                this.plContent.Height = (this.plUserCtrl.Height + 200);
             }
-            catch (Exception ex)
-            {
-                DialogBox.Msg(ex.Message);
-            }
-            finally
-            {
-                this.ResumeLayout();
-            }
+            #endregion
+
+            this.ResumeLayout();
         }
         #endregion
 
@@ -522,7 +515,7 @@ namespace Hms.Ui
         {
             timer.Enabled = false;
 
-            if( string.IsNullOrEmpty(dteBirthday.Text))
+            if (string.IsNullOrEmpty(dteBirthday.Text))
             {
                 DialogBox.Msg("出生日期不能为空！");
                 return;
@@ -537,7 +530,7 @@ namespace Hms.Ui
             {
                 string xmlData = string.Empty;
                 xmlData += "<FormData>" + Environment.NewLine;
-                xmlData += GetData(EnumDataType.Base,-1);
+                xmlData += GetData(EnumDataType.Base, -1);
                 if (dicXmlData != null)
                 {
                     foreach (var dic in dicXmlData)
@@ -552,13 +545,13 @@ namespace Hms.Ui
                     this.qnRecordVo = new EntityQnRecord();
                     qnRecordVo.clientNo = clientInfo.clientNo;
                 }
-                    
+
                 if (this.qnRecordVo != null)
                     this.qnData.recId = qnRecordVo.recId;
                 qnData.xmlData = xmlData;
                 qnRecordVo.qnType = 1;
                 qnRecordVo.qnName = "常规问卷";
-                qnRecordVo.qnSource = 1; 
+                qnRecordVo.qnSource = 1;
                 qnRecordVo.qnDate = Function.Datetime(dteQuestDate.Text);
                 qnRecordVo.xmlData = xmlData;
                 qnRecordVo.qnId = 1;
@@ -589,7 +582,7 @@ namespace Hms.Ui
         /// GetData
         /// </summary>
         /// <returns></returns>
-        string GetData(EnumDataType dataType,int idx)
+        string GetData(EnumDataType dataType, int idx)
         {
             List<EntityControl> lstControls = new List<EntityControl>();
             StringBuilder xmlData = new StringBuilder();
@@ -670,11 +663,11 @@ namespace Hms.Ui
             lstControls.Sort();
             if (idx == -1)
                 xmlData.AppendLine("<FormBse>");
-            if (idx== 0)
+            if (idx == 0)
                 xmlData.AppendLine("<FormIdx0>");
-            if(idx ==  1)
+            if (idx == 1)
                 xmlData.AppendLine("<FormIdx1>");
-            if(idx ==  2)
+            if (idx == 2)
                 xmlData.AppendLine("<FormIdx2>");
             if (idx == 3)
                 xmlData.AppendLine("<FormIdx3>");
@@ -727,7 +720,7 @@ namespace Hms.Ui
         /// SetData
         /// </summary>
         /// <param name="xmlData"></param>
-        void SetData(EnumDataType dataType, string xmlData,int idx)
+        void SetData(EnumDataType dataType, string xmlData, int idx)
         {
             if (string.IsNullOrEmpty(xmlData)) return;
             string nodeName = string.Empty;
@@ -827,7 +820,7 @@ namespace Hms.Ui
             {
                 --idx;
                 AddQuestCtrl();
-                SetData(EnumDataType.Data, dicXmlData[idx],idx);
+                SetData(EnumDataType.Data, dicXmlData[idx], idx);
             }
         }
 
@@ -994,7 +987,7 @@ namespace Hms.Ui
 
         #endregion
 
-        
+
 
         private void blbiPrint_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {

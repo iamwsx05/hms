@@ -55,12 +55,14 @@ namespace Hms.Ui
             try
             {
                 List<EntityDicQnDetail> lstDetails = null;
+                List<EntityDicQnSetting> lstQnSettings = null;
                 if (this.QnVo != null)
                 {
                     this.txtQNname.Text = this.QnVo.qnName;
                     this.txtQNdesc.Text = this.QnVo.qnDesc;
                     this.cboStatus.SelectedIndex = this.QnVo.status;
                     lstDetails = (new ProxyHms().Service.GetQnDetail(this.QnVo.qnId));
+                    lstQnSettings = (new ProxyHms().Service.GetDicQnSetting(this.QnVo.qnId));
                 }
 
                 uiHelper.BeginLoading(this);
@@ -297,6 +299,7 @@ namespace Hms.Ui
         void SetQnCtrls(List<EntityDicQnDetail> lstCtrls);
         EntityDicQnCtlLocation GetQnCtrlsLocation();
         List<EntityDicQnSetting> GetQnSettings();
+        //void SetQnSettings(List<EntityDicQnSetting> lstQnsettings);
     }
 
     #endregion

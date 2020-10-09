@@ -363,15 +363,19 @@ namespace Hms.Biz
         /// </summary>
         /// <param name="qnCtlFiledId"></param>
         /// <returns></returns>
-        public List<EntityCtrlLocation> GetQnCtrlLocation(string qnCtlFiledId)
+        public List<EntityCtrlLocation> GetQnCtrlLocation(string qnCtlFiledId,decimal qnId)
         {
             if (string.IsNullOrEmpty(qnCtlFiledId))
                 return null;
             List<EntityCtrlLocation> data = null;
+            
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
             string Sql = string.Empty;
-            Sql = @"select * from dicQnCtlLocation a where a.qnCtlFiledId = '" + qnCtlFiledId + "'" ;
-            DataTable dt = svc.GetDataTable(Sql);
+            Sql = @"select * from dicQnCtlLocation a where a.qnCtlFiledId = ? and a.qnId = ?" ;
+            IDataParameter[] param = svc.CreateParm(2);
+            param[0].Value = qnCtlFiledId;
+            param[1].Value = qnId;
+            DataTable dt = svc.GetDataTable(Sql,param);
             if (dt != null && dt.Rows.Count > 0)
             {
                 data = new List<EntityCtrlLocation>();
@@ -624,8 +628,6 @@ namespace Hms.Biz
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
             string Sql = string.Empty;
             Sql = @"select a.qnid,a.qnName,a.classId,a.qnDesc from dicQnMain a where a.qnid > -1 ";
-
-
             string sub = string.Empty;
             if (parms != null)
             {
@@ -653,17 +655,13 @@ namespace Hms.Biz
                 foreach (DataRow dr in dt.Rows)
                 {
                     vo = new EntityDicQnMain();
-                    vo.qnId = Function.Dec(dr["qnId"]);
-                    vo.qnName = dr["qnName"].ToString();
-                    vo.classId = Function.Int(dr["classId"]);
-
+                    vo = Function.Row2Model<EntityDicQnMain>(dr);
                     data.Add(vo);
                 }
             }
             return data;
         }
         #endregion
-
 
         #region Dispose
         /// <summary>

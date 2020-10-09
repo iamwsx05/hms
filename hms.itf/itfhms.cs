@@ -73,7 +73,7 @@ namespace Hms.Itf
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetQnCtrlLocation")]
-        List<EntityCtrlLocation> GetQnCtrlLocation(string qnCtlFiledId);
+        List<EntityCtrlLocation> GetQnCtrlLocation(string qnCtlFiledId, decimal qnId);
 
         /// <summary>
         /// 
@@ -676,12 +676,15 @@ namespace Hms.Itf
         [OperationContract(Name = "GetQnDetail")]
         List<EntityDicQnDetail> GetQnDetail(decimal qnId);
 
+        [OperationContract(Name = "GetDicQnSetting")]
+        List<EntityDicQnSetting> GetDicQnSetting(decimal qnId);
+
         /// <summary>
         /// GetQnSetting
         /// </summary>
         /// <returns></returns>
         [OperationContract(Name = "GetQnSetting")]
-        List<EntityQnSetting> GetQnSetting();
+        List<EntityQnSetting> GetQnSetting(decimal qnId);
 
         [OperationContract(Name = "GetQnCustom")]
         void GetQnCustom(decimal qnId, out List<EntityDicQnSetting> lstTopic, out List<EntityDicQnSetting> lstItems);

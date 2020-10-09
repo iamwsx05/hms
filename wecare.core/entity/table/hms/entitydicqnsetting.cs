@@ -82,6 +82,13 @@ namespace weCare.Core.Entity
         [EntityAttribute(FieldName = "comment", DbType = DbType.AnsiString, IsPK = false, IsSeq = false, SerNo = 10)]
         public System.String comment { get; set; }
 
+        /// <summary>
+        /// qnId
+        /// </summary>
+        [DataMember]
+        [EntityAttribute(FieldName = "qnId", DbType = DbType.Decimal, IsPK = true, IsSeq = false, SerNo = 11)]
+        public decimal qnId { get; set; }
+
         [DataMember]
         public Int32 isMultipe
         {
@@ -168,6 +175,7 @@ namespace weCare.Core.Entity
             public string statusName = "statusName";
             public string pyCode = "pyCode";
             public string wbCode = "wbCode";
+            public string qnId = "qnId";
         }
 
         /// <summary>

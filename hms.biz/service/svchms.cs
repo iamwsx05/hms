@@ -101,11 +101,11 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityCtrlLocation> GetQnCtrlLocation(string qnCtlFiledId)
+        public List<EntityCtrlLocation> GetQnCtrlLocation(string qnCtlFiledId, decimal qnId)
         {
             using (Biz202 biz = new Biz202())
             {
-                return biz.GetQnCtrlLocation(qnCtlFiledId);
+                return biz.GetQnCtrlLocation(qnCtlFiledId,qnId);
             }
         }
 
@@ -1147,16 +1147,31 @@ namespace Hms.Svc
         }
         #endregion
 
+        #region GetDicQnSetting
+        /// <summary>
+        /// GetDicQnSetting
+        /// </summary>
+        /// <param name="qnId"></param>
+        /// <returns></returns>
+        public List<EntityDicQnSetting> GetDicQnSetting(decimal qnId)
+        {
+            using (Biz209 biz = new Biz209())
+            {
+                return biz.GetDicQnSetting(qnId);
+            }
+        }
+        #endregion
+
         #region GetQnSetting
         /// <summary>
         /// GetQnSetting
         /// </summary>
         /// <returns></returns>
-        public List<EntityQnSetting> GetQnSetting()
+        public List<EntityQnSetting> GetQnSetting(decimal qnId)
         {
             using (Biz209 biz = new Biz209())
             {
-                return biz.GetQnSetting();
+                return biz.GetQnSetting(qnId);
             }
         }
         #endregion

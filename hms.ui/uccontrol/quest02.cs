@@ -59,6 +59,26 @@ namespace Hms.Ui
             }
         }
 
+        public void SetQnSettings(List<EntityDicQnSetting> lstCtrls)
+        {
+            if (lstCtrls == null) return;
+            string accessibleName = string.Empty;
+            foreach (Control ctr in plBack.Controls)
+            {
+                if (ctr is DevExpress.XtraEditors.CheckEdit)
+                {
+                    if (!string.IsNullOrEmpty(((DevExpress.XtraEditors.CheckEdit)ctr).Properties.AccessibleName))
+                    {
+                        accessibleName = ((DevExpress.XtraEditors.CheckEdit)ctr).Properties.AccessibleName;
+                        if (lstCtrls.Any(t => t.fieldId == accessibleName && t.status == 1))
+                        {
+                            ((DevExpress.XtraEditors.CheckEdit)ctr).Checked = true;
+                        }
+                    }
+                }
+            }
+        }
+
 
         public List<EntityDicQnSetting> GetQnSettings()
         {

@@ -46,7 +46,7 @@ namespace Hms.Ui
                 }
                 using (ProxyHms proxy = new ProxyHms())
                 {
-                    lstCtrlLocation = proxy.Service.GetQnCtrlLocation(lstQuest[0]);
+                    lstCtrlLocation = proxy.Service.GetQnCtrlLocation(lstQuest[0],qnRecord.qnId);
                 }
 
                 using (ProxyHms proxy = new ProxyHms())

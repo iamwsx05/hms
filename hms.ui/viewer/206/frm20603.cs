@@ -181,8 +181,11 @@ namespace Hms.Ui
             this.LoadQnDataSource();
             this.gcType.DataSource = this.lstDietTemplatetype;
             this.gcType.RefreshDataSource();
-            this.gcData.DataSource = this.lstDietTemplate.FindAll(r=>r.typeid == lstDietTemplatetype[0].typeId);
-            this.gcData.RefreshDataSource();
+            if(lstDietTemplate != null)
+            {
+                this.gcData.DataSource = this.lstDietTemplate.FindAll(r => r.typeid == lstDietTemplatetype[0].typeId);
+                this.gcData.RefreshDataSource();
+            }
             uiHelper.CloseLoading(this);
         }
         #endregion

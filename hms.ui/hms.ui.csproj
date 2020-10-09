@@ -162,6 +162,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="viewer\202\frmpopup2020203.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="viewer\202\frmpopup2020203.Designer.cs">
+      <DependentUpon>frmpopup2020203.cs</DependentUpon>
+    </Compile>
+    <Compile Include="viewer\206\frmpopup2060206.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="viewer\206\frmpopup2060206.Designer.cs">
+      <DependentUpon>frmpopup2060206.cs</DependentUpon>
+    </Compile>
     <Compile Include="viewer\206\frmpopup2060205.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1022,6 +1034,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="viewer\202\frmpopup2020203.resx">
+      <DependentUpon>frmpopup2020203.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="viewer\206\frmpopup2060206.resx">
+      <DependentUpon>frmpopup2060206.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="viewer\206\frmpopup2060205.resx">
       <DependentUpon>frmpopup2060205.cs</DependentUpon>
     </EmbeddedResource>

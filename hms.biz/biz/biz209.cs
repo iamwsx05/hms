@@ -57,13 +57,29 @@ namespace Hms.Biz
                         item.qnId = vo.qnId;
                     }
                 }
+                if(lstLaction != null)
+                {
+                    foreach (EntityDicQnCtlLocation item in lstLaction)
+                    {
+                        item.qnId = vo.qnId;
+                    }
+                }
+                if(lstSettings != null)
+                {
+                    foreach (EntityDicQnSetting item in lstSettings)
+                    {
+                        item.qnId = vo.qnId;
+                    }
+                }
+
                 List<DacParm> lstParm = new List<DacParm>();
+                List<DacParm> lstParam2 = new List<DacParm>(); 
                 lstParm.Add(svc.GetDelParmByPk(vo));
                 lstParm.Add(svc.GetInsertParm(vo));
                 if (lstDet != null && lstDet.Count > 0)
                 {
-                    lstParm.Add(svc.GetDelParm(lstDet[0], EntityDicQnDetail.Columns.qnId));
-                    lstParm.Add(svc.GetInsertParm(lstDet.ToArray()));
+                    lstParam2.Add(svc.GetDelParm(lstDet[0], EntityDicQnDetail.Columns.qnId));
+                    lstParam2.Add(svc.GetInsertParm(lstDet.ToArray()));
                 }
 
                 if(lstLaction != null && lstLaction.Count > 0)
@@ -73,17 +89,22 @@ namespace Hms.Biz
                 }
                 if(lstSettings != null && lstSettings.Count > 0)
                 {
-                    lstParm.Add(svc.GetDelParmByPk(lstSettings.ToArray()));
+                    lstParm.Add(svc.GetDelParm(lstSettings[0], EntityDicQnSetting.Columns.qnId));
                     lstParm.Add(svc.GetInsertParm(lstSettings.FindAll(r=>r.status==1).ToArray()));
                 }
-
-                affectRows = svc.Commit(lstParm);
+                if(lstParam2.Count > 0)
+                {
+                    affectRows = svc.Commit(lstParam2);
+                }
+                if(lstParm.Count > 0)
+                    affectRows = svc.Commit(lstParm);
                 qnId = vo.qnId;
             }
             catch (Exception e)
             {
                 ExceptionLog.OutPutException(e);
                 affectRows = -1;
+                qnId = -1; 
             }
             finally
             {
@@ -137,6 +158,19 @@ namespace Hms.Biz
         }
         #endregion
 
+        #region EntityDicQnSetting
+        /// <summary>
+        /// EntityDicQnSetting
+        /// </summary>
+        /// <param name="qnId"></param>
+        /// <returns></returns>
+        public List<EntityDicQnSetting> GetDicQnSetting(decimal qnId)
+        {
+            SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
+            return EntityTools.ConvertToEntityList<EntityDicQnSetting>(svc.Select(new EntityDicQnSetting() { qnId = qnId }, EntityDicQnSetting.Columns.qnId));
+        }
+        #endregion
+
         #endregion
 
         #region 自定义
@@ -146,11 +180,12 @@ namespace Hms.Biz
         /// GetQnSetting
         /// </summary>
         /// <returns></returns>
-        public List<EntityQnSetting> GetQnSetting()
+        public List<EntityQnSetting> GetQnSetting(decimal qnId)
         {
             List<EntityQnSetting> data = null;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
-            List<EntityDicQnSetting> lstSet = EntityTools.ConvertToEntityList<EntityDicQnSetting>(svc.Select(new EntityDicQnSetting()));
+            List<EntityDicQnSetting> lstSet = EntityTools.ConvertToEntityList<EntityDicQnSetting>(svc.Select(new EntityDicQnDetail() { qnId = qnId }, EntityDicQnDetail.Columns.qnId));
+
             if (lstSet != null && lstSet.Count > 0)
             {
                 data = new List<EntityQnSetting>();
@@ -225,11 +260,13 @@ namespace Hms.Biz
                      inner join dicQnSetting c
                         on b.fieldId = c.fieldId
                      where a.qnId = ? 
+                       and c.qnId = ?
                        and c.status = 1  
                      order by c.sortNo ";
 
-            parm = svc.CreateParm(1);
+            parm = svc.CreateParm(2);
             parm[0].Value = qnId;
+            parm[1].Value = qnId;
             dt = svc.GetDataTable(Sql, parm);
             if (dt != null && dt.Rows.Count > 0)
             {
@@ -568,8 +605,6 @@ namespace Hms.Biz
         #endregion
 
         #endregion
-
-
 
         #region Dispose
         /// <summary>
