@@ -165,17 +165,43 @@ namespace Hms.Svc
         #endregion
 
         #region 203 健康报告
+        /// <summary>
+        /// 人员列表
+        /// </summary>
+        /// <param name="parms"></param>
+        /// <returns></returns>
+        public List<EntitymModelAccessRecord> GetModelAccessRec(List<EntityParm> parms)
+        {
+            using (Biz203 biz = new Biz203())
+            {
+                return biz.GetModelAccessRec(parms);
+            }
+        }
+
+        /// <summary>
+        /// 保存记录
+        /// </summary>
+        /// <param name="mdAccessRec"></param>
+        /// <param name="recId"></param>
+        /// <returns></returns>
+        public int SaveMdAccessRecord(EntitymModelAccessRecord mdAccessRec, out decimal recId)
+        {
+            using (Biz203 biz = new Biz203())
+            {
+                return biz.SaveMdAccessRecord(mdAccessRec,out recId);
+            }
+        }
 
         /// <summary>
         /// 列表
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityDisplayClientRpt> GetClientReports(List<EntityParm> parms)
+        public List<EntitymModelAccessRecord> GetClientMdAccessRecord(List<EntityParm> parms)
         {
             using (Biz203 biz = new Biz203())
             {
-                return biz.GetClientReports(parms);
+                return biz.GetClientMdAccessRecord(parms);
             }
         }
 
@@ -184,11 +210,11 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityReportMainItemConfig> GetReportMainItemConfig(List<EntityParm> parms = null)
+        public List<EntityReportMainItemConfig> GetReportMainItemConfig()
         {
             using (Biz203 biz = new Biz203())
             {
-                return biz.GetReportMainItemConfig(parms);
+                return biz.GetReportMainItemConfig();
             }
         }
 
@@ -224,11 +250,11 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityModelParam> GetModelParam(List<EntityParm> parms = null)
+        public List<EntityModelParam> GetModelParam()
         {
             using (Biz203 biz = new Biz203())
             {
-                return biz.GetModelParam(parms);
+                return biz.GetModelParam();
             }
         }
 
@@ -237,11 +263,11 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityModelAnalysisPoint> GetModelAnalysisPoint(List<EntityParm> parms = null)
+        public List<EntityModelAnalysisPoint> GetModelAnalysisPoint()
         {
             using (Biz203 biz = new Biz203())
             {
-                return biz.GetModelAnalysisPoint(parms);
+                return biz.GetModelAnalysisPoint();
             }
         }
 
@@ -250,11 +276,11 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityModelAccess> GetModelAccess(List<EntityParm> parms = null)
+        public List<EntityModelAccess> GetModelAccess()
         {
             using (Biz203 biz = new Biz203())
             {
-                return biz.GetModelAccess(parms);
+                return biz.GetModelAccess();
             }
         }
 
@@ -263,11 +289,11 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="modelId"></param>
         /// <returns></returns>
-        public List<EntityModelGroupItem> GetModelGroup(string modelId)
+        public List<EntityModelGroupItem> GetModelGroup()
         {
             using (Biz203 biz = new Biz203())
             {
-                return biz.GetModelGroup(modelId);
+                return biz.GetModelGroup();
             }
         }
         /// <summary>

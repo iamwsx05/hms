@@ -16,74 +16,184 @@ namespace Hms.Biz
     {
         #region 个人报告
 
+        #region 人员列表
+        /// <summary>
+        /// 人员列表
+        /// </summary>
+        /// <param name="parms"></param>
+        /// <returns></returns>
+        public List<EntitymModelAccessRecord> GetModelAccessRec(List<EntityParm> parms)
+        {
+            List<EntitymModelAccessRecord> data = null;
+            SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
+            string Sql = string.Empty;
+            Sql = @"select a.recId,a.regNo,
+                           b.clientNo,
+                           b.clientName,
+                           a.regTimes,
+                           b.gender,
+                           b.birthday,
+                           b.gradeName,
+                           b.company
+                      from modelAccessRecord a
+                     inner join V_ClientInfo b
+                        on a.clientNo = b.clientNo  and a.regTimes = b.regTimes
+                    where a.recid >= 0 ";
+            string subStr = string.Empty;
+            List<IDataParameter> lstParm = new List<IDataParameter>();
+            if (parms != null)
+            {
+                foreach (var po in parms)
+                {
+                    switch (po.key)
+                    {
+                        case "queryDate":
+                            IDataParameter[] param = svc.CreateParm(2);
+                            param[0].Value = po.value.Split('|')[0] + " 00:00:00";
+                            param[1].Value = po.value.Split('|')[1] + " 23:59:59";
+                            subStr += " and a.recordDate between ? and ?";
+                            lstParm.AddRange(param);
+                            break;
+                        case "clientNo":
+                            subStr += " and a.clientNo = '" + po.value + "'";
+                            break;
+                        case "regTimes":
+                            subStr += " and a.regTimes = '" + po.value + "'";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            Sql += subStr;
+            DataTable dt = svc.GetDataTable(Sql, lstParm);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                data = new List<EntitymModelAccessRecord>();
+                EntitymModelAccessRecord vo = null;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    vo = new EntitymModelAccessRecord();
+                    vo.recId = Function.Dec(dr["recId"]);
+                    vo.regNo = dr["regNo"].ToString();
+                    vo.regTimes = Function.Int(dr["regTimes"]);
+                    vo.clientNo = dr["clientNo"].ToString();
+                    vo.clientName = dr["clientName"].ToString();
+                    string gender = dr["gender"].ToString();
+                    if (gender == "1")
+                        vo.sex = "男";
+                    else if (gender == "2")
+                        vo.sex = "女";
+                    vo.age = dr["birthday"] == DBNull.Value ? "" : Function.CalcAge(Function.Datetime(dr["birthday"]));
+                    vo.gradeName = dr["gradeName"].ToString();
+                    vo.company = dr["company"].ToString();
+                    data.Add(vo);
+                }
+            }
+            return data;
+        }
+        #endregion
+
+        #region 保存人员记录
+        /// <summary>
+        /// 保存人员记录
+        /// </summary>
+        /// <param name="gxyRecord"></param>
+        /// <param name="recId"></param>
+        /// <returns></returns>
+        public int SaveMdAccessRecord(EntitymModelAccessRecord mdAccessRec, out decimal recId)
+        {
+            int affectRows = 0;
+            recId = 0;
+            string Sql = string.Empty;
+            SqlHelper svc = null;
+            try
+            {
+                if (mdAccessRec == null)
+                    return -1;
+                decimal id = 0;
+                List<DacParm> lstParm = new List<DacParm>();
+                svc = new SqlHelper(EnumBiz.onlineDB);
+
+                if (mdAccessRec.recId <= 0)
+                {
+                    string sql = @"insert into modelAccessRecord(recid,clientno,regtimes,regno,recorder,recorddate,status) values (?,?,?,?,?,?,?)";
+                    id = svc.GetNextID("modelAccessRecord", "recId");
+                    mdAccessRec.recordDate = DateTime.Now;
+                    mdAccessRec.recorder = "00";
+                    IDataParameter[] param = svc.CreateParm(7);
+                    param[0].Value = id;
+                    param[1].Value = mdAccessRec.clientNo;
+                    param[2].Value = mdAccessRec.regTimes;
+                    param[3].Value = mdAccessRec.regNo;
+                    param[4].Value = mdAccessRec.recorder;
+                    param[5].Value = mdAccessRec.recordDate;
+                    param[6].Value = mdAccessRec.status;
+                    lstParm.Add(svc.GetDacParm(EnumExecType.ExecSql, sql, param));
+                }
+                recId = id;
+
+                if (lstParm.Count > 0)
+                    affectRows = svc.Commit(lstParm);
+            }
+            catch (Exception e)
+            {
+                ExceptionLog.OutPutException(e);
+                affectRows = -1;
+            }
+            finally
+            {
+                svc = null;
+            }
+            return affectRows;
+        }
+        #endregion
+
         #region 列表
         /// <summary>
         /// 列表
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityDisplayClientRpt> GetClientReports(List<EntityParm> parms)
+        public List<EntitymModelAccessRecord> GetClientMdAccessRecord(List<EntityParm> parms)
         {
-            List<EntityDisplayClientRpt> data = null;
+            List<EntitymModelAccessRecord> data = null;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
             string sql = string.Empty;
             string sql1 = string.Empty;
             string sql2 = string.Empty;
-            sql1 = @"SELECT  a.clientName,
-	                        a.clientNo,
-	                        a.gender,
-	                        a.age,
-	                        a.company,
-	                        a.gradeName,
-	                        a.reportNo,
-	                        a.regTimes,
-	                        a.idcard,
-	                        b.qnRecId,
-	                        a.reportDate,
-	                        c.recId,
-	                        c.qnName,
-	                        c.qnType,
-	                        c.qnDate,
-	                        c.qnSource,
-	                        c.qnId,
-                            c.qnDate,
-                            b.status,
-	                        d.xmlData,
-                            b.recordDate as confirmDate
-                        FROM 
-	                        v_tjxx a
-                        LEFT JOIN modelAccessRecord b ON a.reportNo = b.reportId and b.status > -1
-                        LEFT JOIN qnRecord c ON b.qnRecId = c.recId
-                        LEFT JOIN qnData d ON b.qnRecId = d.recId
-                        WHERE a.clientNo IS NOT NULL and b.qnRecId = null ";
-
-            sql2 = @"SELECT  a.clientName,
-	                                    a.clientNo,
-	                                    a.gender,
-	                                    a.age,
-	                                    a.company,
-	                                    a.gradeName,
-	                                    a.reportNo,
-	                                    a.regTimes,
-	                                    a.idcard,
-	                                    b.qnRecId,
-	                                    a.reportDate,
-	                                    c.recId,
-	                                    c.qnName,
-	                                    c.qnType,
-	                                    c.qnDate,
-	                                    c.qnSource,
-	                                    c.qnId,
-                                        c.qnDate,
-                                        b.status,
-	                                    d.xmlData,
-                                        b.recordDate as confirmDate
-                                    FROM 
-	                                    v_tjxx a
-                                    LEFT JOIN modelAccessRecord b ON a.reportNo = b.reportId and b.status > -1
-                                    LEFT JOIN qnRecord c ON b.qnRecId = c.recId
-                                    LEFT JOIN qnData d ON b.qnRecId = d.recId
-                                    WHERE a.clientNo IS NOT NULL  ";
+            sql1 = @"SELECT
+	                    a.recId,
+	                    a.regNo,
+                        a.confirmDate,
+	                    b.clientNo,
+	                    b.clientName,
+	                    a.regTimes,
+	                    b.gender,
+	                    b.birthday,
+	                    b.gradeName,
+	                    b.company,
+                        a.recordDate,
+						t.reportDate,
+	                    c.recId as qnRecid,
+	                    c.qnName,
+	                    c.qnType,
+	                    c.qnDate,
+	                    c.qnSource,
+	                    c.qnId,
+	                    d.xmlData,
+                        a.status
+                    FROM modelAccessRecord a
+                    LEFT JOIN V_ClientInfo b 
+                    ON a.clientNo = b.clientNo
+                    AND a.regTimes = b.regTimes
+                    left join V_TJXX t
+                    on a.regNo = t.reportNo
+                    LEFT JOIN qnRecord c 
+                    ON a.qnRecId = c.recId
+                    LEFT JOIN qnData d 
+                    ON a.qnRecId = d.recId
+                    WHERE a.status >= 0  ";
             string strSub = string.Empty;
             string strSub1 = string.Empty;
             string strSub2 = string.Empty;
@@ -104,15 +214,8 @@ namespace Hms.Biz
                             IDataParameter parm2 = svc.CreateParm();
                             parm2.Value = po.value.Split('|')[1];
                             lstParm.Add(parm2);
-                            strSub1 += " and  a.reportDate between ? and ? ";
+                            strSub += " and  a.recordDate between ? and ? ";
 
-                            IDataParameter parm3 = svc.CreateParm();
-                            parm3.Value = po.value.Split('|')[0];
-                            lstParm.Add(parm3);
-                            IDataParameter parm4 = svc.CreateParm();
-                            parm4.Value = po.value.Split('|')[1];
-                            lstParm.Add(parm4);
-                            strSub2 += " and  b.recordDate between ? and ? ";
                             break;
                         case "clientNo":
                             strSub += " and  a.clientNo = '" + po.value + "'";
@@ -122,70 +225,40 @@ namespace Hms.Biz
                     }
                 }
             }
-
-            sql1 += strSub + strSub1 + Environment.NewLine;
-            sql2 += strSub + strSub2;
-            
-            string strClientNo = string.Empty;
-            sql = sql1 + "union all" + Environment.NewLine + sql2;
-            DataTable dt = svc.GetDataTable(sql, lstParm.ToArray());
+            sql1 += strSub;
+            DataTable dt = svc.GetDataTable(sql1, lstParm.ToArray());
             if (dt != null && dt.Rows.Count > 0)
             {
-                data = new List<EntityDisplayClientRpt>();
-                EntityDisplayClientRpt vo = null;
+                data = new List<EntitymModelAccessRecord>();
+                EntitymModelAccessRecord vo = null;
                 foreach (DataRow dr in dt.Rows)
                 {
-                    vo = new EntityDisplayClientRpt();
-                    vo.clientName = dr["clientName"].ToString();
-                    vo.clientNo = dr["clientNo"].ToString();
-                    vo.gender = Function.Int(dr["gender"]);
-                    vo.reportNo = dr["reportNo"].ToString();
-                    if (vo.gender == 1)
-                        vo.sex = "男";
-                    if (vo.gender == 2)
-                        vo.sex = "女";
-                    vo.reportDate = Function.Datetime(dr["reportDate"]).ToString("yyyy-MM-dd");
-                    vo.company = dr["company"].ToString();
-                    vo.gradeName = dr["gradeName"].ToString();
-                    vo.age = dr["age"].ToString();
-                    vo.reportCount = Function.Int(dr["regTimes"]);
+                    vo = new EntitymModelAccessRecord();
+                    vo.recId = Function.Dec(dr["recId"]);
+                    vo.regNo = dr["regNo"].ToString();
+                    vo.recordDate = Function.Datetime(dr["recordDate"]);
+                    Function.SetClientInfo(ref vo,dr);   
+                    vo.reportDateStr = Function.Datetime(dr["reportDate"]).ToString("yyyy-MM-dd");
+                    vo.regTimes = Function.Int(dr["regTimes"]);
                     vo.status = Function.Int(dr["status"]);
-                    if(vo.status== 1)
-                    {
-                        vo.confirmState = "已审核";
-                    }
+
                     if(dr["confirmDate"] != DBNull.Value)
                     {
-                        vo.recordDateStr = Function.Datetime(dr["confirmDate"]).ToString("yyyy-MM-dd") ;
+                        vo.confirmDateStr = Function.Datetime(dr["confirmDate"]).ToString("yyyy-MM-dd") ;
                     }
-                    if (!string.IsNullOrEmpty(dr["recId"].ToString()))
+                    if (!string.IsNullOrEmpty(dr["qnRecid"].ToString()))
                     {
                         vo.strQnDate = Function.Datetime(dr["qnDate"]).ToString("yyyy-MM-dd");
-                        vo.qnRecord = new EntityQnRecord();
-                        vo.qnRecord.recId = Function.Dec(dr["recId"]);
-                        vo.qnRecord.gender = Function.Int(dr["gender"]);
-                        if (vo.qnRecord.gender == 1)
-                            vo.qnRecord.sex = "男";
-                        if (vo.qnRecord.gender == 2)
-                            vo.qnRecord.sex = "女";
-                        vo.qnRecord.clientNo = dr["clientNo"].ToString();
-                        vo.qnRecord.clientName = dr["clientName"].ToString();
-                        vo.qnRecord.gradeName = dr["gradeName"].ToString();
-                        vo.qnRecord.age = dr["age"].ToString();
-                        vo.qnRecord.qnName = dr["qnName"].ToString();
-                        vo.qnRecord.qnId = Function.Dec(dr["qnId"]);
-                        vo.qnRecord.qnSource = Function.Dec(dr["qnSource"]);
-                        if (vo.qnRecord.qnSource == 1)
-                            vo.qnRecord.strQnSource = "采集系统";
-                        vo.qnRecord.qnDate = Function.Datetime(dr["qnDate"]);
-                        vo.qnRecord.strQnDate = Function.Datetime(dr["qnDate"]).ToString("yyyy-MM-dd");
-                        vo.qnRecord.xmlData = dr["xmlData"].ToString();
+                        vo.qnRecId = Function.Dec(dr["qnRecid"]);
+                        vo.qnName = dr["qnName"].ToString();
+                        vo.qnId = Function.Dec(dr["qnId"]);
+                        vo.strQnSource = "采集系统";
+                        vo.qnData = dr["xmlData"].ToString();
                     }
 
                     data.Add(vo);
                 }
             }
-
 
             return data;
         }
@@ -272,9 +345,9 @@ namespace Hms.Biz
         {
             int affect = -1;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
-            string sql = "update modelAccessRecord set status = 0 where reportId = ? and qnRecId = ?";
+            string sql = "update modelAccessRecord set status = 0 where regNo = ? and qnRecId = ?";
             IDataParameter[] param = svc.CreateParm(2);
-            param[0].Value = mdAccessRecord.reportId;
+            param[0].Value = mdAccessRecord.regNo;
             param[1].Value = mdAccessRecord.qnRecId;
             affect = svc.ExecSql(sql, param);
             return affect;
@@ -289,7 +362,7 @@ namespace Hms.Biz
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityReportMainItemConfig> GetReportMainItemConfig(List<EntityParm> parms = null)
+        public List<EntityReportMainItemConfig> GetReportMainItemConfig()
         {
             List<EntityReportMainItemConfig> data = null;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
@@ -322,7 +395,7 @@ namespace Hms.Biz
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityModelParam> GetModelParam(List<EntityParm> parms = null)
+        public List<EntityModelParam> GetModelParam()
         {
             List<EntityModelParam> data = null;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
@@ -366,7 +439,7 @@ namespace Hms.Biz
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityModelAnalysisPoint> GetModelAnalysisPoint(List<EntityParm> parms = null)
+        public List<EntityModelAnalysisPoint> GetModelAnalysisPoint()
         {
             List<EntityModelAnalysisPoint> data = null;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
@@ -413,7 +486,7 @@ namespace Hms.Biz
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        public List<EntityModelAccess> GetModelAccess(List<EntityParm> parms = null)
+        public List<EntityModelAccess> GetModelAccess()
         {
             List<EntityModelAccess> data = null;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
@@ -457,7 +530,7 @@ namespace Hms.Biz
         /// </summary>
         /// <param name="modelId"></param>
         /// <returns></returns>
-        public List<EntityModelGroupItem> GetModelGroup(string modelId = null)
+        public List<EntityModelGroupItem> GetModelGroup()
         {
             List<EntityModelGroupItem> data = null;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);

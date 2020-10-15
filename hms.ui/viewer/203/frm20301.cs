@@ -39,7 +39,7 @@ namespace Hms.Ui
         /// 问卷家族疾病史
         List<EntityQnFamilyDease> lstFamilyDease { get; set; }
 
-        List<EntityDisplayClientRpt> lstClientInfo { get; set; }
+        List<EntitymModelAccessRecord> lstMdAccessRecords { get; set; }
         //体检小结信息
         List<EntityTjResult> lstXjResult;
         //体检结果
@@ -49,6 +49,21 @@ namespace Hms.Ui
         #endregion
 
         #region  override
+
+        #region 添加人员
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void New()
+        {
+            frmPopup2030103 frm = new frmPopup2030103();
+            frm.ShowDialog();
+            if(frm.isRefresh)
+            {
+                RefreshData();
+            }
+        }
+        #endregion
 
         #region Search
         /// <summary>
@@ -70,7 +85,7 @@ namespace Hms.Ui
             }
             using (ProxyHms proxy = new ProxyHms())
             {
-                this.gridControl.DataSource = proxy.Service.GetClientReports(dicParm);
+                this.gridControl.DataSource = proxy.Service.GetClientMdAccessRecord(dicParm);
             }
 
             this.gridControl.RefreshDataSource();
@@ -83,16 +98,16 @@ namespace Hms.Ui
             try
             {
                 this.BeginLoading();
-                EntityDisplayClientRpt disClientRpt = GetRowObject();
+                EntitymModelAccessRecord mdAccessRecord = GetRowObject();
                 List<EntityModelParamCalc> lstMdParamCalc = null;
                 List<EntityRiskFactorsResult> lstRiskFactorsResult = null;
-                if (disClientRpt.qnRecord == null)
+                if (mdAccessRecord.qnRecId <= 0)
                 {
                     DialogBox.Msg("请选择问卷");
                     return;
                 }
 
-                EntityClientReport rpt = GneralPersonalReport(disClientRpt,out lstMdParamCalc,out lstRiskFactorsResult);
+                EntityClientReport rpt = GneralPersonalReport(mdAccessRecord, out lstMdParamCalc,out lstRiskFactorsResult);
                 frmPopup2030101 frm = new frmPopup2030101(rpt);
                 frm.ShowDialog();
             }
@@ -117,7 +132,7 @@ namespace Hms.Ui
         public override void Remind()
         {
             List<EntityQnRecord> dataQn = null;
-            EntityDisplayClientRpt vo = GetRowObject();
+            EntitymModelAccessRecord vo = GetRowObject();
             if (vo != null)
             {
                 if (vo.status == 1)
@@ -142,7 +157,8 @@ namespace Hms.Ui
                 if (frm.isSelect)
                 {
                     vo.strQnDate = frm.qnRecord.strQnDate;
-                    vo.qnRecord = frm.qnRecord;
+                    vo.qnRecId = frm.qnRecord.recId;
+                    vo.qnData = frm.qnRecord.xmlData;
                 }
 
 
@@ -160,34 +176,28 @@ namespace Hms.Ui
             {
                 this.BeginLoading();
                 int affect = -1;
-                EntityDisplayClientRpt disClientRpt = GetRowObject();
+                EntitymModelAccessRecord mdAccessRecord = GetRowObject();
                 List<EntityModelParamCalc> lstMdParamCalc = null;
                 List<EntityRiskFactorsResult> lstRiskFactorsResult = null;
-                if (disClientRpt.qnRecord == null)
+                if (mdAccessRecord.qnRecId <= 0)
                 {
                     DialogBox.Msg("请选择问卷");
                     return;
                 }
 
-                if (disClientRpt.status == 1)
+                if (mdAccessRecord.status == 1)
                 {
                     DialogBox.Msg("该报告已审核，重新生成请先取消审核！");
                     return;
                 }
 
-                EntityClientReport rpt = GneralPersonalReport(disClientRpt,out lstMdParamCalc,out lstRiskFactorsResult);
+                EntityClientReport rpt = GneralPersonalReport(mdAccessRecord, out lstMdParamCalc,out lstRiskFactorsResult);
                 List<EntityClientModelResult> lstMdResult = null;
-                EntitymModelAccessRecord mdAccessRecord = null;
+
                 if (rpt != null)
                 {
-                    mdAccessRecord = new EntitymModelAccessRecord();
-                    mdAccessRecord.clientId = rpt.clientNo;
-                    mdAccessRecord.reportId = rpt.reportNo;
-                    mdAccessRecord.qnRecId= disClientRpt.qnRecord.recId;
-                    mdAccessRecord.recorder = "00";
-                    mdAccessRecord.recordDate = DateTime.Now;
                     mdAccessRecord.status = 1;
-
+                    mdAccessRecord.confirmDate = DateTime.Now;
                     if (rpt.lstRptModelAcess != null)
                     {
                         lstMdResult = new List<EntityClientModelResult>();
@@ -196,7 +206,7 @@ namespace Hms.Ui
                             EntityClientModelResult vo = new EntityClientModelResult();
                             vo.clientId = rpt.clientNo;
                             vo.reportId = rpt.reportNo;
-                            vo.qnRecId = disClientRpt.qnRecord.recId;
+                            vo.qnRecId = mdAccessRecord.qnRecId;
                             vo.modelId = mdAVo.modelId;
                             vo.modelResult = mdAVo.resultStr;
                             vo.modelScore = mdAVo.df;
@@ -218,10 +228,10 @@ namespace Hms.Ui
                 if (affect > 0)
                     DialogBox.Msg("报告审核完成！");
             }
-            catch (Exception ex)
-            {
-                ExceptionLog.OutPutException(ex);
-            }
+            //catch (Exception ex)
+            //{
+            //    ExceptionLog.OutPutException(ex);
+            //}
             finally
             {
                 this.CloseLoading();
@@ -238,14 +248,14 @@ namespace Hms.Ui
             int affect = -1;
             if (DialogBox.Msg("确定取消审核报告 ？", MessageBoxIcon.Question) == DialogResult.Yes)
             {         
-                EntityDisplayClientRpt vo = GetRowObject();
+                EntitymModelAccessRecord vo = GetRowObject();
                 if (vo != null)
                 {
-                    if(vo.qnRecord != null)
+                    if( string.IsNullOrEmpty(vo.qnData) )
                     {
                         EntitymModelAccessRecord voR = new EntitymModelAccessRecord();
-                        voR.reportId = vo.reportNo;
-                        voR.qnRecId = vo.qnRecord.recId;
+                        voR.regNo = vo.regNo;
+                        voR.qnRecId = vo.qnRecId;
 
                         using (ProxyHms proxy = new ProxyHms())
                         {
@@ -284,7 +294,7 @@ namespace Hms.Ui
                 uiHelper.BeginLoading(this);
                 this.dteBegin.Text = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd");
                 this.dteEnd.Text = DateTime.Now.ToString("yyyy-MM-dd");
-
+                
                 using (ProxyHms proxy = new ProxyHms())
                 {
                     lstModelParam = proxy.Service.GetModelParam();
@@ -312,7 +322,7 @@ namespace Hms.Ui
         {
             uiHelper.BeginLoading(this);
             this.LoadQnDataSource();
-            this.gridControl.DataSource = this.lstClientInfo;
+            this.gridControl.DataSource = this.lstMdAccessRecords;
             this.gridControl.RefreshDataSource();
             uiHelper.CloseLoading(this);
         }
@@ -324,7 +334,7 @@ namespace Hms.Ui
         /// </summary>
         void LoadQnDataSource()
         {
-            lstClientInfo = null;
+            lstMdAccessRecords = null;
             List<EntityParm> dicParm = new List<EntityParm>();
             string beginDate = this.dteBegin.Text + " 00:00:00";
             string endDate = this.dteEnd.Text + " 23:59:59";
@@ -334,7 +344,7 @@ namespace Hms.Ui
             }
             using (ProxyHms proxy = new ProxyHms())
             {
-                lstClientInfo = proxy.Service.GetClientReports(dicParm);
+                lstMdAccessRecords = proxy.Service.GetClientMdAccessRecord(dicParm);
             }
         }
         #endregion
@@ -345,20 +355,20 @@ namespace Hms.Ui
         /// </summary>
         /// <param name="disClientRpt"></param>
         /// <returns></returns>
-        public EntityClientReport GneralPersonalReport(EntityDisplayClientRpt disClientRpt,out List<EntityModelParamCalc> lstMdParamCalcData,out List<EntityRiskFactorsResult> lstRiskFactorsResult)
+        public EntityClientReport GneralPersonalReport(EntitymModelAccessRecord mdAccessRecord,out List<EntityModelParamCalc> lstMdParamCalcData,out List<EntityRiskFactorsResult> lstRiskFactorsResult)
         {
             EntityClientReport rpt = new EntityClientReport();
 
-            rpt.clientName = disClientRpt.clientName;
-            rpt.clientNo = disClientRpt.clientNo;
-            rpt.reportDate = disClientRpt.reportDate;
-            rpt.reportNo = disClientRpt.reportNo;
-            rpt.sex = disClientRpt.sex;
-            rpt.company = disClientRpt.company;
-            rpt.age = disClientRpt.age;
-            if (disClientRpt.qnRecord != null)
+            rpt.clientName = mdAccessRecord.clientName;
+            rpt.clientNo = mdAccessRecord.clientNo;
+            rpt.reportDate = mdAccessRecord.reportDateStr;
+            rpt.reportNo = mdAccessRecord.regNo;
+            rpt.sex = mdAccessRecord.sex;
+            rpt.company = mdAccessRecord.company;
+            rpt.age = mdAccessRecord.age;
+            if (!string.IsNullOrEmpty(mdAccessRecord.strQnDate))
             {
-                rpt.qnDate = disClientRpt.qnRecord.strQnDate;
+                rpt.qnDate = mdAccessRecord.strQnDate;
             }
             rpt.image01 = ReadImageFile("pic01.png");
             rpt.image02 = ReadImageFile("pic02.jpg");
@@ -373,10 +383,10 @@ namespace Hms.Ui
             lstMdParamCalcData = new List<EntityModelParamCalc>();
             List<EntityModelParamCalc> lstMdParamCalc = new List<EntityModelParamCalc>();
             lstRiskFactorsResult = new List<EntityRiskFactorsResult>();
-            List<EntityModelAccess> lstMdAcess = GetModelAccess(disClientRpt);
+            List<EntityModelAccess> lstMdAcess = GetModelAccess(mdAccessRecord);
 
             #region 健康汇总及重要指标
-            rpt.lstMainItem = GetMainIndicate(disClientRpt);
+            rpt.lstMainItem = GetMainIndicate(mdAccessRecord);
             if (tjjljyVo != null)
                 rpt.tjSumup = tjjljyVo.sumup;
             #endregion
@@ -386,7 +396,7 @@ namespace Hms.Ui
             {
                 foreach (var mdAcess in lstMdAcess)
                 {
-                    rpt.lstRptModelAcess.Add(GetRptModelParam(mdAcess.modelId, disClientRpt,out lstMdParamCalc));
+                    rpt.lstRptModelAcess.Add(GetRptModelParam(mdAcess.modelId, mdAccessRecord, out lstMdParamCalc));
 
                     if(lstMdParamCalc != null && lstMdParamCalc.Count > 0)
                     {
@@ -397,7 +407,7 @@ namespace Hms.Ui
             #endregion
 
             #region 危险要素
-            lstRiskFactorsResult = GetRiskFactorsResults(disClientRpt);
+            lstRiskFactorsResult = GetRiskFactorsResults(mdAccessRecord);
             #endregion
 
             return rpt;
@@ -410,14 +420,13 @@ namespace Hms.Ui
         /// 重要指标
         /// </summary>
         /// <returns></returns>
-        internal List<EntityReportMainItem> GetMainIndicate(EntityDisplayClientRpt vo)
+        internal List<EntityReportMainItem> GetMainIndicate(EntitymModelAccessRecord vo)
         {
             List<EntityReportMainItem> data = new List<EntityReportMainItem>();
             List<EntityReportMainItemConfig> lstMainItemConfig;
-            //EntityDisplayClientRpt vo = GetRowObject();
             using (ProxyHms proxy = new ProxyHms())
             {
-                proxy.Service.GetTjResult(vo.reportNo, out lstTjResult, out lstXjResult, out tjjljyVo);
+                proxy.Service.GetTjResult(vo.regNo, out lstTjResult, out lstXjResult, out tjjljyVo);
                 lstMainItemConfig = proxy.Service.GetReportMainItemConfig();
             }
             if (lstTjResult == null)
@@ -456,7 +465,7 @@ namespace Hms.Ui
         /// 疾病模型评估
         /// </summary>
         /// <returns></returns>
-        internal EntityRptModelAcess GetRptModelParam(decimal modelId, EntityDisplayClientRpt vo,out List<EntityModelParamCalc> lstMdParamCalc)
+        internal EntityRptModelAcess GetRptModelParam(decimal modelId, EntitymModelAccessRecord vo,out List<EntityModelParamCalc> lstMdParamCalc)
         {
             EntityRptModelAcess modelAcess = new EntityRptModelAcess();
             lstMdParamCalc = new List<EntityModelParamCalc>();
@@ -467,13 +476,13 @@ namespace Hms.Ui
             {
                 modelAcess.modelId = modelId;
                 List<EntityModelGroupItem> lstModelGroup = lstModelGroupItem.FindAll(r => r.modelId == modelId && r.isMain == 1);
-                //EntityDisplayClientRpt vo = GetRowObject();
-                if (!string.IsNullOrEmpty(vo.qnRecord.xmlData))
+
+                if (!string.IsNullOrEmpty(vo.qnData))
                 {
                     XmlDocument document = new XmlDocument();
-                    document.LoadXml(vo.qnRecord.xmlData);
+                    document.LoadXml(vo.qnData);
                     XmlNodeList list = document["FormData"].ChildNodes;
-                    dicData = Function.ReadXML(vo.qnRecord.xmlData);
+                    dicData = Function.ReadXML(vo.qnData);
                 }
 
                 #region 主要评估参数
@@ -625,21 +634,21 @@ namespace Hms.Ui
         /// </summary>
         /// <param name="vo"></param>
         /// <returns></returns>
-        internal List<EntityRiskFactorsResult> GetRiskFactorsResults(EntityDisplayClientRpt vo)
+        internal List<EntityRiskFactorsResult> GetRiskFactorsResults(EntitymModelAccessRecord vo)
         {
             List<EntityRiskFactorsResult> data = null;
             Dictionary<string, string> dicData = new Dictionary<string, string>();
             if (vo == null)
                 return null; 
-            if (vo.qnRecord == null)
+            if (string.IsNullOrEmpty(vo.qnData))
                 return null;
             
-            if (!string.IsNullOrEmpty(vo.qnRecord.xmlData))
+            if (!string.IsNullOrEmpty(vo.qnData))
             {
                 XmlDocument document = new XmlDocument();
-                document.LoadXml(vo.qnRecord.xmlData);
+                document.LoadXml(vo.qnData);
                 XmlNodeList list = document["FormData"].ChildNodes;
-                dicData = Function.ReadXML(vo.qnRecord.xmlData);
+                dicData = Function.ReadXML(vo.qnData);
             }
 
             if (lstRiskFactor != null)
@@ -666,7 +675,7 @@ namespace Hms.Ui
                                     {
                                         riskResult = new EntityRiskFactorsResult();
                                         riskResult.clientId = vo.clientNo;
-                                        riskResult.questionId = vo.qnRecord.recId;
+                                        riskResult.questionId = vo.qnRecId;
                                         riskResult.factorsId = risk.id;
                                         //riskResult.organFactorsId = "organFactorsId";
                                         riskResult.isFamilyDisease = "1";
@@ -697,7 +706,7 @@ namespace Hms.Ui
                                 {
                                     riskResult = new EntityRiskFactorsResult();
                                     riskResult.clientId = vo.clientNo;
-                                    riskResult.questionId = vo.qnRecord.recId;
+                                    riskResult.questionId = vo.qnRecId;
                                     riskResult.factorsId = risk.id;
                                     riskResult.advise = risk.advice;
                                     riskResult.filedId = incondition;
@@ -717,7 +726,7 @@ namespace Hms.Ui
                             {
                                 riskResult = new EntityRiskFactorsResult();
                                 riskResult.clientId = vo.clientNo;
-                                riskResult.questionId = vo.qnRecord.recId;
+                                riskResult.questionId = vo.qnRecId;
                                 riskResult.factorsId = risk.id;
                                 riskResult.advise = risk.advice;
                                 riskResult.filedId = incondition;
@@ -740,7 +749,7 @@ namespace Hms.Ui
         /// </summary>
         /// <param name="modelId"></param>
         /// <returns></returns>
-        internal List<EntityModelParamCalc> CalcModelResult(decimal modelId, EntityDisplayClientRpt vo, out decimal result, out decimal bestDf)
+        internal List<EntityModelParamCalc> CalcModelResult(decimal modelId, EntitymModelAccessRecord vo, out decimal result, out decimal bestDf)
         {
             result = 0;
             bestDf = 0;
@@ -750,12 +759,12 @@ namespace Hms.Ui
             Dictionary<string, string> dicData = new Dictionary<string, string>();
             List<EntityModelGroupItem> lstGxyModel = lstModelGroupItem.FindAll(r => r.modelId == modelId && r.isMain == 1);
             //EntityDisplayClientRpt vo = GetRowObject();
-            if (!string.IsNullOrEmpty(vo.qnRecord.xmlData))
+            if (!string.IsNullOrEmpty(vo.qnData))
             {
                 XmlDocument document = new XmlDocument();
-                document.LoadXml(vo.qnRecord.xmlData);
+                document.LoadXml(vo.qnData);
                 XmlNodeList list = document["FormData"].ChildNodes;
-                dicData = Function.ReadXML(vo.qnRecord.xmlData);
+                dicData = Function.ReadXML(vo.qnData);
             }
 
             if (lstGxyModel != null)
@@ -771,7 +780,7 @@ namespace Hms.Ui
                         {
                             foreach (var modelGxy in lstModelParamGxy)
                             {
-                                if (!string.IsNullOrEmpty(vo.qnRecord.xmlData))
+                                if (!string.IsNullOrEmpty(vo.qnData))
                                 {
                                     //评估得分
                                     if (dicData.ContainsKey(modelGxy.paramNo))
@@ -783,8 +792,8 @@ namespace Hms.Ui
 
                                             paramCalcVo = new EntityModelParamCalc();
                                             paramCalcVo.clientId = vo.clientNo;
-                                            paramCalcVo.qnRecId = vo.qnRecord.recId;
-                                            paramCalcVo.regNo = vo.reportNo;
+                                            paramCalcVo.qnRecId = vo.qnRecId;
+                                            paramCalcVo.regNo = vo.regNo;
                                             paramCalcVo.modelId = modelId;
                                             paramCalcVo.paramNo = model.paramNo;
                                             paramCalcVo.paramName = model.paramName;
@@ -818,8 +827,8 @@ namespace Hms.Ui
                                                 ageFlag = true;
                                                 paramCalcVo = new EntityModelParamCalc();
                                                 paramCalcVo.clientId = vo.clientNo;
-                                                paramCalcVo.regNo = vo.reportNo;
-                                                paramCalcVo.qnRecId = vo.qnRecord.recId;
+                                                paramCalcVo.regNo = vo.regNo;
+                                                paramCalcVo.qnRecId = vo.qnRecId;
                                                 paramCalcVo.modelId = modelId;
                                                 paramCalcVo.paramNo = modelGxy.paramNo;
                                                 paramCalcVo.paramName = modelGxy.paramName;
@@ -852,8 +861,8 @@ namespace Hms.Ui
                             df = CalcDf(tjValue, modelId, model.paramNo, out bDf);
                             paramCalcVo = new EntityModelParamCalc();
                             paramCalcVo.clientId = vo.clientNo;
-                            paramCalcVo.regNo = vo.reportNo;
-                            paramCalcVo.qnRecId = vo.qnRecord.recId;
+                            paramCalcVo.regNo = vo.regNo;
+                            paramCalcVo.qnRecId = vo.qnRecId;
                             paramCalcVo.modelId = modelId;
                             paramCalcVo.paramNo = model.paramNo;
                             paramCalcVo.paramName = model.paramName;
@@ -862,7 +871,7 @@ namespace Hms.Ui
                             paramCalcVo.paramValue = tjVo.itemResult.ToString(); 
                             result += df;
                             bestDf += bDf;
-                            if (data.Any(r => r.modelId == modelId && r.paramNo == model.paramNo && paramCalcVo.qnRecId == vo.qnRecord.recId))
+                            if (data.Any(r => r.modelId == modelId && r.paramNo == model.paramNo && paramCalcVo.qnRecId == vo.qnRecId))
                                 continue;
                             else
                                 data.Add(paramCalcVo);
@@ -1073,16 +1082,16 @@ namespace Hms.Ui
         /// </summary>
         /// <param name="disClientRpt"></param>
         /// <returns></returns>
-        internal List<EntityModelAccess>  GetModelAccess(EntityDisplayClientRpt disClientRpt)
+        internal List<EntityModelAccess>  GetModelAccess(EntitymModelAccessRecord mdAccessRecord)
         {
             List<EntityModelAccess> data = new List<EntityModelAccess>();
             Dictionary<string, string> dicData = new Dictionary<string, string>();
-            if (!string.IsNullOrEmpty(disClientRpt.qnRecord.xmlData))
+            if (!string.IsNullOrEmpty(mdAccessRecord.qnData))
             {
                 XmlDocument document = new XmlDocument();
-                document.LoadXml(disClientRpt.qnRecord.xmlData);
+                document.LoadXml(mdAccessRecord.qnData);
                 XmlNodeList list = document["FormData"].ChildNodes;
-                dicData = Function.ReadXML(disClientRpt.qnRecord.xmlData);
+                dicData = Function.ReadXML(mdAccessRecord.qnData);
             }
             int age = 0;
             if(dicData.ContainsKey("Birthday"))
@@ -1116,10 +1125,10 @@ namespace Hms.Ui
         /// GetRowObject
         /// </summary>
         /// <returns></returns>
-        EntityDisplayClientRpt GetRowObject()
+        EntitymModelAccessRecord GetRowObject()
         {
             if (this.gridView.FocusedRowHandle < 0) return null;
-            return this.gridView.GetRow(this.gridView.FocusedRowHandle) as EntityDisplayClientRpt;
+            return this.gridView.GetRow(this.gridView.FocusedRowHandle) as EntitymModelAccessRecord;
         }
         #endregion
 

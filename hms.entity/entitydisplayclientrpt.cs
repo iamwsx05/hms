@@ -99,7 +99,5 @@ namespace Hms.Entity
         /// </summary>
         public string recordDateStr { get; set; }
 
-
-       
     }
 }

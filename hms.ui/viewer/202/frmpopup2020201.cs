@@ -132,6 +132,11 @@ namespace Hms.Ui
                     dicXmlData.Add(8, "<FormIdx8></FormIdx8>");
                 if (!dicXmlData.ContainsKey(9))
                     dicXmlData.Add(9, "<FormIdx9></FormIdx9>");
+                if (qnRecordVo != null)
+                {
+                    qnId = qnRecordVo.qnId;
+                }
+                AddQuestCtrl();
 
                 if (qnRecordVo != null)
                 {
@@ -152,9 +157,7 @@ namespace Hms.Ui
 
                     this.glueClient.Enabled = false;
                     this.txtSearch.Enabled = false;
-                }
-
-                AddQuestCtrl();
+                }  
             }
             finally
             {
@@ -986,7 +989,6 @@ namespace Hms.Ui
         #endregion
 
         #endregion
-
 
 
         private void blbiPrint_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)

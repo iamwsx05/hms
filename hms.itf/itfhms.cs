@@ -113,12 +113,29 @@ namespace Hms.Itf
 
         #region 203 健康报告
         /// <summary>
+        /// 人员列表 
+        /// </summary>
+        /// <param name="parms"></param>
+        /// <returns></returns>
+        [OperationContract(Name = "GetModelAccessRec")]
+        List<EntitymModelAccessRecord> GetModelAccessRec(List<EntityParm> parms);
+
+        /// <summary>
+        /// 保存记录
+        /// </summary>
+        /// <param name="mdAccessRec"></param>
+        /// <param name="recId"></param>
+        /// <returns></returns>
+        [OperationContract(Name = "SaveMdAccessRecord")]
+        int SaveMdAccessRecord(EntitymModelAccessRecord mdAccessRec, out decimal recId);
+
+        /// <summary>
         /// 列表
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        [OperationContract(Name = "GetClientReports")]
-        List<EntityDisplayClientRpt> GetClientReports(List<EntityParm> parms);
+        [OperationContract(Name = "GetClientMdAccessRecord")]
+        List<EntitymModelAccessRecord> GetClientMdAccessRecord(List<EntityParm> parms);
 
         /// <summary>
         /// 重要指标字典
@@ -126,7 +143,7 @@ namespace Hms.Itf
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetReportMainItemConfig")]
-        List<EntityReportMainItemConfig> GetReportMainItemConfig(List<EntityParm> parms = null);
+        List<EntityReportMainItemConfig> GetReportMainItemConfig();
 
         /// <summary>
         /// 模型参数
@@ -134,7 +151,7 @@ namespace Hms.Itf
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetModelParam")]
-        List<EntityModelParam> GetModelParam(List<EntityParm> parms = null);
+        List<EntityModelParam> GetModelParam();
 
         /// <summary>
         /// 疾病模型结果及名项得分
@@ -158,7 +175,7 @@ namespace Hms.Itf
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetModelAnalysisPoint")]
-        List<EntityModelAnalysisPoint> GetModelAnalysisPoint(List<EntityParm> parms = null);
+        List<EntityModelAnalysisPoint> GetModelAnalysisPoint();
 
         /// <summary>
         /// 疾病模型
@@ -166,7 +183,7 @@ namespace Hms.Itf
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetModelAccess")]
-        List<EntityModelAccess> GetModelAccess(List<EntityParm> parms = null);
+        List<EntityModelAccess> GetModelAccess();
 
         /// <summary>
         /// 疾病模型参数
@@ -174,7 +191,7 @@ namespace Hms.Itf
         /// <param name="parms"></param>
         /// <returns></returns>
         [OperationContract(Name = "GetModelGroup")]
-        List<EntityModelGroupItem> GetModelGroup(string modelId = null);
+        List<EntityModelGroupItem> GetModelGroup();
 
         /// <summary>
         /// 危险因素
@@ -482,7 +499,7 @@ namespace Hms.Itf
         /// <param name="lstDietDetails"></param>
         /// <param name="templateId"></param>
         /// <returns></returns>
-        [OperationContract(Name = "SaveDietTemplate")]
+        [OperationContract(Name = "SaveDietTemplateDetails")]
         int SaveDietTemplateDetails(EntityDietTemplate dietTemplate, List<EntityDietTemplateDetails> lstDietDetails, out string templateId);
 
         /// <summary>

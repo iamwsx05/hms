@@ -140,7 +140,7 @@ namespace Hms.Ui
                     parm.key = "clientNo";
                     parm.value = promotionPlan.clientNo;
                     lstParms.Add(parm);
-                    gcTjReport.DataSource = proxy.Service.GetClientReports(lstParms);
+                    gcTjReport.DataSource = proxy.Service.GetTjReports(lstParms);
                     gcTjReport.RefreshDataSource();
                 }
             }
@@ -199,7 +199,7 @@ namespace Hms.Ui
                     param.key = "clientNo";
                     param.value = promotionPlan.clientNo;
                     lstParms.Add(param);
-                    this.gcReport.DataSource = proxy.Service.GetClientReports(lstParms);
+                    this.gcReport.DataSource = proxy.Service.GetClientMdAccessRecord(lstParms);
                 }
             }
         }
@@ -208,16 +208,16 @@ namespace Hms.Ui
             List<EntityModelParamCalc> lstMdParamCalc = null;
             List<EntityRiskFactorsResult> lstRiskFactorsResults = null;
             frm20301 frm = new frm20301();
-            EntityDisplayClientRpt disClientRpt = GetRowObject();
-            if (disClientRpt != null)
+            EntitymModelAccessRecord mdAccessRecord = GetRowObject();
+            if (mdAccessRecord != null)
             {
-                if (disClientRpt.qnRecord == null)
+                if (mdAccessRecord.qnRecId <= 0)
                 {
                     DialogBox.Msg("请在个人报告选择问卷，并生成报告！");
                     return;
                 }
                 frm.Init();
-                EntityClientReport rpt = frm.GneralPersonalReport(disClientRpt, out lstMdParamCalc, out lstRiskFactorsResults);
+                EntityClientReport rpt = frm.GneralPersonalReport(mdAccessRecord, out lstMdParamCalc, out lstRiskFactorsResults);
                 frmPopup2030101 frmRpt = new frmPopup2030101(rpt);
                 frmRpt.ShowDialog();
             }
@@ -225,10 +225,10 @@ namespace Hms.Ui
 
 
         #region 
-        EntityDisplayClientRpt GetRowObject()
+        EntitymModelAccessRecord GetRowObject()
         {
             if (this.gvReport.FocusedRowHandle < 0) return null;
-            return this.gvReport.GetRow(this.gvReport.FocusedRowHandle) as EntityDisplayClientRpt;
+            return this.gvReport.GetRow(this.gvReport.FocusedRowHandle) as EntitymModelAccessRecord;
         }
         #endregion
 
@@ -317,7 +317,7 @@ namespace Hms.Ui
                     parm.key = "clientNo";
                     parm.value = promotionPlan.clientNo;
                     lstParms.Add(parm);
-                    gcReportItem.DataSource = proxy.Service.GetClientReports(lstParms);
+                    gcReportItem.DataSource = proxy.Service.GetTjReports(lstParms);
                 }
             }
 

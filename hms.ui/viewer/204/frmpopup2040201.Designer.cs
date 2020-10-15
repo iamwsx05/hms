@@ -1341,7 +1341,7 @@
             this.gridColumn27.AppearanceHeader.Options.UseTextOptions = true;
             this.gridColumn27.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn27.Caption = "体检编号";
-            this.gridColumn27.FieldName = "reportNo";
+            this.gridColumn27.FieldName = "regNo";
             this.gridColumn27.Name = "gridColumn27";
             this.gridColumn27.OptionsColumn.AllowEdit = false;
             this.gridColumn27.OptionsColumn.AllowFocus = false;
@@ -1358,7 +1358,7 @@
             this.gridColumn28.AppearanceHeader.Options.UseTextOptions = true;
             this.gridColumn28.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridColumn28.Caption = "体检日期";
-            this.gridColumn28.FieldName = "reportDate";
+            this.gridColumn28.FieldName = "reportDateStr";
             this.gridColumn28.Name = "gridColumn28";
             this.gridColumn28.OptionsColumn.AllowEdit = false;
             this.gridColumn28.OptionsColumn.AllowFocus = false;

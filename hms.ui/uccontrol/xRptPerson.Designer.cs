@@ -697,7 +697,7 @@
             this.xrTable17 = new DevExpress.XtraReports.UI.XRTable();
             this.xrTableRow34 = new DevExpress.XtraReports.UI.XRTableRow();
             this.xrTableCell93 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.picHitAzhmz = new DevExpress.XtraReports.UI.XRPictureBox();
+            this.picHintAzhmz = new DevExpress.XtraReports.UI.XRPictureBox();
             this.cellAzhmzItem = new DevExpress.XtraReports.UI.XRTableCell();
             this.cellAzhmzResult = new DevExpress.XtraReports.UI.XRTableCell();
             this.cellAzhmzRange = new DevExpress.XtraReports.UI.XRTableCell();
@@ -824,16 +824,16 @@
             this.xrLabel245 = new DevExpress.XtraReports.UI.XRLabel();
             this.picFaTip = new DevExpress.XtraReports.UI.XRPictureBox();
             this.xrLabel244 = new DevExpress.XtraReports.UI.XRLabel();
-            this.dtRtpGa = new DevExpress.XtraReports.UI.DetailReportBand();
+            this.dtRptGa = new DevExpress.XtraReports.UI.DetailReportBand();
             this.Detail23 = new DevExpress.XtraReports.UI.DetailBand();
             this.xrLabel273 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel274 = new DevExpress.XtraReports.UI.XRLabel();
-            this.dtRtpGaGroup = new DevExpress.XtraReports.UI.DetailReportBand();
+            this.dtRptGaGroup = new DevExpress.XtraReports.UI.DetailReportBand();
             this.Detail24 = new DevExpress.XtraReports.UI.DetailBand();
             this.xrTable21 = new DevExpress.XtraReports.UI.XRTable();
             this.xrTableRow38 = new DevExpress.XtraReports.UI.XRTableRow();
             this.xrTableCell113 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.xrPictureBox27 = new DevExpress.XtraReports.UI.XRPictureBox();
+            this.picHintGa = new DevExpress.XtraReports.UI.XRPictureBox();
             this.cellGaItem = new DevExpress.XtraReports.UI.XRTableCell();
             this.cellGaResult = new DevExpress.XtraReports.UI.XRTableCell();
             this.cellGaRange = new DevExpress.XtraReports.UI.XRTableCell();
@@ -918,7 +918,7 @@
             this.xrTableCell122 = new DevExpress.XtraReports.UI.XRTableCell();
             this.dtRptWaFxpg = new DevExpress.XtraReports.UI.DetailReportBand();
             this.Detail28 = new DevExpress.XtraReports.UI.DetailBand();
-            this.xrLabel39 = new DevExpress.XtraReports.UI.XRLabel();
+            this.lblWaAbasableDf = new DevExpress.XtraReports.UI.XRLabel();
             this.lblWaAverDf = new DevExpress.XtraReports.UI.XRLabel();
             this.lblWaBestDf = new DevExpress.XtraReports.UI.XRLabel();
             this.lblWaDf = new DevExpress.XtraReports.UI.XRLabel();
@@ -986,7 +986,7 @@
             this.xrTableCell132 = new DevExpress.XtraReports.UI.XRTableCell();
             this.dtRptQlxaFxpg = new DevExpress.XtraReports.UI.DetailReportBand();
             this.Detail31 = new DevExpress.XtraReports.UI.DetailBand();
-            this.lblAbasableDf = new DevExpress.XtraReports.UI.XRLabel();
+            this.lblQlxaAbasableDf = new DevExpress.XtraReports.UI.XRLabel();
             this.lblAverDf = new DevExpress.XtraReports.UI.XRLabel();
             this.lblQlxaBestDf = new DevExpress.XtraReports.UI.XRLabel();
             this.lblQlxaDf = new DevExpress.XtraReports.UI.XRLabel();
@@ -6295,6 +6295,7 @@
             this.dtRptTnbGroup,
             this.dtRptTnbFxpg});
             this.dtRptTnb.Dpi = 100F;
+            this.dtRptTnb.Expanded = false;
             this.dtRptTnb.Level = 3;
             this.dtRptTnb.Name = "dtRptTnb";
             // 
@@ -8274,6 +8275,7 @@
             this.dtRptXzycGroup,
             this.dtRptXzycFxpg});
             this.dtRptXzyc.Dpi = 100F;
+            this.dtRptXzyc.Expanded = false;
             this.dtRptXzyc.Level = 5;
             this.dtRptXzyc.Name = "dtRptXzyc";
             // 
@@ -9382,20 +9384,20 @@
             // xrTableCell93
             // 
             this.xrTableCell93.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.picHitAzhmz});
+            this.picHintAzhmz});
             this.xrTableCell93.Dpi = 100F;
             this.xrTableCell93.Name = "xrTableCell93";
             this.xrTableCell93.Weight = 0.31346525988744323D;
             // 
-            // picHitAzhmz
+            // picHintAzhmz
             // 
-            this.picHitAzhmz.Borders = DevExpress.XtraPrinting.BorderSide.None;
-            this.picHitAzhmz.Dpi = 100F;
-            this.picHitAzhmz.ImageAlignment = DevExpress.XtraPrinting.ImageAlignment.MiddleCenter;
-            this.picHitAzhmz.LocationFloat = new DevExpress.Utils.PointFloat(2.1547F, 0F);
-            this.picHitAzhmz.Name = "picHitAzhmz";
-            this.picHitAzhmz.SizeF = new System.Drawing.SizeF(69.27248F, 32F);
-            this.picHitAzhmz.StylePriority.UseBorders = false;
+            this.picHintAzhmz.Borders = DevExpress.XtraPrinting.BorderSide.None;
+            this.picHintAzhmz.Dpi = 100F;
+            this.picHintAzhmz.ImageAlignment = DevExpress.XtraPrinting.ImageAlignment.MiddleCenter;
+            this.picHintAzhmz.LocationFloat = new DevExpress.Utils.PointFloat(2.1547F, 0F);
+            this.picHintAzhmz.Name = "picHintAzhmz";
+            this.picHintAzhmz.SizeF = new System.Drawing.SizeF(69.27248F, 32F);
+            this.picHintAzhmz.StylePriority.UseBorders = false;
             // 
             // cellAzhmzItem
             // 
@@ -11287,16 +11289,16 @@
             this.xrLabel244.StylePriority.UseBorders = false;
             this.xrLabel244.StylePriority.UseFont = false;
             // 
-            // dtRtpGa
+            // dtRptGa
             // 
-            this.dtRtpGa.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
+            this.dtRptGa.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.Detail23,
-            this.dtRtpGaGroup,
+            this.dtRptGaGroup,
             this.dtRptGaFxpg});
-            this.dtRtpGa.Dpi = 100F;
-            this.dtRtpGa.Expanded = false;
-            this.dtRtpGa.Level = 10;
-            this.dtRtpGa.Name = "dtRtpGa";
+            this.dtRptGa.Dpi = 100F;
+            this.dtRptGa.Expanded = false;
+            this.dtRptGa.Level = 10;
+            this.dtRptGa.Name = "dtRptGa";
             // 
             // Detail23
             // 
@@ -11337,14 +11339,14 @@
             this.xrLabel274.StylePriority.UseForeColor = false;
             this.xrLabel274.Text = "肝癌";
             // 
-            // dtRtpGaGroup
+            // dtRptGaGroup
             // 
-            this.dtRtpGaGroup.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
+            this.dtRptGaGroup.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.Detail24,
             this.GroupHeader8});
-            this.dtRtpGaGroup.Dpi = 100F;
-            this.dtRtpGaGroup.Level = 0;
-            this.dtRtpGaGroup.Name = "dtRtpGaGroup";
+            this.dtRptGaGroup.Dpi = 100F;
+            this.dtRptGaGroup.Level = 0;
+            this.dtRptGaGroup.Name = "dtRptGaGroup";
             // 
             // Detail24
             // 
@@ -11389,20 +11391,20 @@
             // xrTableCell113
             // 
             this.xrTableCell113.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrPictureBox27});
+            this.picHintGa});
             this.xrTableCell113.Dpi = 100F;
             this.xrTableCell113.Name = "xrTableCell113";
             this.xrTableCell113.Weight = 0.31346523034418633D;
             // 
-            // xrPictureBox27
+            // picHintGa
             // 
-            this.xrPictureBox27.Borders = DevExpress.XtraPrinting.BorderSide.None;
-            this.xrPictureBox27.Dpi = 100F;
-            this.xrPictureBox27.ImageAlignment = DevExpress.XtraPrinting.ImageAlignment.MiddleCenter;
-            this.xrPictureBox27.LocationFloat = new DevExpress.Utils.PointFloat(2.204863F, 0F);
-            this.xrPictureBox27.Name = "xrPictureBox27";
-            this.xrPictureBox27.SizeF = new System.Drawing.SizeF(69.27576F, 30.00011F);
-            this.xrPictureBox27.StylePriority.UseBorders = false;
+            this.picHintGa.Borders = DevExpress.XtraPrinting.BorderSide.None;
+            this.picHintGa.Dpi = 100F;
+            this.picHintGa.ImageAlignment = DevExpress.XtraPrinting.ImageAlignment.MiddleCenter;
+            this.picHintGa.LocationFloat = new DevExpress.Utils.PointFloat(2.204863F, 0F);
+            this.picHintGa.Name = "picHintGa";
+            this.picHintGa.SizeF = new System.Drawing.SizeF(69.27576F, 30.00011F);
+            this.picHintGa.StylePriority.UseBorders = false;
             // 
             // cellGaItem
             // 
@@ -11535,6 +11537,7 @@
             this.Detail25,
             this.ReportFooter6});
             this.dtRptGaFxpg.Dpi = 100F;
+            this.dtRptGaFxpg.Expanded = false;
             this.dtRptGaFxpg.Level = 1;
             this.dtRptGaFxpg.Name = "dtRptGaFxpg";
             // 
@@ -12439,7 +12442,6 @@
             this.GroupHeader9.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.xrTable22});
             this.GroupHeader9.Dpi = 100F;
-            this.GroupHeader9.Expanded = false;
             this.GroupHeader9.HeightF = 64F;
             this.GroupHeader9.Name = "GroupHeader9";
             // 
@@ -12546,7 +12548,7 @@
             // Detail28
             // 
             this.Detail28.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrLabel39,
+            this.lblWaAbasableDf,
             this.lblWaAverDf,
             this.lblWaBestDf,
             this.lblWaDf,
@@ -12587,17 +12589,17 @@
             this.Detail28.HeightF = 532.0621F;
             this.Detail28.Name = "Detail28";
             // 
-            // xrLabel39
+            // lblWaAbasableDf
             // 
-            this.xrLabel39.Dpi = 100F;
-            this.xrLabel39.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(137)))), ((int)(((byte)(44)))));
-            this.xrLabel39.LocationFloat = new DevExpress.Utils.PointFloat(702.4273F, 253.8747F);
-            this.xrLabel39.Name = "xrLabel39";
-            this.xrLabel39.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel39.SizeF = new System.Drawing.SizeF(71.4071F, 29.24995F);
-            this.xrLabel39.StylePriority.UseForeColor = false;
-            this.xrLabel39.StylePriority.UseTextAlignment = false;
-            this.xrLabel39.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblWaAbasableDf.Dpi = 100F;
+            this.lblWaAbasableDf.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(137)))), ((int)(((byte)(44)))));
+            this.lblWaAbasableDf.LocationFloat = new DevExpress.Utils.PointFloat(702.4273F, 253.8747F);
+            this.lblWaAbasableDf.Name = "lblWaAbasableDf";
+            this.lblWaAbasableDf.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.lblWaAbasableDf.SizeF = new System.Drawing.SizeF(71.4071F, 29.24995F);
+            this.lblWaAbasableDf.StylePriority.UseForeColor = false;
+            this.lblWaAbasableDf.StylePriority.UseTextAlignment = false;
+            this.lblWaAbasableDf.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
             // lblWaAverDf
             // 
@@ -13302,7 +13304,6 @@
             this.dtRptQlxaGroup,
             this.dtRptQlxaFxpg});
             this.dtRptQlxa.Dpi = 100F;
-            this.dtRptQlxa.Expanded = false;
             this.dtRptQlxa.Level = 12;
             this.dtRptQlxa.Name = "dtRptQlxa";
             // 
@@ -13550,7 +13551,7 @@
             // Detail31
             // 
             this.Detail31.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.lblAbasableDf,
+            this.lblQlxaAbasableDf,
             this.lblAverDf,
             this.lblQlxaBestDf,
             this.lblQlxaDf,
@@ -13591,17 +13592,17 @@
             this.Detail31.HeightF = 529.9788F;
             this.Detail31.Name = "Detail31";
             // 
-            // lblAbasableDf
+            // lblQlxaAbasableDf
             // 
-            this.lblAbasableDf.Dpi = 100F;
-            this.lblAbasableDf.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(137)))), ((int)(((byte)(44)))));
-            this.lblAbasableDf.LocationFloat = new DevExpress.Utils.PointFloat(700.9595F, 252.6248F);
-            this.lblAbasableDf.Name = "lblAbasableDf";
-            this.lblAbasableDf.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.lblAbasableDf.SizeF = new System.Drawing.SizeF(70.91913F, 29.24995F);
-            this.lblAbasableDf.StylePriority.UseForeColor = false;
-            this.lblAbasableDf.StylePriority.UseTextAlignment = false;
-            this.lblAbasableDf.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblQlxaAbasableDf.Dpi = 100F;
+            this.lblQlxaAbasableDf.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(137)))), ((int)(((byte)(44)))));
+            this.lblQlxaAbasableDf.LocationFloat = new DevExpress.Utils.PointFloat(700.9595F, 252.6248F);
+            this.lblQlxaAbasableDf.Name = "lblQlxaAbasableDf";
+            this.lblQlxaAbasableDf.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.lblQlxaAbasableDf.SizeF = new System.Drawing.SizeF(70.91913F, 29.24995F);
+            this.lblQlxaAbasableDf.StylePriority.UseForeColor = false;
+            this.lblQlxaAbasableDf.StylePriority.UseTextAlignment = false;
+            this.lblQlxaAbasableDf.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
             // lblAverDf
             // 
@@ -14307,6 +14308,7 @@
             this.dtRptFpzGroup,
             this.dtRptFpzFxpg});
             this.dtRptFpz.Dpi = 100F;
+            this.dtRptFpz.Expanded = false;
             this.dtRptFpz.Level = 6;
             this.dtRptFpz.Name = "dtRptFpz";
             // 
@@ -15328,6 +15330,7 @@
             this.xrLabel399,
             this.xrLabel400});
             this.Detail35.Dpi = 100F;
+            this.Detail35.Expanded = false;
             this.Detail35.HeightF = 90.00002F;
             this.Detail35.Name = "Detail35";
             // 
@@ -15367,6 +15370,7 @@
             this.Detail36,
             this.GroupHeader12});
             this.dtRptNzzGroup.Dpi = 100F;
+            this.dtRptNzzGroup.Expanded = false;
             this.dtRptNzzGroup.Level = 0;
             this.dtRptNzzGroup.Name = "dtRptNzzGroup";
             // 
@@ -15558,6 +15562,7 @@
             this.Detail37,
             this.ReportFooter11});
             this.dtRptNzzFxpg.Dpi = 100F;
+            this.dtRptNzzFxpg.Expanded = false;
             this.dtRptNzzFxpg.Level = 1;
             this.dtRptNzzFxpg.Name = "dtRptNzzFxpg";
             // 
@@ -16772,7 +16777,7 @@
             this.dtRptXzyc,
             this.dtRptAzhmz,
             this.dtRptFa,
-            this.dtRtpGa,
+            this.dtRptGa,
             this.dtRptWa,
             this.dtRptQlxa,
             this.dtRptFpz,
@@ -17330,7 +17335,7 @@
         private DevExpress.XtraReports.UI.XRTable xrTable17;
         private DevExpress.XtraReports.UI.XRTableRow xrTableRow34;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell93;
-        private DevExpress.XtraReports.UI.XRPictureBox picHitAzhmz;
+        private DevExpress.XtraReports.UI.XRPictureBox picHintAzhmz;
         private DevExpress.XtraReports.UI.XRTableCell cellAzhmzItem;
         private DevExpress.XtraReports.UI.XRTableCell cellAzhmzResult;
         private DevExpress.XtraReports.UI.XRTableCell cellAzhmzRange;
@@ -17443,16 +17448,16 @@
         private DevExpress.XtraReports.UI.XRLabel xrLabel271;
         private DevExpress.XtraReports.UI.XRChart xrChartFa;
         private DevExpress.XtraReports.UI.XRLabel xrLabel272;
-        private DevExpress.XtraReports.UI.DetailReportBand dtRtpGa;
+        private DevExpress.XtraReports.UI.DetailReportBand dtRptGa;
         private DevExpress.XtraReports.UI.DetailBand Detail23;
         private DevExpress.XtraReports.UI.XRLabel xrLabel273;
         private DevExpress.XtraReports.UI.XRLabel xrLabel274;
-        private DevExpress.XtraReports.UI.DetailReportBand dtRtpGaGroup;
+        private DevExpress.XtraReports.UI.DetailReportBand dtRptGaGroup;
         private DevExpress.XtraReports.UI.DetailBand Detail24;
         private DevExpress.XtraReports.UI.XRTable xrTable21;
         private DevExpress.XtraReports.UI.XRTableRow xrTableRow38;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell113;
-        private DevExpress.XtraReports.UI.XRPictureBox xrPictureBox27;
+        private DevExpress.XtraReports.UI.XRPictureBox picHintGa;
         private DevExpress.XtraReports.UI.XRTableCell cellGaItem;
         private DevExpress.XtraReports.UI.XRTableCell cellGaResult;
         private DevExpress.XtraReports.UI.XRTableCell cellGaRange;
@@ -17992,11 +17997,11 @@
         private DevExpress.XtraReports.UI.XRLabel lblGaAverDf;
         private DevExpress.XtraReports.UI.XRLabel lblGaBestDf;
         private DevExpress.XtraReports.UI.XRLabel lblGaDf;
-        private DevExpress.XtraReports.UI.XRLabel xrLabel39;
+        private DevExpress.XtraReports.UI.XRLabel lblWaAbasableDf;
         private DevExpress.XtraReports.UI.XRLabel lblWaAverDf;
         private DevExpress.XtraReports.UI.XRLabel lblWaBestDf;
         private DevExpress.XtraReports.UI.XRLabel lblWaDf;
-        private DevExpress.XtraReports.UI.XRLabel lblAbasableDf;
+        private DevExpress.XtraReports.UI.XRLabel lblQlxaAbasableDf;
         private DevExpress.XtraReports.UI.XRLabel lblAverDf;
         private DevExpress.XtraReports.UI.XRLabel lblQlxaBestDf;
         private DevExpress.XtraReports.UI.XRLabel lblQlxaDf;
