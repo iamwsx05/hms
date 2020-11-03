@@ -475,7 +475,6 @@ namespace Hms.Ui
 
         #endregion
 
-
         #region event
         private void frmpopup2020702_Load(object sender, EventArgs e)
         {

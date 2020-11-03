@@ -184,7 +184,7 @@ namespace Hms.Biz
         {
             List<EntityQnSetting> data = null;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
-            List<EntityDicQnSetting> lstSet = EntityTools.ConvertToEntityList<EntityDicQnSetting>(svc.Select(new EntityDicQnDetail() { qnId = qnId }, EntityDicQnDetail.Columns.qnId));
+            List<EntityDicQnSetting> lstSet = EntityTools.ConvertToEntityList<EntityDicQnSetting>(svc.Select(new EntityDicQnSetting() { qnId = qnId }, EntityDicQnSetting.Columns.qnId));
 
             if (lstSet != null && lstSet.Count > 0)
             {
@@ -204,6 +204,62 @@ namespace Hms.Biz
                             lstItems.Sort();
                             int i = 0;
                             foreach (EntityDicQnSetting item2 in lstItems)
+                            {
+                                qnDesc += Convert.ToString(++i) + "、" + item2.fieldName + "     ";
+                            }
+                        }
+                        qnVo = new EntityQnSetting();
+                        qnVo.qnId = item.qnId;
+                        qnVo.isCheck = 0;
+                        if (item.typeId == "1")
+                            qnVo.className = "单选题";
+                        else if (item.typeId == "2")
+                            qnVo.className = "多选题";
+                        else if (item.typeId == "3")
+                            qnVo.className = "填空题";
+                        else
+                            qnVo.className = "其他";
+                        qnVo.fieldId = item.fieldId;
+                        qnVo.fieldName = "  " + item.fieldName;
+                        qnVo.sortNo = item.sortNo;
+                        qnVo.qnDesc = qnDesc;
+                        data.Add(qnVo);
+                    }
+                }
+            }
+            return data;
+        }
+        #endregion
+
+        #region GetQnSetting
+        /// <summary>
+        /// GetQnSetting
+        /// </summary>
+        /// <returns></returns>
+        public List<EntityQnSetting> GetQnSettingFromSummary()
+        {
+            List<EntityQnSetting> data = null;
+            SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
+            List<EntityDicQnSummary> lstSet = EntityTools.ConvertToEntityList<EntityDicQnSummary>(svc.Select(new EntityDicQnSummary()));
+
+            if (lstSet != null && lstSet.Count > 0)
+            {
+                data = new List<EntityQnSetting>();
+                // 获取题目
+                List<EntityDicQnSummary> lstTopic = lstSet.FindAll(t => t.isParent == 1);
+                if (lstTopic != null && lstTopic.Count > 0)
+                {
+                    EntityQnSetting qnVo = null;
+                    List<EntityDicQnSummary> lstItems = null;
+                    foreach (EntityDicQnSummary item in lstTopic)
+                    {
+                        string qnDesc = "    ";
+                        lstItems = lstSet.FindAll(t => !string.IsNullOrEmpty(t.parentFieldId) && t.parentFieldId.Trim() != "" && t.parentFieldId == item.fieldId);
+                        if (lstItems != null && lstItems.Count > 0)
+                        {
+                            lstItems.Sort();
+                            int i = 0;
+                            foreach (EntityDicQnSummary item2 in lstItems)
                             {
                                 qnDesc += Convert.ToString(++i) + "、" + item2.fieldName + "     ";
                             }
@@ -258,11 +314,22 @@ namespace Hms.Biz
                      inner join dicQnDetail b
                         on a.qnId = b.qnId
                      inner join dicQnSetting c
-                        on b.fieldId = c.fieldId
+                        on b.fieldId = c.fieldId and a.qnId = c.qnId 
                      where a.qnId = ? 
-                       and c.qnId = ?
-                       and c.status = 1  
-                     order by c.sortNo ";
+                       and c.status = 1                   
+                    union all
+                    select c.qnClassId,
+                           c.typeId,
+                           c.fieldId,
+                           c.fieldName,
+                           c.isEssential,
+                           c.parentFieldId,
+						   '' as questName
+                     from dicQnMain a
+                          inner join dicQnSetting c
+                          on a.qnId = c.qnId
+                          where a.qnId = ?
+                          and c.status = 1   ";
 
             parm = svc.CreateParm(2);
             parm[0].Value = qnId;
@@ -329,24 +396,24 @@ namespace Hms.Biz
         /// GetQnList
         /// </summary>
         /// <returns></returns>
-        public List<EntityDicQnSetting> GetQnList()
+        public List<EntityDicQnSummary> GetQnList()
         {
-            List<EntityDicQnSetting> dataSource = new List<EntityDicQnSetting>();
+            List<EntityDicQnSummary> dataSource = new List<EntityDicQnSummary>();
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
-            List<EntityDicQnSetting> tmpData = EntityTools.ConvertToEntityList<EntityDicQnSetting>(svc.Select(new EntityDicQnSetting()));
-            foreach (EntityDicQnSetting item in tmpData)
+            List<EntityDicQnSummary> tmpData = EntityTools.ConvertToEntityList<EntityDicQnSummary>(svc.Select(new EntityDicQnSummary()));
+            foreach (EntityDicQnSummary item in tmpData)
             {
                 if (item.isParent == 1)
                     dataSource.Add(item);
             }
-            List<EntityDicQnSetting> subData = null;
-            foreach (EntityDicQnSetting item in dataSource)
+            List<EntityDicQnSummary> subData = null;
+            foreach (EntityDicQnSummary item in dataSource)
             {
                 subData = tmpData.FindAll(t => t.parentFieldId == item.fieldId);
                 if (subData != null && subData.Count > 0)
                 {
                     int num = 0;
-                    foreach (EntityDicQnSetting item2 in subData)
+                    foreach (EntityDicQnSummary item2 in subData)
                     {
                         item.qnItemsDesc += Convert.ToString(++num) + "、" + item2.fieldName + "; ";
                     }
@@ -385,14 +452,14 @@ namespace Hms.Biz
         /// </summary>
         /// <param name="fieldId"></param>
         /// <returns></returns>
-        public List<EntityDicQnSetting> GetTopicItems(string fieldId)
+        public List<EntityDicQnSummary> GetTopicItems(string fieldId)
         {
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
-            List<EntityDicQnSetting> data = EntityTools.ConvertToEntityList<EntityDicQnSetting>(svc.Select(new EntityDicQnSetting() { parentFieldId = fieldId }, EntityDicQnSetting.Columns.parentFieldId));
+            List<EntityDicQnSummary> data = EntityTools.ConvertToEntityList<EntityDicQnSummary>(svc.Select(new EntityDicQnSummary() { parentFieldId = fieldId }, EntityDicQnSummary.Columns.parentFieldId));
             if (data != null)
             {
                 data.Sort();
-                foreach (EntityDicQnSetting item in data)
+                foreach (EntityDicQnSummary item in data)
                 {
                     item.pyCode = SpellCodeHelper.GetPyCode(item.fieldName);
                     item.wbCode = SpellCodeHelper.GetWbCode(item.fieldName);
@@ -450,7 +517,7 @@ namespace Hms.Biz
         /// <param name="lstSub"></param>
         /// <param name="fieldId"></param>
         /// <returns></returns>
-        public int SaveQnTopic(EntityDicQnSetting mainVo, List<EntityDicQnSetting> lstSub, out string fieldId)
+        public int SaveQnTopic(EntityDicQnSummary mainVo, List<EntityDicQnSummary> lstSub, out string fieldId)
         {
             int affectRows = 0;
             SqlHelper svc = null;
@@ -464,7 +531,7 @@ namespace Hms.Biz
 
                 if (string.IsNullOrEmpty(fieldId))
                 {
-                    int nextId = svc.GetNextID("dicQnSetting", "fieldId");
+                    int nextId = svc.GetNextID("dicQnSummary", "fieldId");
                     fieldId = "T" + nextId.ToString().PadLeft(6, '0');
                     mainVo.fieldId = fieldId;
                     if (mainVo.sortNo == 0)
@@ -472,7 +539,7 @@ namespace Hms.Biz
 
                     if (lstSub != null)
                     {
-                        foreach (EntityDicQnSetting item in lstSub)
+                        foreach (EntityDicQnSummary item in lstSub)
                         {
                             item.fieldId = fieldId + Convert.ToString(++num).PadLeft(2, '0');
                         }
@@ -480,24 +547,26 @@ namespace Hms.Biz
                 }
                 else
                 {
-                    EntityDicQnSetting vo = new EntityDicQnSetting();
+                    EntityDicQnSummary vo = new EntityDicQnSummary();
                     vo.fieldId = fieldId;
                     vo.parentFieldId = fieldId;
-                    lstParm.Add(svc.GetDelParm(vo, EntityDicQnSetting.Columns.fieldId));
-                    lstParm.Add(svc.GetDelParm(vo, EntityDicQnSetting.Columns.parentFieldId));
+                    lstParm.Add(svc.GetDelParm(vo, EntityDicQnSummary.Columns.fieldId));
+                    lstParm.Add(svc.GetDelParm(vo, EntityDicQnSummary.Columns.parentFieldId));
                 }
                 if (lstSub != null)
                 {
                     num = 0;
-                    foreach (EntityDicQnSetting item in lstSub)
+                    foreach (EntityDicQnSummary item in lstSub)
                     {
                         item.qnClassId = mainVo.qnClassId;
                         item.typeId = mainVo.typeId;
+                        item.fieldId = fieldId + num;
                         item.parentFieldId = fieldId;
                         item.isEssential = mainVo.isEssential;
                         item.isParent = 0;
                         item.status = mainVo.status;
                         item.sortNo = ++num;
+                        item.fieldId = fieldId + num.ToString().PadLeft(3,'0');
                     }
                 }
 

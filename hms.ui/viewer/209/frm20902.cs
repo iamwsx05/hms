@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
+using Hms.Entity;
 
 namespace Hms.Ui
 {
@@ -53,7 +54,7 @@ namespace Hms.Ui
             }
             for (int i = 0; i < this.gridView.RowCount; i++)
             {
-                if ((this.gridView.GetRow(i) as EntityDicQnSetting).fieldId == fieldId)
+                if ((this.gridView.GetRow(i) as EntityDicQnSummary).fieldId == fieldId)
                 {
                     this.gridView.FocusedRowHandle = i;
                     this.gridView.SelectRow(i);
@@ -87,7 +88,7 @@ namespace Hms.Ui
         {
             if (this.gridView.SelectedRowsCount > 0)
             {
-                frmPopup20902 frm = new frmPopup20902(this.gridView.GetRow(this.gridView.GetSelectedRows()[0]) as EntityDicQnSetting);
+                frmPopup20902 frm = new frmPopup20902(this.gridView.GetRow(this.gridView.GetSelectedRows()[0]) as EntityDicQnSummary);
                 frm.ShowDialog();
                 if (frm.IsRequireRefresh)
                 {

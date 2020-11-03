@@ -38,7 +38,6 @@ namespace Hms.Ui
         List<EntityRiskFactor> lstRiskFactor { get; set; }
         /// 问卷家族疾病史
         List<EntityQnFamilyDease> lstFamilyDease { get; set; }
-
         List<EntitymModelAccessRecord> lstMdAccessRecords { get; set; }
         //体检小结信息
         List<EntityTjResult> lstXjResult;
@@ -146,6 +145,11 @@ namespace Hms.Ui
                 parm.key = "clientNo";
                 parm.value = vo.clientNo;
                 lstParms.Add(parm);
+                EntityParm parm2 = new EntityParm();
+                parm2.key = "qnType";
+                parm2.value = "1";
+                lstParms.Add(parm2);
+
                 using (ProxyHms proxy = new ProxyHms())
                 {
                     dataQn = proxy.Service.GetQnRecords(lstParms);
@@ -251,7 +255,7 @@ namespace Hms.Ui
                 EntitymModelAccessRecord vo = GetRowObject();
                 if (vo != null)
                 {
-                    if( string.IsNullOrEmpty(vo.qnData) )
+                    if(!string.IsNullOrEmpty(vo.qnData) )
                     {
                         EntitymModelAccessRecord voR = new EntitymModelAccessRecord();
                         voR.regNo = vo.regNo;
@@ -261,12 +265,20 @@ namespace Hms.Ui
                         {
                             affect = proxy.Service.UnConfirmRpt(voR);
                         }
-                    }   
+                    }  
+                    else
+                    {
+                        return;
+                    }
                 }
 
                 if(affect >0 )
                 {
                     this.Search();
+                }
+                else
+                {
+                    DialogBox.Msg("反审核失败！");
                 }
             }
         }

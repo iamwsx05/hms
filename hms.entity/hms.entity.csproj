@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="entityadpeitem.cs" />
+    <Compile Include="entitydicqnsummary .cs" />
     <Compile Include="entitydietdetails.cs" />
     <Compile Include="entityclienttnbresult.cs" />
     <Compile Include="entityclientgxyresult.cs" />

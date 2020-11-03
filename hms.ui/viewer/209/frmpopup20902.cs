@@ -1,4 +1,5 @@
 ﻿using Common.Controls;
+using Hms.Entity;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -25,7 +26,7 @@ namespace Hms.Ui
         /// ctor
         /// </summary>
         /// <param name="_topicVo"></param>
-        public frmPopup20902(EntityDicQnSetting _topicVo)
+        public frmPopup20902(EntityDicQnSummary _topicVo)
         {
             InitializeComponent();
             TopicVo = _topicVo;
@@ -35,7 +36,7 @@ namespace Hms.Ui
 
         #region var/property
 
-        public EntityDicQnSetting TopicVo { get; set; }
+        public EntityDicQnSummary TopicVo { get; set; }
 
         BindingSource gvDataBindingSourceItems { get; set; }
 
@@ -52,7 +53,7 @@ namespace Hms.Ui
         void Init()
         {
             this.gvDataBindingSourceItems = new BindingSource();
-            this.gvDataBindingSourceItems.DataSource = new List<EntityDicQnSetting>();
+            this.gvDataBindingSourceItems.DataSource = new List<EntityDicQnSummary>();
             this.gcItems.DataSource = this.gvDataBindingSourceItems;
 
             if (TopicVo != null)
@@ -66,7 +67,7 @@ namespace Hms.Ui
 
                 if (TopicVo.typeId == "1" || TopicVo.typeId == "2")
                 {
-                    List<EntityDicQnSetting> items = (new ProxyHms()).Service.GetTopicItems(this.TopicVo.fieldId);
+                    List<EntityDicQnSummary> items = (new ProxyHms()).Service.GetTopicItems(this.TopicVo.fieldId);
                     this.gvDataBindingSourceItems.DataSource = items;
                 }
             }
@@ -93,7 +94,7 @@ namespace Hms.Ui
         /// </summary>
         void Save()
         {
-            EntityDicQnSetting mainVo = new EntityDicQnSetting();
+            EntityDicQnSummary mainVo = new EntityDicQnSummary();
             mainVo.qnClassId = 2;
             mainVo.typeId = Convert.ToString(this.cboType.SelectedIndex + 1);
             mainVo.isParent = 1;
@@ -116,10 +117,10 @@ namespace Hms.Ui
             }
 
             this.gvItems.CloseEditor();
-            List<EntityDicQnSetting> lstSub = new List<EntityDicQnSetting>();
+            List<EntityDicQnSummary> lstSub = new List<EntityDicQnSummary>();
             if (this.gvItems.RowCount > 0)
             {
-                lstSub = this.gvDataBindingSourceItems.DataSource as List<EntityDicQnSetting>;
+                lstSub = this.gvDataBindingSourceItems.DataSource as List<EntityDicQnSummary>;
             }
             string fieldId = string.Empty;
             using (ProxyHms proxy = new ProxyHms())
@@ -128,7 +129,7 @@ namespace Hms.Ui
                 {
                     if (this.TopicVo == null)
                     {
-                        this.TopicVo = new EntityDicQnSetting() { fieldId = fieldId };
+                        this.TopicVo = new EntityDicQnSummary() { fieldId = fieldId };
                     }
                     this.IsRequireRefresh = true;
                     DialogBox.Msg("保存题目成功！");

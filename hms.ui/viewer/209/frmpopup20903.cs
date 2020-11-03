@@ -12,6 +12,7 @@ using Common.Controls;
 using Common.Entity;
 using weCare.Core.Entity;
 using weCare.Core.Utils;
+using Hms.Entity;
 
 namespace Hms.Ui
 {
@@ -186,7 +187,7 @@ namespace Hms.Ui
             if (string.IsNullOrEmpty(fieldId)) return;
             using (ProxyHms proxy = new ProxyHms())
             {
-                List<EntityDicQnSetting> data = proxy.Service.GetTopicItems(fieldId);
+                List<EntityDicQnSummary> data = proxy.Service.GetTopicItems(fieldId);
                 if (data != null)
                 {
                     this.lueField.Properties.DataSource = data.ToArray();

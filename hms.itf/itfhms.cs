@@ -703,23 +703,31 @@ namespace Hms.Itf
         [OperationContract(Name = "GetQnSetting")]
         List<EntityQnSetting> GetQnSetting(decimal qnId);
 
+        /// <summary>
+        /// GetQnSettingFromSummary
+        /// </summary>
+        /// <returns></returns>
+        [OperationContract(Name = "GetQnSettingFromSummary")]
+        List<EntityQnSetting> GetQnSettingFromSummary();
+        
+
         [OperationContract(Name = "GetQnCustom")]
         void GetQnCustom(decimal qnId, out List<EntityDicQnSetting> lstTopic, out List<EntityDicQnSetting> lstItems);
 
         [OperationContract(Name = "GetQnList")]
-        List<EntityDicQnSetting> GetQnList();
+        List<EntityDicQnSummary> GetQnList();
 
         [OperationContract(Name = "GetTopics")]
         List<EntityDicQnSetting> GetTopics();
 
         [OperationContract(Name = "GetTopicItems")]
-        List<EntityDicQnSetting> GetTopicItems(string fieldId);
+        List<EntityDicQnSummary> GetTopicItems(string fieldId);
 
         [OperationContract(Name = "DeleteQnTopic")]
         int DeleteQnTopic(string fieldId);
 
         [OperationContract(Name = "SaveQnTopic")]
-        int SaveQnTopic(EntityDicQnSetting mainVo, List<EntityDicQnSetting> lstSub, out string fieldId);
+        int SaveQnTopic(EntityDicQnSummary mainVo, List<EntityDicQnSummary> lstSub, out string fieldId);
 
         [OperationContract(Name = "SaveHazards")]
         int SaveHazards(EntityDicHazards vo, out decimal hId);

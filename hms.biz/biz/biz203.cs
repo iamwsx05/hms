@@ -345,10 +345,9 @@ namespace Hms.Biz
         {
             int affect = -1;
             SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
-            string sql = "update modelAccessRecord set status = 0 where regNo = ? and qnRecId = ?";
-            IDataParameter[] param = svc.CreateParm(2);
-            param[0].Value = mdAccessRecord.regNo;
-            param[1].Value = mdAccessRecord.qnRecId;
+            string sql = "update modelAccessRecord set status = 0 where  qnRecId = ?";
+            IDataParameter[] param = svc.CreateParm(1);
+            param[0].Value = mdAccessRecord.qnRecId;
             affect = svc.ExecSql(sql, param);
             return affect;
         }

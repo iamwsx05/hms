@@ -1202,6 +1202,21 @@ namespace Hms.Svc
         }
         #endregion
 
+        #region GetQnSettingFromSummary
+        /// <summary>
+        /// GetQnSettingFromSummary
+        /// </summary>
+        /// <returns></returns>
+        public List<EntityQnSetting> GetQnSettingFromSummary()
+        {
+            using (Biz209 biz = new Biz209())
+            {
+                return biz.GetQnSettingFromSummary();
+            }
+        }
+        #endregion
+
+
         #region GetQnCustom
         /// <summary>
         /// GetQnCustom
@@ -1223,7 +1238,7 @@ namespace Hms.Svc
         /// GetQnList
         /// </summary>
         /// <returns></returns>
-        public List<EntityDicQnSetting> GetQnList()
+        public List<EntityDicQnSummary> GetQnList()
         {
             using (Biz209 biz = new Biz209())
             {
@@ -1255,7 +1270,7 @@ namespace Hms.Svc
         /// <param name="lstSub"></param>
         /// <param name="fieldId"></param>
         /// <returns></returns>
-        public int SaveQnTopic(EntityDicQnSetting mainVo, List<EntityDicQnSetting> lstSub, out string fieldId)
+        public int SaveQnTopic(EntityDicQnSummary mainVo, List<EntityDicQnSummary> lstSub, out string fieldId)
         {
             using (Biz209 biz = new Biz209())
             {
@@ -1284,7 +1299,7 @@ namespace Hms.Svc
         /// </summary>
         /// <param name="fieldId"></param>
         /// <returns></returns>
-        public List<EntityDicQnSetting> GetTopicItems(string fieldId)
+        public List<EntityDicQnSummary> GetTopicItems(string fieldId)
         {
             using (Biz209 biz = new Biz209())
             {

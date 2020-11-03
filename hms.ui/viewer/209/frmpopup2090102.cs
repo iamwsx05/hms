@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using weCare.Core.Entity;
+using Hms.Entity;
+using weCare.Core.Utils;
 
 namespace Hms.Ui
 {
@@ -39,6 +41,8 @@ namespace Hms.Ui
         public EntityDicQnMain QnVo { get; set; }
 
         List<EntityQnSetting> DataSource { get; set; }
+        List<EntityDicQnSetting> lstDicQnSetting { get; set; }
+        List<EntityDicQnSummary> lstQnSummary { get; set; }
 
         public bool IsRequireRefresh { get; set; }
 
@@ -58,7 +62,8 @@ namespace Hms.Ui
                 List<EntityDicQnDetail> lstDetails = null;
                 using (ProxyHms proxy = new ProxyHms())
                 {
-                    DataSource = proxy.Service.GetQnSetting(this.QnVo.qnId);
+                    DataSource = proxy.Service.GetQnSettingFromSummary();
+                    lstQnSummary = proxy.Service.GetQnList();
                     lstDetails = proxy.Service.GetQnDetail(this.QnVo.qnId);
                     if (DataSource != null && DataSource.Count > 0 && lstDetails != null && lstDetails.Count > 0)
                     {
@@ -106,20 +111,30 @@ namespace Hms.Ui
             }
             // 明细缓
             this.gridView.CloseEditor();
+            lstDicQnSetting = new List<EntityDicQnSetting>();
             List<EntityQnSetting> data = this.gridControl.DataSource as List<EntityQnSetting>;
             List<EntityDicQnDetail> lstDet = new List<EntityDicQnDetail>();
             foreach (EntityQnSetting item in data)
             {
                 if (item.isCheck == 1)
                 {
-                    lstDet.Add(new EntityDicQnDetail() { fieldId = item.fieldId });
+                    lstDet.Add(new EntityDicQnDetail() { fieldId = item.fieldId,qnId=item.qnId });
+                    EntityDicQnSummary qnSummaryVo = lstQnSummary.Find(r=>r.fieldId == item.fieldId );
+                    if(qnSummaryVo != null)
+                    {
+                        EntityDicQnSetting setVo = new EntityDicQnSetting();
+                        setVo = Function.MapperToModel(setVo, qnSummaryVo);
+                        setVo.qnId = item.qnId;
+                        lstDicQnSetting.Add(setVo);
+                    }
+                        
                 }
             }
 
             decimal qnId = 0;
             using (ProxyHms proxy = new ProxyHms())
             {
-                if (proxy.Service.SaveQNnormal(vo, lstDet, out qnId) > 0)
+                if (proxy.Service.SaveQNnormal(vo, lstDet, out qnId,null, lstDicQnSetting) > 0)
                 {
                     if (this.QnVo == null)
                     {

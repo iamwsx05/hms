@@ -72,7 +72,7 @@ namespace weCare.Core.Entity
         /// sortNo
         /// </summary>
         [DataMember]
-        [EntityAttribute(FieldName = "sortNo", DbType = DbType.Decimal, IsPK = false, IsSeq = false, SerNo = 9)]
+        [EntityAttribute(FieldName = "sortNo", DbType = DbType.Int32, IsPK = false, IsSeq = false, SerNo = 9)]
         public System.Int32 sortNo { get; set; }
 
         /// <summary>
@@ -197,8 +197,11 @@ namespace weCare.Core.Entity
     public class EntityQnSetting : BaseDataContract
     {
         [DataMember]
+        public decimal qnId { get; set; }
+        [DataMember]
         public int isCheck { get; set; }
 
+        
         [DataMember]
         public string className { get; set; }
 
@@ -224,6 +227,7 @@ namespace weCare.Core.Entity
         /// </summary>
         public class EnumCols
         {
+            public string qnId = "qnId";
             public string isCheck = "isCheck";
             public string className = "className";
             public string fieldId = "fieldId";
