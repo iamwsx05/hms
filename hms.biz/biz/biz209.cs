@@ -316,20 +316,7 @@ namespace Hms.Biz
                      inner join dicQnSetting c
                         on b.fieldId = c.fieldId and a.qnId = c.qnId 
                      where a.qnId = ? 
-                       and c.status = 1                   
-                    union all
-                    select c.qnClassId,
-                           c.typeId,
-                           c.fieldId,
-                           c.fieldName,
-                           c.isEssential,
-                           c.parentFieldId,
-						   '' as questName
-                     from dicQnMain a
-                          inner join dicQnSetting c
-                          on a.qnId = c.qnId
-                          where a.qnId = ?
-                          and c.status = 1   ";
+                       and c.status = 1 ";
 
             parm = svc.CreateParm(2);
             parm[0].Value = qnId;
@@ -352,7 +339,7 @@ namespace Hms.Biz
                         isEssential = Function.Int(dr["isEssential"]),
                         questName = dr["questName"].ToString()
                     });
-                    parentFieldId = dr["parentFieldId"].ToString();
+                    parentFieldId = dr["parentFieldId"].ToString().Trim();
                     if (string.IsNullOrEmpty(parentFieldId))
                         fieldIds += "'" + dr["fieldId"].ToString() + "',";
                     if (fieldIds.Contains(parentFieldId))
@@ -419,6 +406,25 @@ namespace Hms.Biz
                     }
                     item.qnItemsDesc = item.qnItemsDesc.Trim().TrimEnd(';');
                 }
+            }
+            return dataSource;
+        }
+        #endregion
+
+
+        #region GetDicQnSummary
+        /// <summary>
+        /// GetDicQnSummary
+        /// </summary>
+        /// <returns></returns>
+        public List<EntityDicQnSummary> GetDicQnSummary()
+        {
+            List<EntityDicQnSummary> dataSource = new List<EntityDicQnSummary>();
+            SqlHelper svc = new SqlHelper(EnumBiz.onlineDB);
+            List<EntityDicQnSummary> tmpData = EntityTools.ConvertToEntityList<EntityDicQnSummary>(svc.Select(new EntityDicQnSummary()));
+            foreach (EntityDicQnSummary item in tmpData)
+            {
+                dataSource.Add(item);
             }
             return dataSource;
         }

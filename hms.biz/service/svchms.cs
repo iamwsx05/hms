@@ -1247,6 +1247,20 @@ namespace Hms.Svc
         }
         #endregion
 
+        #region GetDicQnSummary
+        /// <summary>
+        /// GetDicQnSummary
+        /// </summary>
+        /// <returns></returns>
+        public List<EntityDicQnSummary> GetDicQnSummary()
+        {
+            using (Biz209 biz = new Biz209())
+            {
+                return biz.GetDicQnSummary();
+            }
+        }
+        #endregion
+
         #region DeleteQnTopic
         /// <summary>
         /// DeleteQnTopic

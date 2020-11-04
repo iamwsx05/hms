@@ -63,7 +63,7 @@ namespace Hms.Ui
                 using (ProxyHms proxy = new ProxyHms())
                 {
                     DataSource = proxy.Service.GetQnSettingFromSummary();
-                    lstQnSummary = proxy.Service.GetQnList();
+                    lstQnSummary = proxy.Service.GetDicQnSummary();
                     lstDetails = proxy.Service.GetQnDetail(this.QnVo.qnId);
                     if (DataSource != null && DataSource.Count > 0 && lstDetails != null && lstDetails.Count > 0)
                     {
@@ -127,7 +127,18 @@ namespace Hms.Ui
                         setVo.qnId = item.qnId;
                         lstDicQnSetting.Add(setVo);
                     }
-                        
+
+                    List<EntityDicQnSummary> lstSub = lstQnSummary.FindAll(r => r.parentFieldId == item.fieldId);
+                    if(lstSub != null)
+                    {
+                        foreach(var summaryVo in lstSub)
+                        {
+                            EntityDicQnSetting setVo = new EntityDicQnSetting();
+                            setVo = Function.MapperToModel(setVo, summaryVo);
+                            setVo.qnId = item.qnId;
+                            lstDicQnSetting.Add(setVo);
+                        }
+                    }
                 }
             }
 

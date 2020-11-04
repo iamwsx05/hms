@@ -717,6 +717,9 @@ namespace Hms.Itf
         [OperationContract(Name = "GetQnList")]
         List<EntityDicQnSummary> GetQnList();
 
+        [OperationContract(Name = "GetDicQnSummary")]
+        List<EntityDicQnSummary> GetDicQnSummary();
+
         [OperationContract(Name = "GetTopics")]
         List<EntityDicQnSetting> GetTopics();
 
