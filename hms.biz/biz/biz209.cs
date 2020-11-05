@@ -318,9 +318,8 @@ namespace Hms.Biz
                      where a.qnId = ? 
                        and c.status = 1 ";
 
-            parm = svc.CreateParm(2);
+            parm = svc.CreateParm(1);
             parm[0].Value = qnId;
-            parm[1].Value = qnId;
             dt = svc.GetDataTable(Sql, parm);
             if (dt != null && dt.Rows.Count > 0)
             {
@@ -358,9 +357,10 @@ namespace Hms.Biz
                                    c.isEssential,
                                    c.parentFieldId
                               from dicQnSetting c
-                             where c.parentFieldId in ({0}) 
+                             where c.qnId = {0}
+                                and c.parentFieldId in ({1}) 
                                and c.status = 1 ";
-                    dt = svc.GetDataTable(string.Format(Sql, fieldIds));
+                    dt = svc.GetDataTable(string.Format(Sql, qnId, fieldIds));
                     foreach (DataRow dr in dt.Rows)
                     {
                         lstItems.Add(new EntityDicQnSetting()

@@ -64,14 +64,17 @@ namespace Hms.Ui
                 {
                     DataSource = proxy.Service.GetQnSettingFromSummary();
                     lstQnSummary = proxy.Service.GetDicQnSummary();
-                    lstDetails = proxy.Service.GetQnDetail(this.QnVo.qnId);
-                    if (DataSource != null && DataSource.Count > 0 && lstDetails != null && lstDetails.Count > 0)
+                    if(QnVo != null)
                     {
-                        foreach (EntityDicQnDetail item in lstDetails)
+                        lstDetails = proxy.Service.GetQnDetail(this.QnVo.qnId);
+                        if (DataSource != null && DataSource.Count > 0 && lstDetails != null && lstDetails.Count > 0)
                         {
-                            if (DataSource.Any(t => t.fieldId == item.fieldId))
+                            foreach (EntityDicQnDetail item in lstDetails)
                             {
-                                (DataSource.FirstOrDefault(t => t.fieldId == item.fieldId)).isCheck = 1;
+                                if (DataSource.Any(t => t.fieldId == item.fieldId))
+                                {
+                                    (DataSource.FirstOrDefault(t => t.fieldId == item.fieldId)).isCheck = 1;
+                                }
                             }
                         }
                     }
