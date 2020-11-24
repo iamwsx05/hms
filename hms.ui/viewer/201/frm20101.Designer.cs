@@ -96,7 +96,6 @@
             this.repositoryItemCheckEdit1});
             this.gridControl.Size = new System.Drawing.Size(1052, 483);
             this.gridControl.TabIndex = 15;
-            this.gridControl.UseEmbeddedNavigator = true;
             this.gridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView});
             // 
@@ -133,7 +132,6 @@
             this.gridView.Name = "gridView";
             this.gridView.OptionsBehavior.AllowFixedGroups = DevExpress.Utils.DefaultBoolean.True;
             this.gridView.OptionsBehavior.AllowPixelScrolling = DevExpress.Utils.DefaultBoolean.True;
-            this.gridView.OptionsBehavior.AutoExpandAllGroups = true;
             this.gridView.OptionsDetail.EnableMasterViewMode = false;
             this.gridView.OptionsView.GroupDrawMode = DevExpress.XtraGrid.Views.Grid.GroupDrawMode.Office;
             this.gridView.OptionsView.ShowGroupPanel = false;
