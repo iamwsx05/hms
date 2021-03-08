@@ -26,7 +26,8 @@ namespace Hms.Ui
         {
             frmPopup2020203 frm = new frmPopup2020203();
             frm.ShowDialog();
-
+            if (frm.dicQn == null)
+                return;
             frmPopup2020201 frm01 = new frmPopup2020201(frm.dicQn.qnId);
             frm01.ShowDialog();
             if (frm01.IsRequireRefresh)

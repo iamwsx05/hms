@@ -28,13 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPopup2020201));
             this.xtraScrollableControl = new DevExpress.XtraEditors.XtraScrollableControl();
             this.plContent = new System.Windows.Forms.Panel();
             this.plUserCtrl = new System.Windows.Forms.Panel();
             this.plTitle = new System.Windows.Forms.Panel();
             this.txtSearch = new DevExpress.XtraEditors.TextEdit();
-            this.barManager = new DevExpress.XtraBars.BarManager();
+            this.barManager = new DevExpress.XtraBars.BarManager(this.components);
             this.bar1 = new DevExpress.XtraBars.Bar();
             this.blbiPrePage = new DevExpress.XtraBars.BarLargeButtonItem();
             this.blbiNextPage = new DevExpress.XtraBars.BarLargeButtonItem();
@@ -45,7 +46,7 @@
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-            this.dockManager = new DevExpress.XtraBars.Docking.DockManager();
+            this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.dockPanel1 = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.panelControl14 = new DevExpress.XtraEditors.PanelControl();
@@ -126,7 +127,7 @@
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.timer = new System.Windows.Forms.Timer();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pcBackGround)).BeginInit();
             this.pcBackGround.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.marqueeProgressBarControl.Properties)).BeginInit();
@@ -288,6 +289,7 @@
             // 
             // txtSearch
             // 
+            this.txtSearch.EditValue = "检索患者信息......";
             this.txtSearch.Location = new System.Drawing.Point(96, 7);
             this.txtSearch.MenuManager = this.barManager;
             this.txtSearch.Name = "txtSearch";
